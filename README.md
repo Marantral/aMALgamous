@@ -1,17 +1,31 @@
 # aMALgamous
 
-
+![GitHub Logo](/imgs/aMAL.png)
 
 **##Install##**
 ```
 git clone https://github.com/Marantral/aMALgamous.git
 cd aMALgamous 
 sudo ./setup.sh 
+
+You have to make sure that the dpkg --add-architecture i386 worked and you can install x86 packages
 ```
 **##Run/Operate##**
 ```
 python3 aMALgamous.py
 ```
+**###Menu###**
+**####Main Menu####**
+Format: ![Alt MM](/imgs/1.png)
+
+**####Malware Menu####** 
+Format: ![Alt Mal](/imgs/2.png)
+
+**####Shell Menu####** 
+Format: ![Alt She](/imgs/3.png)
+
+**####Web Help Menu####** 
+Format: ![Alt Web](/imgs/4.png)
 
 **All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.**
 
@@ -52,11 +66,12 @@ The output is numbered based on function.
 - Java Reverse Shell -------- (Windows)
 
 
-***********Functions to Add************
-1. Fix Broken code 
-2. Mshta  
-3. Expand basic Malware examples
-4. Add web application functionality 
+***********Functions to Add************ 
+1. Mshta  
+2. Expand basic Malware examples
+3. Add more web application functionality 
+4. Add Domain helps
+5. Add priv esc helps 
 
 Thanks to all of the TidePod :+1:
 
