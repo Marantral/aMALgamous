@@ -15,17 +15,17 @@ You have to make sure that the dpkg --add-architecture i386 worked and you can i
 python3 aMALgamous.py
 ```
 **###Menu###**
-**####Main Menu####**
-Format: ![Alt MM](/imgs/1.png)
+**####Main Menu####** <br />
+![Alt MM](/imgs/1.png)
 
-**####Malware Menu####** 
-Format: ![Alt Mal](/imgs/2.png)
+**####Malware Menu####** <br />
+![Alt Mal](/imgs/2.png)
 
-**####Shell Menu####** 
-Format: ![Alt She](/imgs/3.png)
+**####Shell Menu####** <br />
+![Alt She](/imgs/3.png)
 
-**####Web Help Menu####** 
-Format: ![Alt Web](/imgs/4.png)
+**####Web Help Menu####** <br />
+![Alt Web](/imgs/4.png)
 
 **All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.**
 
