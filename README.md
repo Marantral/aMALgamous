@@ -14,7 +14,6 @@ You have to make sure that the dpkg --add-architecture i386 worked and you can i
 ```
 python3 aMALgamous.py
 ```
-**###Menu###**
 **####Main Menu####** <br />
 ![Alt MM](/imgs/1.png)
 
