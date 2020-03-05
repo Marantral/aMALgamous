@@ -1185,7 +1185,7 @@ def main():
     print("\t*******************************************************************")
     print("\t(1)\tMalware Creation =======(generates malware and bypasses)")
     print("\t(2)\tShell Cheat ============(gives you shells to put in)")
-    print("\t(3)\tWeb Payload Help =======(not yet developed)")
+    print("\t(3)\tWeb Payload Help =======(gives you payload help w/web apps)")
     print("\t(4)\tKerb & Sysvol ==========(not yet developed)")
     print("\t(9)\tYou don't want to do anything----------(DUMB)")
     print("\t*******************************************************************")
