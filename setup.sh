@@ -1,5 +1,5 @@
 #!/bin/bash
 dpkg --add-architecture i386
 apt-get  update -y
-apt-get -y  install mono-complete mono-mcs wine wine32 wine64 winbind
-python3 -m pip install netifaces
+apt-get -y  install mono-complete mono-mcs wine wine32 wine64 winbind python3-pip
+pip3 install netifaces
