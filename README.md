@@ -41,36 +41,46 @@ The output is numbered based on function.
 - 330-339 --> Regsrv32 64bit meterpreter payloads 
 - 340-349 --> Regsrv32 32bit shell payloads 
 - 350-359 --> Regsrv32 64bit shell payloads 
-- 360-369 --> PS Empire + Regsrv32 payloads 
 - 370-399 --> Saved for future development 
 - 400-409 --> Installme payloads
 - 410-419 --> MSBuild payloads 
 - 420-429 --> PresentationHost payloads
 - 430-439 --> RegAsm payloads 
 - 440-449 --> RegSvcs payloads 
-- 450-900 --> Saved for futre development 
+- 450-900 --> Saved for futre development
+
+- Custom Malware Creation Help 
 
 **####Shell Payloads####**
-- BASH Reverse Shell --------- (Linux|Unix)
-- PERL Reverse Shell --------- (Linux|Unix)
+- BASH Reverse Shell --------- (Linux|Unix|Mac)
+- PERL Reverse Shell --------- (Linux|Unix|Mac)
 - PERL Reverse Shell --------- (Windows)
 - PowerShell Reverse Shell --- (Windows)
-- Python Reverse Shell ------- (Windows|Linx|Unix)
-- PHP Reverse Shell ---------- (Linux|Unix)
-- Ruby Reverse Shell --------- (Linux|Unix)
+- Python Reverse Shell ------- (Linx|Unix|Mac)
+- Python Reverse Shell ------- (Windows)
+- PHP Reverse Shell ---------- (Linux|Unix|Mac)
+- Ruby Reverse Shell --------- (Linux|Unix|Mac)
 - Ruby Reverse Shell --------- (Windows)
 - Golang Reverse Shell ------- (Linux|Unix)
-- Awk Reverse Shell --------- (Linux|Unix)
-- Java Reverse Shell -------- (Linux|Unix)
-- Java Reverse Shell -------- (Windows)
+- Awk Reverse Shell ---------- (Linux|Unix)
+- Java Reverse Shell --------- (Linux|Unix)
+- Java Reverse Shell --------- (Windows)
+- OpenSSL Shell -------------- (Linux|Unix|Mac)
+- NetCat MAC Shell ------------(Mac) 
+
+**####Web Payload Help####**
+- XSS Payloads -----(Cross Site Scripting)
+- XXE Payloads ------(XML External Entity)
+- SSTI Payloads------(Server Side Template injection)
 
 
 ***********Functions to Add************ 
-1. Mshta  
-2. Expand basic Malware examples
-3. Add more web application functionality 
-4. Add Domain helps
-5. Add priv esc helps 
+1. Add automatic Web and SMB Shares on attack box
+2. Add Encoding section..
+3. Expand Malware examples
+4. Add more web application functionality 
+5. Add Domain helps
+6. Add priv esc helps 
 
 Thanks to all of the TidePod :+1:
 
