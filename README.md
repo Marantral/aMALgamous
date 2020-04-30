@@ -3,7 +3,7 @@ aMALgamous is a collection of payloads, shells, and malware generation. As well 
 
 ![GitHub Logo](/imgs/aMAL.png)
 
-**##Install##**
+## Install
 ```
 git clone https://github.com/Marantral/aMALgamous.git
 cd aMALgamous 
@@ -11,25 +11,25 @@ sudo ./setup.sh
 
 You have to make sure that the dpkg --add-architecture i386 worked and you can install x86 packages
 ```
-**##Run/Operate##**
+## Run/Operate
 ```
 python3 aMALgamous.py
 ```
-**####Main Menu####** <br />
+#### Main Menu <br />
 ![Alt MM](/imgs/1.png)
 
-**####Malware Menu####** <br />
+#### Malware Menu <br />
 ![Alt Mal](/imgs/2.png)
 
-**####Shell Menu####** <br />
+#### Shell Menu <br />
 ![Alt She](/imgs/3.png)
 
-**####Web Help Menu####** <br />
+#### Web Help Menu <br />
 ![Alt Web](/imgs/4.png)
 
-**All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.**
+**All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.** <br />
 
-**####Index####**
+#### Index
 The output is numbered based on function.
 - 000-009 --> 32bit basic meterpreter payloads 
 - 010-019 --> 64bit basic meterpreter payloads 
@@ -52,7 +52,7 @@ The output is numbered based on function.
 
 - Custom Malware Creation Help 
 
-**####Shell Payloads####**
+#### Shell Payloads
 - BASH Reverse Shell --------- (Linux|Unix|Mac)
 - PERL Reverse Shell --------- (Linux|Unix|Mac)
 - PERL Reverse Shell --------- (Windows)
@@ -69,7 +69,7 @@ The output is numbered based on function.
 - OpenSSL Shell -------------- (Linux|Unix|Mac)
 - NetCat MAC Shell ------------(Mac) 
 
-**####Web Payload Help####**
+#### Web Payload Help
 - XSS Payloads -----(Cross Site Scripting)
 - XXE Payloads ------(XML External Entity)
 - SSTI Payloads------(Server Side Template injection)
