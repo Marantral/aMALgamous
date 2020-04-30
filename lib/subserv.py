@@ -3,11 +3,28 @@
 ## File That has all of the common services
 
 import time
+import atexit
+import readline
 import os
 import netifaces as nic
 import random
 import string
 import shutil
+
+histfile = os.path.join(os.path.expanduser("~"), ".aMALgamous_history")
+
+try:
+    readline.read_history_file(histfile)
+    h_len = readline.get_current_history_length()
+except FileNotFoundError:
+    open(histfile, 'wb').close()
+    h_len = 0
+
+def save(prev_h_len, histfile):
+    new_h_len = readline.get_current_history_length()
+    readline.set_history_length(1000)
+    readline.append_history_file(new_h_len - prev_h_len, histfile)
+atexit.register(save, h_len, histfile)
 
 
 
@@ -30,7 +47,7 @@ winterface = "wlan0"
 #Install location
 loc = os.getcwd()
 #Malware output file
-targetfile = loc + "/aMALgamation/current/"
+targetfile = loc + "/aMALgamation/current/autoMAL/"
 
 #Random Port
 def randomPort(stringLength=5):

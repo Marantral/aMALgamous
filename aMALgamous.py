@@ -18,6 +18,7 @@ web = spec3.loader.load_module()
 
 def main():
     global local_ip
+
     print(m.bcolors.BOLD + m.bcolors.BLUE + """\
 
              __  __          _                                           
@@ -94,7 +95,7 @@ def main():
  #     elif options == "4":
   #       print("Nothing Yet")
       elif options == "9":
-         exit()
+          exit()
       else:
          input("BAHHHHH PICK SOMETHING!!!!!!...")
 
