@@ -44,7 +44,7 @@ The output is numbered based on function.
 - 340-349 --> Regsrv32 32bit shell payloads 
 - 350-359 --> Regsrv32 64bit shell payloads 
 - 370-399 --> Saved for future development 
-- 400-409 --> Installme payloads
+- 400-409 --> InstallUtil payloads
 - 410-419 --> MSBuild payloads 
 - 420-429 --> PresentationHost payloads
 - 430-439 --> RegAsm payloads 
