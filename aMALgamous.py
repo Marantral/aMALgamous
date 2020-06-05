@@ -2,6 +2,8 @@
 
 import importlib
 from importlib import util
+import netifaces
+import os
 
 spec = importlib.util.find_spec('.subserv', package='lib')
 m = spec.loader.load_module()
@@ -15,18 +17,26 @@ shel = spec2.loader.load_module()
 spec3 = importlib.util.find_spec('.web', package='Mod.Web')
 web = spec3.loader.load_module()
 
+ifs = netifaces.interfaces()
+for link in ifs:
+    addrs = netifaces.ifaddresses(link)
+    pong = addrs[netifaces.AF_INET]
+    ping = str(pong).strip('[]')
+    pongdoc = open("./src/.if_" + link, "w")
+    pongdoc.write(ping)
+    pongdoc.close()
+os.system("grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' >./src/.ip")
 
 def main():
     global local_ip
 
-    print(m.bcolors.BOLD + m.bcolors.BLUE + """\
+    print(m.bcolors.BOLD + m.bcolors.BLUE + r"""
 
              __  __          _                                           
             |  \/  |   /\   | |                                          
         __ _| \  / |  /  \  | |     __ _  __ _ _ __ ___   ___  _   _ ___ 
        / _` | |\/| | / /\ \ | |    / _` |/ _` | '_ ` _ \ / _ \| | | / __|
       | (_| | |  | |/ ____ \| |___| (_| | (_| | | | | | | (_) | |_| \__ \
-
        \__,_|_|  |_/_/    \_\______\__, |\__,_|_| |_| |_|\___/ \__,_|___/
                                     __/ |                                
                                    |___/                                 
@@ -61,6 +71,14 @@ def main():
         print("The eth0 interface has: {0} : as its address. The wlan0 interface has: {1} : as its address.\n".format(
             local_ip,
             wireless) + m.bcolors.ERROR + m.bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + m.bcolors.ENDC)
+        int = open('./src/.ip')
+
+        print(m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE +"\t\tFor your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
+        for line in int:
+            print(m.bcolors.GREEN + "\t\t(*)"+ m.bcolors.ENDC +" -- " + line )
+        int.close()
+        os.system("rm ./src/.ip")
+        os.system("rm ./src/.if_*")
         m.listener_ip = input("\tEnter IP Address for the Listener:  ") or local_ip
 
         print("\n\tYOU HAVE SET THE LHOST TO:   %s " % m.listener_ip)
