@@ -5,18 +5,23 @@ from importlib import util
 import netifaces
 import os
 
+# Connection to the subserv.py which provides consistent services to aMALgamous.
 spec = importlib.util.find_spec('.subserv', package='lib')
 m = spec.loader.load_module()
 
+# Connection to the malware creation submenu.
 spec1 = importlib.util.find_spec('.mal', package='Mod.Malware')
 mal = spec1.loader.load_module()
 
+#Connection the shell cheat submenu.
 spec2 = importlib.util.find_spec('.shel', package='Mod.Shell')
 shel = spec2.loader.load_module()
 
+#Connection the Web cheat submenu.
 spec3 = importlib.util.find_spec('.web', package='Mod.Web')
 web = spec3.loader.load_module()
 
+# Linking the interfaces and finding out system IPs
 ifs = netifaces.interfaces()
 for link in ifs:
     addrs = netifaces.ifaddresses(link)
@@ -61,10 +66,10 @@ def main():
 """ + m.bcolors.ENDC)
     print("""\
                    Thanks all that helped and to the tidepod.
-                    NSTS Cyber Security Penetration Testers
-                                 version0.3
+                     Abricto Security - Penetration Testers
+                                 version 0.4
 """)
-
+# Listing out IPs and requiring a choice for the listener which will be used through out the running of the program.
     if ( m.listener_ip == "127.0.0.1"):
         local_ip = m.get_local_ip(m.interface)
         wireless = m.get_local_ip(m.winterface)
@@ -82,7 +87,7 @@ def main():
         m.listener_ip = input("\tEnter IP Address for the Listener:  ") or local_ip
 
         print("\n\tYOU HAVE SET THE LHOST TO:   %s " % m.listener_ip)
-
+#MAIN MENU
     while(1):
       print(m.bcolors.BLUE + "\t*******************************************************************" + m.bcolors.ENDC)
       print(m.bcolors.BOLD + m.bcolors.GREEN +"""
