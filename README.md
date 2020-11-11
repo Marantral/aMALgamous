@@ -4,6 +4,12 @@
 </p>
 aMALgamous is a collection of payloads, shells, and malware generation. As well as a collection of tips and tricks that I have collected over the years of penetration testing.
 
+## Updates
+**NOTE** November 11, 2020: I just fixed a bug that would break aMALgamous if there was an interface on the system that didn't have an IPv4 address. Please update your repositories. 
+
+*THANKS*  :sunglasses:
+
+
 ![GitHub Logo](/imgs/aMAL.png)
 
 ## Install
@@ -87,7 +93,5 @@ The output is numbered based on function.
 6. Add priv esc helps 
 
 Thanks to all of the TidePod :+1:
-**NOTE** I just fixed a bug that would break aMALgamous if there was an interface on the system that didn't have an IPv4 address. Please update your repositories. 
 
-*THANKS*  :sunglasses:
 
