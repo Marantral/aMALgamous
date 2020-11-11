@@ -1,5 +1,7 @@
 # aMALgamous<br />
-![Alt MM](/imgs/aMALgamous.png)
+<p align="center">
+  <img width="200" height="230" src="/imgs/aMALgamous.png">
+</p>
 aMALgamous is a collection of payloads, shells, and malware generation. As well as a collection of tips and tricks that I have collected over the years of penetration testing.
 
 ![GitHub Logo](/imgs/aMAL.png)
