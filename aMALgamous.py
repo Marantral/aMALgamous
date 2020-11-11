@@ -24,12 +24,16 @@ web = spec3.loader.load_module()
 # Linking the interfaces and finding out system IPs
 ifs = netifaces.interfaces()
 for link in ifs:
-    addrs = netifaces.ifaddresses(link)
-    pong = addrs[netifaces.AF_INET]
-    ping = str(pong).strip('[]')
-    pongdoc = open("./src/.if_" + link, "w")
-    pongdoc.write(ping)
-    pongdoc.close()
+    try:
+        addrs = netifaces.ifaddresses(link)
+        pong = addrs[netifaces.AF_INET]
+        ping = str(pong).strip('[]')
+        pongdoc = open("./src/.if_" + link, "w")
+        pongdoc.write(ping)
+        pongdoc.close()
+    except:
+        pass
+
 os.system("grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' >./src/.ip")
 
 def main():
@@ -78,7 +82,7 @@ def main():
             wireless) + m.bcolors.ERROR + m.bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + m.bcolors.ENDC)
         int = open('./src/.ip')
 
-        print(m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE +"\t\tFor your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
+        print("\t\t" + m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE +"For your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
         for line in int:
             print(m.bcolors.GREEN + "\t\t(*)"+ m.bcolors.ENDC +" -- " + line )
         int.close()
