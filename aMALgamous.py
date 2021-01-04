@@ -13,13 +13,17 @@ m = spec.loader.load_module()
 spec1 = importlib.util.find_spec('.mal', package='Mod.Malware')
 mal = spec1.loader.load_module()
 
-#Connection the shell cheat submenu.
+# Connection the shell cheat submenu.
 spec2 = importlib.util.find_spec('.shel', package='Mod.Shell')
 shel = spec2.loader.load_module()
 
-#Connection the Web cheat submenu.
+# Connection the Web cheat submenu.
 spec3 = importlib.util.find_spec('.web', package='Mod.Web')
 web = spec3.loader.load_module()
+
+# Connection the Web cheat submenu.
+spec4 = importlib.util.find_spec('.ssshhh', package='Mod.SSSHHH')
+sh = spec4.loader.load_module()
 
 # Linking the interfaces and finding out system IPs
 ifs = netifaces.interfaces()
@@ -34,7 +38,9 @@ for link in ifs:
     except:
         pass
 
-os.system("grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' >./src/.ip")
+os.system(
+    "grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' >./src/.ip")
+
 
 def main():
     global local_ip
@@ -69,64 +75,87 @@ def main():
 
 """ + m.bcolors.ENDC)
     print("""\
-                   Thanks all that helped and to the tidepod.
-                     Abricto Security - Penetration Testers
-                                 version 0.4
+                     Abricto Security - abrictosecurity.com
+                                 version 0.5
 """)
-# Listing out IPs and requiring a choice for the listener which will be used through out the running of the program.
-    if ( m.listener_ip == "127.0.0.1"):
+    # Listing out IPs and requiring a choice for the listener which will be used through out the running of the program.
+    if m.listener_ip == "127.0.0.1":
         local_ip = m.get_local_ip(m.interface)
         wireless = m.get_local_ip(m.winterface)
         print("The eth0 interface has: {0} : as its address. The wlan0 interface has: {1} : as its address.\n".format(
             local_ip,
             wireless) + m.bcolors.ERROR + m.bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + m.bcolors.ENDC)
-        int = open('./src/.ip')
+        ips = open('./src/.ip')
 
-        print("\t\t" + m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE +"For your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
-        for line in int:
-            print(m.bcolors.GREEN + "\t\t(*)"+ m.bcolors.ENDC +" -- " + line )
-        int.close()
+        print(
+            "\t\t" + m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE + "For your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
+        for line in ips:
+            print(m.bcolors.GREEN + "\t\t(*)" + m.bcolors.ENDC + " -- " + line)
+        ips.close()
         os.system("rm ./src/.ip")
         os.system("rm ./src/.if_*")
-        m.listener_ip = input("\tEnter IP Address for the Listener:  ") or local_ip
+        while (1):
+            m.listener_ip = input("\tEnter IP Address for the Listener:  ") or local_ip
+            if m.listener_ip == "h":
+                m.helpm()
+            elif m.listener_ip == "H":
+                m.helpm()
+            elif m.listener_ip == "help":
+                m.helpm()
+            elif m.listener_ip == "Help":
+                m.helpm()
+            elif m.listener_ip == "HELP":
+                m.helpm()
+            else:
+                break
 
         print("\n\tYOU HAVE SET THE LHOST TO:   %s " % m.listener_ip)
-#MAIN MENU
-    while(1):
-      print(m.bcolors.BLUE + "\t*******************************************************************" + m.bcolors.ENDC)
-      print(m.bcolors.BOLD + m.bcolors.GREEN +"""
+    # MAIN MENU
+    while (1):
+        print(m.bcolors.BLUE + "\t*******************************************************************" + m.bcolors.ENDC)
+        print(m.bcolors.BOLD + m.bcolors.GREEN + """
         *******************************************************************
           _   _   _   _     _   _   _   _  
          / \ / \ / \ / \   / \ / \ / \ / \ 
         ( M | a | i | n ) ( M | e | n | u )
          \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ 
-      """+ m.bcolors.ENDC)
-      print("\t*******************************************************************")
-      print("\t*******************************************************************")
-      print("\t*******************************************************************")
-      print("\t(1)\tMalware Creation =======(generates malware and bypasses)")
-      print("\t(2)\tShell Cheat ============(gives you shells to put in)")
-      print("\t(3)\tWeb Payload Help =======(gives you payload help w/web apps)")
-#      print("\t(4)\tKerb & Sysvol ==========(not yet developed)")
-      print("\t(9)\tYou don't want to do anything----------(DUMB)")
-      print("\t*******************************************************************")
+      """ + m.bcolors.ENDC)
+        print("\t*******************************************************************")
+        print("\t*******************************************************************")
+        print("\t*******************************************************************")
+        print("\t(1)\tMalware Creation =======(generates malware and bypasses)")
+        print("\t(2)\tShell Cheat ============(gives you shells to put in)")
+        print("\t(3)\tWeb Payload Help =======(gives you payload help w/web apps)")
+        print("\t(4)\tSSSHHH C2 ==========(Creates command and control through AWS S3 Buckets)")
+        print("\t(9)\tYou don't want to do anything----------(DUMB)")
+        print("\t*******************************************************************")
 
-      options = input("\nPiCk y0u4 Po1$oN: ")
+        options = input("\nPiCk y0u4 Po1$oN: ")
 
-      if options == "1":
-         mal.Malware()
-      elif options == "2":
-         shel.Shells()
-      elif options == "3":
-         web.Web()
- #     elif options == "4":
-  #       print("Nothing Yet")
-      elif options == "9":
-          exit()
-      else:
-         input("BAHHHHH PICK SOMETHING!!!!!!...")
+        if options == "1":
+            mal.Malware()
+        elif options == "2":
+            shel.Shells()
+        elif options == "3":
+            web.Web()
+        elif options == "4":
+            sh.ssshhh()
+        elif options == "9":
+            exit()
+        elif options == 'h':
+            m.helpm()
+        elif options == 'H':
+            m.helpm()
+        elif options == 'help':
+            m.helpm()
+        elif options == 'HELP':
+            m.helpm()
+        elif options == 'Help':
+            m.helpm()
+        else:
+            input("BAHHHHH PICK SOMETHING!!!!!!... Press Enter to continue!")
 
-#call main() function
+
+# call main() function
 if __name__ == '__main__':
-  main()
-
+    main()
