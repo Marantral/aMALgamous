@@ -41,7 +41,10 @@ python3 aMALgamous.py
 
 #### SSSHHH C2 <br />
 ![Alt Web](/imgs/5.png)
+
+
 Place the c2 python file on your control system and the payload file on the target. All traffic will be routed through AWS S3.
+
 
 **All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.** <br />
 
