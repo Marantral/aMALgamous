@@ -88,7 +88,8 @@ def main():
         ips = open('./src/.ip')
 
         print(
-            "\t\t" + m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE + "For your benifit, here is all the IPs on this box.\n" + m.bcolors.ENDC)
+            "\t\t" + m.bcolors.ERROR + m.bcolors.BOLD + m.bcolors.UNDERLINE + "For your benefit, here is all the IPs "
+                                                                              "on this box.\n" + m.bcolors.ENDC)
         for line in ips:
             print(m.bcolors.GREEN + "\t\t(*)" + m.bcolors.ENDC + " -- " + line)
         ips.close()

