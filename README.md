@@ -5,7 +5,7 @@
 aMALgamous is a collection of payloads, shells, and malware generation. As well as a collection of tips and tricks that I have collected over the years of penetration testing.
 
 ## Updates
-**Upgrade** January 4, 2021: Added the first edition of SSSHHH C2. This C2 uses AWS S3 Buckets to pass commands and read results. I have only built payloads in python as of now. I am planning to make it multi victim capable, but I am still working on the C2 interface.
+**Upgrade** January 4, 2021: Added the first edition of SSSHHH C2. This C2 uses AWS S3 Buckets to pass commands and read results. I have only built payloads in python for now. I am planning to make it multi victim capable, but I am still working on the C2 interface.
 
 
 **NOTE** November 11, 2020: I just fixed a bug that would break aMALgamous if there was an interface on the system that didn't have an IPv4 address. Please update your repositories. 
@@ -44,6 +44,12 @@ python3 aMALgamous.py
 
 
 Place the c2 python file on your control system and the payload file on the target. All traffic will be routed through AWS S3.
+You will need to have a few items to make this work.
+- An AWS account
+- An AWS key and secret (Make sure that the permissions on it only allows for modification of the S3 buckets).
+All other settings and configurations will be done by aMALgamous. 
+
+NOTE: When done you will need to manually clean your S3 buckets that were created.
 
 
 **All malware will be placed in aMALgamatiom/current with old malware being placed in an arcive folder.** <br />
