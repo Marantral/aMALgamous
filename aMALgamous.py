@@ -39,7 +39,8 @@ for link in ifs:
         pass
 
 os.system(
-    "grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' >./src/.ip")
+    "grep \"{'addr': \" ./src/ -r | cut -d \"'\" -f 1,4 | cut -d '_' -f 2 | sed -e \"s/:{'/: /\" | grep -v 'lo' "
+    ">./src/.ip")
 
 
 def main():
@@ -84,7 +85,8 @@ def main():
         wireless = m.get_local_ip(m.winterface)
         print("The eth0 interface has: {0} : as its address. The wlan0 interface has: {1} : as its address.\n".format(
             local_ip,
-            wireless) + m.bcolors.ERROR + m.bcolors.BOLD + "If you do not input a listener address it will default to the eth0 interface address\n\n" + m.bcolors.ENDC)
+            wireless) + m.bcolors.ERROR + m.bcolors.BOLD + "If you do not input a listener address it will default to "
+                                                           "the eth0 interface address\n\n" + m.bcolors.ENDC)
         ips = open('./src/.ip')
 
         print(

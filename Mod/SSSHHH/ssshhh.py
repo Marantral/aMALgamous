@@ -17,6 +17,7 @@ if not os.path.exists(customfolder):
 def create_presigned_post(object_name, bucket,
                           fields=None, conditions=None, expiration=360000):
     global wss
+    wss ="nuf"
     """Generate a presigned URL S3 POST request to upload a file
 
     :param bucket_name: string
@@ -89,15 +90,64 @@ def ssshhh():
     vic = m.randomSSSHH(9)
     c2 = m.randomSSSHH(9)
     cfile = m.randomSSSHH(9)
-    project = input("What is the name of this project?: ").strip()
-    key_id = input("Please put in the AWS KEY ID: ").strip()
-    key_secret = input("Please put in the AWS KEY SECRET: ").strip()
+    while 1:
+        project = input("What is the name of this project?: ").strip()
+        if project == "h":
+            m.helpsh()
+        elif project == "H":
+            m.helpsh()
+        elif project == "Help":
+            m.helpsh()
+        elif project == "help":
+            m.helpsh()
+        elif project == "HELP":
+            m.helpsh()
+        else:
+            break
+
+    while 1:
+        key_id = input("Please put in the AWS KEY ID: ").strip()
+        if key_id == "h":
+            m.helpsh()
+        elif key_id == "H":
+            m.helpsh()
+        elif key_id == "Help":
+            m.helpsh()
+        elif key_id == "help":
+            m.helpsh()
+        elif key_id == "HELP":
+            m.helpsh()
+        else:
+            break
+
+    while 1:
+        key_secret = input("Please put in the AWS KEY SECRET: ").strip()
+        if key_secret == "h":
+            m.helpsh()
+        elif key_secret == "H":
+            m.helpsh()
+        elif key_secret == "Help":
+            m.helpsh()
+        elif key_secret == "help":
+            m.helpsh()
+        elif key_secret == "HELP":
+            m.helpsh()
+        else:
+            break
+
     region_name = 'us-west-2'
     s3 = boto3.client('s3', region_name=region_name, aws_access_key_id=key_id, aws_secret_access_key=key_secret)
-    s3.create_bucket(Bucket=bucket, ACL='public-read-write',
-                     CreateBucketConfiguration={'LocationConstraint': region_name})
 
-    create_presigned_post(vic, bucket)
+    try:
+        s3.create_bucket(Bucket=bucket, ACL='public-read-write', CreateBucketConfiguration={'LocationConstraint': region_name})
+    except:
+        print(m.bcolors.ERROR + "\n\tIt didn't work. Check your keys!" + m.bcolors.ENDC)
+        pass
+    try:
+        create_presigned_post(vic, bucket)
+    except:
+        print(m.bcolors.ERROR + "\n\tIt didn't work. Check your keys!" + m.bcolors.ENDC)
+        pass
 
     comm = """import time
 import boto3
@@ -256,8 +306,7 @@ import requests
     try:
         s3.upload_file(whofile, bucket, c2)
         print("\tTest Upload Worked!!")
-    except ClientError as e:
-        logging.error(e)
+    except:
         print("\tTest Upload didn't work.")
         pass
     os.system("rm " + whofile)
