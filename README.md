@@ -92,12 +92,12 @@ The output is numbered based on function.
 - Java Reverse Shell --------- (Linux|Unix)
 - Java Reverse Shell --------- (Windows)
 - OpenSSL Shell -------------- (Linux|Unix|Mac)
-- NetCat MAC Shell ------------(Mac) 
+- NetCat MAC Shell ----------- (Mac) 
 
 #### Web Payload Help
 - XSS Payloads -----(Cross Site Scripting)
-- XXE Payloads ------(XML External Entity)
-- SSTI Payloads------(Server Side Template injection)
+- XXE Payloads -----(XML External Entity)
+- SSTI Payloads-----(Server Side Template injection)
 
 
 ***********Functions to Add************ 
