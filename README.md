@@ -100,7 +100,7 @@ The output is numbered based on function.
 - SSTI Payloads-----(Server Side Template injection)
 
 
-***********Functions to Add************ 
+***********Functions to Add*********** 
 1. Add automatic Web and SMB Shares on attack box
 2. Add Encoding section..
 3. Expand Malware examples
