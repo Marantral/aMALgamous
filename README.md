@@ -73,7 +73,7 @@ The output is numbered based on function.
 - 420-429 --> PresentationHost payloads
 - 430-439 --> RegAsm payloads 
 - 440-449 --> RegSvcs payloads 
-- 450-900 --> Saved for futre development
+- 450-900 --> Saved for future development
 
 - Custom Malware Creation Help 
 
