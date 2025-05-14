@@ -112,55 +112,82 @@ class AdaptivePayloadFramework:
     # Train Decision Tree
     # =============================
     def _train_decision_tree(self):
-        """
-        Trains a Decision Tree Classifier for payload recommendations.
-        """
-        X = [
-            [0, 1, 1, 0],
-            [0, 1, 1, 1],
-            [1, 1, 0, 1],
-            [2, 0, 1, 1],
-            [1, 1, 1, 1],
-            [1, 0, 0, 1],
-            [2, 1, 1, 0],
-            [3, 1, 0, 1],
-            [4, 1, 1, 1],
-        ]
-        y = [
-            "powershell_reverse",
-                "fileless_powershell",
-                "bash_reverse",
-                "python_reverse",
-                "dns_tunneling",
-                "iot_worm",
-                "steganographic",
-                "iot_specific",
-                "cloud_payload",
-                "keylogger",
-                "clipboard_harvester",
-                "disk_wiper",
-                "reverse_http",
-                "wifi_credentials_stealer",
-                "key_retriever",
-                "mshta_loader",
-                "meterpreter_https",
-                "meterpreter_https",
-                "excel_macro",
-                "supply_chain_attacks",
-                "ai_model_exfiltration",
-                "cross_cloud_exploitation",
-                "ai_data_poisoning",
-                "iam_privilege_escalation",
-                "iam_privilege_escalation",
-                "iot_firmware_manipulation",
-                "blockchain_exploitation",
-                "serverless_exploitation",
-                "advanced_steganography",
-                "ransomware_simulation",
-        ]
-        model = DecisionTreeClassifier()
-        model.fit(X, y)
-        return model
+    """
+    Trains a Decision Tree Classifier for payload recommendations.
+    """
+    # Features: Each row corresponds to a sample and columns represent features.
+    # Format of rows: [os_type, open_ports, defenses, arch]
+    X = [
+        [0, 1, 1, 0],  # Sample 1
+        [0, 1, 1, 1],  # Sample 2
+        [1, 1, 0, 1],  # Sample 3
+        [2, 0, 1, 1],  # Sample 4
+        [1, 1, 1, 1],  # Sample 5
+        [1, 0, 0, 1],  # Sample 6
+        [2, 1, 1, 0],  # Sample 7
+        [3, 1, 0, 1],  # Sample 8
+        [4, 1, 1, 1],  # Sample 9
+        [3, 0, 1, 0],  # Sample 10
+        [1, 0, 1, 1],  # Sample 11
+        [2, 1, 0, 0],  # Sample 12
+        [0, 0, 0, 1],  # Sample 13
+        [1, 0, 1, 0],  # Sample 14
+        [3, 1, 1, 0],  # Sample 15
+        [4, 0, 1, 0],  # Sample 16
+        [0, 1, 0, 1],  # Sample 17
+        [2, 0, 1, 1],  # Sample 18
+        [3, 0, 0, 1],  # Sample 19
+        [1, 1, 0, 0],  # Sample 20
+        [4, 1, 0, 1],  # Sample 21
+        [0, 0, 1, 0],  # Sample 22
+        [1, 1, 1, 0],  # Sample 23
+        [2, 0, 0, 1],  # Sample 24
+        [3, 1, 1, 1],  # Sample 25
+        [4, 0, 0, 0],  # Sample 26
+        [0, 1, 1, 1],  # Sample 27
+        [2, 1, 0, 1],  # Sample 28
+        [3, 0, 1, 1],  # Sample 29
+        [4, 1, 1, 0],  # Sample 30
+    ]
+
+    # Labels: Each entry corresponds to a label for the respective sample in X.
+    y = [
+        "powershell_reverse",      # Sample 1
+        "fileless_powershell",     # Sample 2
+        "bash_reverse",            # Sample 3
+        "python_reverse",          # Sample 4
+        "dns_tunneling",           # Sample 5
+        "iot_worm",                # Sample 6
+        "steganographic",          # Sample 7
+        "iot_specific",            # Sample 8
+        "cloud_payload",           # Sample 9
+        "keylogger",               # Sample 10
+        "clipboard_harvester",     # Sample 11
+        "disk_wiper",              # Sample 12
+        "reverse_http",            # Sample 13
+        "wifi_credentials_stealer",# Sample 14
+        "key_retriever",           # Sample 15
+        "mshta_loader",            # Sample 16
+        "meterpreter_https",       # Sample 17
+        "meterpreter_https",       # Sample 18
+        "excel_macro",             # Sample 19
+        "supply_chain_attacks",    # Sample 20
+        "ai_model_exfiltration",   # Sample 21
+        "cross_cloud_exploitation",# Sample 22
+        "ai_data_poisoning",       # Sample 23
+        "iam_privilege_escalation",# Sample 24
+        "iam_privilege_escalation",# Sample 25
+        "iot_firmware_manipulation",# Sample 26
+        "blockchain_exploitation", # Sample 27
+        "serverless_exploitation", # Sample 28
+        "advanced_steganography",  # Sample 29
+        "ransomware_simulation",   # Sample 30
+    ]
+
+    # Train the Decision Tree model
+    model = DecisionTreeClassifier()
+    model.fit(X, y)
+    return model
 
     # =============================
     # Train Neural Network
