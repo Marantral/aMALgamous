@@ -15,7 +15,6 @@ import smtplib
 from email.message import EmailMessage
 import time
 
-
 class AdaptivePayloadFramework:
     def __init__(self):
         self.target_ip = None
