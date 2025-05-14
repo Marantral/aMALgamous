@@ -617,5 +617,7 @@ class AdaptivePayloadFramework:
         mutated_payload = self.mutate_payload(payload)
         print(f"Final Payload: {mutated_payload}")
         # Delivery and self-destruct methods can be implemented similarly
-        self.deliver_payload(mutated_payload)
+        # Delivery and self-destruct methods can be implemented similarly
+        deliver_payload = self.deliver_payload(mutated_payload)
+        print(f"Deliver  Payload: {deliver_payload}")
         self.self_destruct()
