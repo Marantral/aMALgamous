@@ -20,8 +20,6 @@ class AdaptivePayloadFramework:
         self.lhost = None
         self.lport = None
         self.email_config = self.load_email_config()
-        self.decision_tree_model = self._train_decision_tree()
-        self.neural_network_model = self._train_neural_network()
 
     # =============================
     # Email Configuration
@@ -59,6 +57,16 @@ class AdaptivePayloadFramework:
             print("No email configuration found. Starting setup.")
             self.setup_email_config()
             return self.email_config
+
+    def offer_email_config_setup(self):
+        """
+        Offer the user a chance to set up or update the email configuration.
+        """
+        choice = input("Do you want to set up or update your email configuration? (yes/no): ").strip().lower()
+        if choice in ["yes", "y"]:
+            self.setup_email_config()
+        else:
+            print("Skipping email configuration setup.")
 
     # =============================
     # Step 1: Train Decision Tree
