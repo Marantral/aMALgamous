@@ -2,9 +2,94 @@
 <p align="center">
   <img width="200" height="230" src="/imgs/aMALgamous.png">
 </p>
-aMALgamous is a collection of payloads, shells, and malware generation. As well as a collection of tips and tricks that I have collected over the years of penetration testing.
+# aMALgamous Framework
 
+`aMALgamous` is a comprehensive security framework designed to streamline and automate tasks such as malware creation, shell generation, web payload assistance, and AI-driven adaptive payload delivery.
+
+---
+
+## **Features**
+
+### **1. Malware Creation**
+Generate obfuscated malware with bypass capabilities for various operating systems.
+
+### **2. Shell Cheat**
+Access a library of ready-to-use shell scripts for different scenarios.
+
+### **3. Web Payload Help**
+Assist in crafting payloads tailored for web applications and services.
+
+### **4. SSSHHH C2**
+Create command and control (C2) communication through AWS S3 buckets.
+
+### **5. Adaptive Payload Framework (NEW!)**
+Leverage AI to dynamically generate, mutate, and deliver payloads based on reconnaissance data.
+
+#### **Key Features of Adaptive Payload Framework**
+- **AI-Driven Recommendations**: Uses Decision Trees and Neural Networks to select the best payload.
+- **Expanded Payload Support**: Handles IoT, Cloud, Fileless, and Polymorphic payloads.
+- **Dynamic Mutation**: Obfuscates payloads to evade detection.
+- **Multiple Delivery Methods**:
+  - HTTP (Default)
+  - Manual Download
+  - USB Drop
+  - Email Delivery with Interactive Setup
+
+---
+
+## **Setup**
+
+### **1. Installation**
+Clone the repository:
+```bash
+git clone https://github.com/Marantral/aMALgamous.git
+cd aMALgamous
+```
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### **2. Setting Up Email Delivery**
+The Adaptive Payload Framework includes an Email Delivery option. During the first use, you'll be prompted to set up your email configuration (SMTP server, port, email, and password). This configuration will be saved in `.email_config.json`.
+
+You can also manually edit the `.email_config.json` file:
+```json
+{
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "sender_email": "your_email@example.com",
+  "sender_password": "your_password"
+}
+```
+
+---
+
+## **Usage**
+Run the framework:
+```bash
+python3 aMALgamous.py
+```
+
+Choose an option from the main menu:
+- Option 1: Malware Creation
+- Option 2: Shell Cheat
+- Option 3: Web Payload Help
+- Option 4: SSSHHH C2
+- **Option 5: Adaptive Payload Framework (NEW)**: AI-driven payload delivery.
+
+---
+
+## **Contributing**
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## **License**
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 ## Updates
+**Upgrade** May 14, 2025: Added the Adaptive Payload Framework with AI-driven payload delivery.
 **Upgrade** January 4, 2021: Added the first edition of SSSHHH C2. This C2 uses AWS S3 Buckets to pass commands and read results. I have only built payloads in python for now. I am planning to make it multi victim capable, but I am still working on the C2 interface.
 
 
