@@ -25,6 +25,11 @@ web = spec3.loader.load_module()
 spec4 = importlib.util.find_spec('.ssshhh', package='Mod.SSSHHH')
 sh = spec4.loader.load_module()
 
+# Connection to the Adaptive Payload Framework
+spec_adaptive = importlib.util.find_spec('.adaptive', package='Mod')
+adaptive = spec_adaptive.loader.load_module()
+
+
 # Linking the interfaces and finding out system IPs
 ifs = netifaces.interfaces()
 for link in ifs:
@@ -130,6 +135,7 @@ def main():
         print("\t(2)\tShell Cheat ============(gives you shells to put in)")
         print("\t(3)\tWeb Payload Help =======(gives you payload help w/web apps)")
         print("\t(4)\tSSSHHH C2 ==========(Creates command and control through AWS S3 Buckets)")
+        print("\t(5)\tAdaptive Payload Framework (NEW) ===(AI-driven payload delivery)")
         print("\t(9)\tYou don't want to do anything----------(DUMB)")
         print("\t*******************************************************************")
 
@@ -143,6 +149,12 @@ def main():
             web.Web()
         elif options == "4":
             sh.ssshhh()
+        elif options == "5":
+            adaptive_framework = adaptive.AdaptivePayloadFramework()
+            adaptive_framework.target_ip = input("Enter Target IP: ")
+            adaptive_framework.lhost = input("Enter LHOST for payloads: ")
+            adaptive_framework.lport = input("Enter LPORT for payloads: ")
+            adaptive_framework.execute()
         elif options == "9":
             exit()
         elif options == 'h':
