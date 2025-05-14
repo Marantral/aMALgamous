@@ -14,6 +14,8 @@ import requests
 import smtplib
 from email.message import EmailMessage
 import time
+from datetime import datetime
+
 
 class AdaptivePayloadFramework:
     def __init__(self):
