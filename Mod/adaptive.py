@@ -129,7 +129,7 @@ class AdaptivePayloadFramework:
         y = np.array([
             0, 1, 2, 3, 4, 5, 6, 7, 8
         ])
-        model = MLPClassifier(hidden_layer_sizes=(10, 10), max_iter=500)
+        model = MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, learning_rate_init=0.001, random_state=42)
         model.fit(X, y)
         return model
 
