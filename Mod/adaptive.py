@@ -22,7 +22,10 @@ class AdaptivePayloadFramework:
         self.target_os = None
         self.lhost = None
         self.lport = None
-        self.email_config = self.load_email_config()
+        self.email_config = None
+
+        # Prompt the user to optionally configure email
+        self.offer_email_config_setup()
 
         # Train models during initialization
         self.decision_tree_model = self._train_decision_tree()
@@ -97,14 +100,13 @@ class AdaptivePayloadFramework:
             return self.email_config
 
     def offer_email_config_setup(self):
-        """
-        Offer the user a chance to set up or update the email configuration.
-        """
-        choice = input("Do you want to set up or update your email configuration? (yes/no): ").strip().lower()
+        """Offer the user a chance to set up or skip email configuration."""
+        choice = self.get_user_response("Do you want to configure email delivery? (yes/no)", default="no").strip().lower()
         if choice in ["yes", "y"]:
             self.setup_email_config()
         else:
-            print("Skipping email configuration setup.")
+            print("Skipping email configuration. Email functionality will be disabled.")
+
 
     # =============================
     # Train Decision Tree
